@@ -92,6 +92,7 @@ canvas{display:block;width:100%;border-radius:14px;border:1px solid var(--border
 </div>
 </div>
 <script>
+if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=typeof r==='number'?r:4;this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath()}}
 const cv=document.getElementById('cv'),C=cv.getContext('2d');
 let W=900,H=540,dpr=1;
 function resize(){
@@ -322,14 +323,14 @@ C.fillStyle='#A0A4B0';C.fillRect(x+w/2-1,y+h,2,10);
 C.fillStyle='#909498';C.fillRect(x+w/2-4,y+h+10,8,2);
 }
 
-function drawPerson(a,px,py){
+function drawPerson(a,px,py,sc){sc=sc||1;
 const t=frame*.05+a.armPhase;
 const br=Math.sin(frame*.03+a.breathPhase)*.5;
 const typing=a.state==='typing',thinking=a.state==='thinking';
 const presenting=a.state==='presenting',celebrating=a.state==='celebrating';
 const idle=a.state==='idle';
-C.save();C.translate(px,py);
-C.globalAlpha=idle?.35:1;
+C.save();C.translate(px,py);C.scale(sc,sc);
+C.globalAlpha=idle?.7:1;
 
 rr(-12,-3+br,24,15,a.color+'40',4);
 rr(-13,-18+br,26,17,a.color+'25',4);
@@ -492,7 +493,7 @@ drawMouse(px+20,py+20);
 if(i%3===0){drawFolders(px+dw/2-22,py+18,4);drawCoffeeMug(px-dw/2+4,py+6,!idle)}
 if(i%3===1){drawPaperStack(px+dw/2-24,py+10,3);drawPenCup(px-dw/2+4,py+4)}
 if(i%3===2){drawFolders(px-dw/2+2,py+18,3);drawCoffeeMug(px+dw/2-16,py+6,true)}
-drawPerson(a,px,py+14);
+drawPerson(a,px,py+10,1.2);
 }
 
 function drawScene(){
@@ -521,7 +522,7 @@ C.fillText(hovered.role,hovered.x*W,hovered.y*H+48);
 }
 }
 
-function anim(){frame++;drawScene();requestAnimationFrame(anim)}
+function anim(){frame++;try{drawScene();}catch(e){console.error("DRAW ERROR",e);}requestAnimationFrame(anim);}
 
 cv.addEventListener('click',e=>{
 const r=cv.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;
