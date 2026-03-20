@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WOO ORCHESTRA OFFICE</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c10;--bg2:#11141b;--bg3:#171b25;--bg4:#1d2230;--border:#252b3a;--text:#e8eaf0;--text2:#8892a8;--text3:#4a5168;--accent:#6c5ce7;--accent2:#a29bfe;--green:#00b894;--amber:#fdcb6e;--red:#e17055;--blue:#74b9ff;--pink:#fd79a8;--teal:#00cec9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:54px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.logo{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
+.topbar h1{font-size:15px;font-weight:600;letter-spacing:-.3px}
+.topbar .sub{color:var(--text2);font-size:12px;margin-left:8px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.pill.on{background:rgba(0,184,148,.1);color:var(--green)}
+.pill .blink{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.clock{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)}
+
+.layout{display:grid;grid-template-columns:1fr 320px;gap:0;min-height:calc(100vh - 54px)}
+
+.office-floor{padding:24px;overflow-y:auto}
+.floor-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.floor-title::before{content:'';width:3px;height:12px;background:var(--accent);border-radius:2px}
+
+.desks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.desk{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.desk:hover{border-color:var(--accent);transform:translateY(-2px)}
+.desk.active{border-color:var(--accent);box-shadow:0 0 20px rgba(108,92,231,.15)}
+.desk.active::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
+.desk.idle{opacity:.5}
+
+.humanoid{width:60px;height:80px;margin:0 auto 8px;position:relative}
+.h-head{width:20px;height:20px;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);transition:all .3s}
+.h-body{width:24px;height:28px;border-radius:6px 6px 4px 4px;position:absolute;top:22px;left:50%;transform:translateX(-50%)}
+.h-arm-l,.h-arm-r{width:6px;height:20px;border-radius:3px;position:absolute;top:24px;transition:all .3s}
+.h-arm-l{left:calc(50% - 18px)}
+.h-arm-r{right:calc(50% - 18px)}
+.h-leg-l,.h-leg-r{width:8px;height:18px;border-radius:3px;position:absolute;top:50px;opacity:.6}
+.h-leg-l{left:calc(50% - 10px)}
+.h-leg-r{right:calc(50% - 10px)}
+.h-desk-surface{width:52px;height:6px;border-radius:3px;position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:var(--bg4)}
+.h-monitor{width:22px;height:16px;border-radius:3px;border:1.5px solid;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);opacity:.7}
+.h-monitor-stand{width:2px;height:4px;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);opacity:.5}
+
+.desk.typing .h-arm-l{animation:type-l .4s infinite alternate}
+.desk.typing .h-arm-r{animation:type-r .4s infinite alternate .2s}
+.desk.thinking .h-head{animation:think .8s infinite alternate}
+.desk.presenting .h-arm-r{animation:present 1s infinite alternate}
+.desk.celebrating .h-arm-l,.desk.celebrating .h-arm-r{animation:celebrate .5s infinite alternate}
+@keyframes type-l{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(3px) rotate(5deg)}}
+@keyframes type-r{0%{transform:translateY(0) rotate(5deg)}100%{transform:translateY(3px) rotate(-5deg)}}
+@keyframes think{0%{transform:translateX(-50%) rotate(0)}100%{transform:translateX(-50%) rotate(8deg)}}
+@keyframes present{0%{transform:rotate(0)}100%{transform:rotate(-40deg) translateY(-8px)}}
+@keyframes celebrate{0%{transform:rotate(0) translateY(0)}100%{transform:rotate(-30deg) translateY(-10px)}}
+
+.desk .name{font-size:12px;font-weight:600;margin-top:4px}
+.desk .role{font-size:10px;color:var(--text3)}
+.desk .task-label{font-size:10px;color:var(--accent2);margin-top:6px;min-height:14px;font-family:'JetBrains Mono',monospace}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat .label{font-size:11px;color:var(--text3);margin-bottom:6px}
+.stat .val{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.stat .sub{font-size:10px;color:var(--text3);margin-top:2px}
+
+.task-area{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px}
+.task-row{display:flex;gap:10px;margin-top:12px}
+.task-row input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;font-family:'Outfit',sans-serif;outline:none}
+.task-row input:focus{border-color:var(--accent)}
+.task-row select{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px;color:var(--text);font-size:12px;outline:none}
+.task-row button{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif}
+.task-row button:hover{background:#7c6cf0}
+
+.wf-bar{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap;min-height:36px}
+.wf-chip{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--bg3);transition:all .3s}
+.wf-chip.done{background:rgba(0,184,148,.1);border-color:rgba(0,184,148,.3);color:var(--green)}
+.wf-chip.now{background:rgba(108,92,231,.15);border-color:rgba(108,92,231,.4);color:var(--accent2);animation:glow 1.5s infinite}
+.wf-chip.wait{opacity:.3}
+.wf-arr{color:var(--text3);font-size:14px}
+@keyframes glow{50%{box-shadow:0 0 10px rgba(108,92,231,.3)}}
+
+.projects-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.proj{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.proj .hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.proj .pname{font-size:13px;font-weight:600}
+.proj .badge{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:500}
+.proj .badge.live{background:rgba(0,184,148,.1);color:var(--green)}
+.proj .badge.dev{background:rgba(253,203,110,.1);color:var(--amber)}
+.proj .badge.plan{background:rgba(116,185,255,.1);color:var(--blue)}
+.proj .bar{height:4px;background:var(--bg4);border-radius:2px;margin:8px 0}
+.proj .bar-fill{height:100%;border-radius:2px}
+
+.sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar-hdr{padding:16px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.sidebar-hdr::before{content:'';width:3px;height:12px;background:var(--green);border-radius:2px}
+.log-list{flex:1;overflow-y:auto;padding:8px 12px}
+.log{display:flex;gap:8px;padding:8px;border-radius:8px;margin-bottom:4px;transition:background .2s}
+.log:hover{background:var(--bg3)}
+.log .time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);min-width:40px;margin-top:2px}
+.log .badge{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;white-space:nowrap;margin-top:1px}
+.log .msg{font-size:12px;color:var(--text2);line-height:1.4;flex:1}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="topbar-left">
+<div class="logo">W</div>
+<h1>WOO ORCHESTRA</h1>
+<span class="sub">AI agent workspace</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px">
+<span class="pill on"><span class="blink"></span>Online</span>
+<span class="clock mono" id="clock">00:00:00</span>
+</div>
+</div>
+
+<div class="layout">
+<div class="office-floor">
+<div class="stats-grid">
+<div class="stat"><div class="label">Active agents</div><div class="val" id="s-agents">1</div><div class="sub">/ 7 total</div></div>
+<div class="stat"><div class="label">Tasks done</div><div class="val" id="s-tasks">0</div><div class="sub">today</div></div>
+<div class="stat"><div class="label">Current project</div><div class="val" style="font-size:15px" id="s-proj">standby</div><div class="sub">awaiting</div></div>
+<div class="stat"><div class="label">Uptime</div><div class="val mono" id="s-up">00:00</div><div class="sub">session</div></div>
+</div>
+
+<div class="floor-title">Office floor</div>
+<div class="desks" id="desks"></div>
+
+<div class="task-area">
+<div class="floor-title">Command center</div>
+<div class="task-row">
+<select id="sel"><option value="auto">auto</option><option value="drslot">DR.SLOT</option><option value="jarvis2">JARVIS2</option><option value="community">Community</option></select>
+<input id="inp" placeholder="Tell the orchestra what to build..." onkeydown="if(event.key==='Enter')go()">
+<button onclick="go()">Execute</button>
+</div>
+<div class="wf-bar" id="wfbar"></div>
+</div>
+
+<div class="floor-title">Projects</div>
+<div class="projects-row">
+<div class="proj"><div class="hdr"><span class="pname">DR.SLOT</span><span class="badge dev">dev</span></div><div class="bar"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
+<div class="proj"><div class="hdr"><span class="pname">JARVIS2</span><span class="badge live">live</span></div><div class="bar"><div class="bar-fill" style="width:80%;background:linear-gradient(90deg,var(--accent),var(--green))"></div></div></div>
+<div class="proj"><div class="hdr"><span class="pname">Community</span><span class="badge plan">plan</span></div><div class="bar"><div class="bar-fill" style="width:15%;background:var(--blue)"></div></div></div>
+</div>
+</div>
+
+<div class="sidebar">
+<div class="sidebar-hdr">Activity log</div>
+<div class="log-list" id="logs"></div>
+</div>
+</div>
+
+<script>
+const AG=[
+{id:'ceo',name:'CEO',role:'Orchestrator',color:'#6c5ce7',head:'#a29bfe',body:'#6c5ce7'},
+{id:'fe',name:'Frontend',role:'React / Next.js',color:'#00cec9',head:'#81ecec',body:'#00cec9'},
+{id:'be',name:'Backend',role:'API / DB',color:'#74b9ff',head:'#a9d4ff',body:'#74b9ff'},
+{id:'pe',name:'Prompt Eng',role:'JARVIS2 AI',color:'#fd79a8',head:'#ffb1c8',body:'#fd79a8'},
+{id:'ds',name:'Design',role:'UI / UX',color:'#fdcb6e',head:'#ffeaa7',body:'#fdcb6e'},
+{id:'qa',name:'QA Tester',role:'Test / Review',color:'#00b894',head:'#55efc4',body:'#00b894'},
+{id:'dv',name:'DevOps',role:'Deploy / Infra',color:'#636e72',head:'#b2bec3',body:'#636e72'}
+];
+
+const SCEN={
+drslot:[
+{a:'ceo',m:'Analyzing DR.SLOT scope...',s:'thinking',d:1200},
+{a:'ceo',m:'Decomposed into 4 subtasks',s:'presenting',d:1000},
+{a:'ds',m:'Wireframing UI layout',s:'typing',d:2200},
+{a:'be',m:'Writing API + DB migration',s:'typing',d:2500},
+{a:'fe',m:'Building React components',s:'typing',d:2500},
+{a:'qa',m:'Running integration tests',s:'typing',d:1800},
+{a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
+{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+],
+jarvis2:[
+{a:'ceo',m:'Analyzing JARVIS2 scope...',s:'thinking',d:1200},
+{a:'pe',m:'Tuning prompt sections',s:'typing',d:2500},
+{a:'be',m:'Updating FastAPI routes',s:'typing',d:2500},
+{a:'qa',m:'Testing AI responses',s:'typing',d:2000},
+{a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
+{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+],
+community:[
+{a:'ceo',m:'Analyzing Community scope...',s:'thinking',d:1200},
+{a:'ds',m:'Creating mockup',s:'typing',d:2200},
+{a:'fe',m:'Building prototype pages',s:'typing',d:2500},
+{a:'qa',m:'Browser testing',s:'typing',d:1500},
+{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+]
+};
+
+let tasks=0,running=false,start=Date.now();
+
+function buildDesks(){
+const c=document.getElementById('desks');
+AG.forEach(a=>{
+c.innerHTML+=`<div class="desk idle" id="d-${a.id}">
+<div class="humanoid">
+<div class="h-head" style="background:${a.head}"></div>
+<div class="h-body" style="background:${a.body}"></div>
+<div class="h-arm-l" style="background:${a.body}"></div>
+<div class="h-arm-r" style="background:${a.body}"></div>
+<div class="h-leg-l" style="background:${a.body}"></div>
+<div class="h-leg-r" style="background:${a.body}"></div>
+<div class="h-monitor" style="border-color:${a.color}"></div>
+<div class="h-monitor-stand" style="background:${a.color}"></div>
+<div class="h-desk-surface"></div>
+</div>
+<div class="name">${a.name}</div>
+<div class="role">${a.role}</div>
+<div class="task-label" id="tl-${a.id}">idle</div>
+</div>`;
+});
+document.getElementById('d-ceo').classList.remove('idle');
+document.getElementById('d-ceo').classList.add('active');
+document.getElementById('tl-ceo').textContent='ready';
+}
+
+function setDesk(id,state,label){
+const d=document.getElementById('d-'+id);
+const t=document.getElementById('tl-'+id);
+d.className='desk';
+if(state==='idle'){d.classList.add('idle');t.textContent='idle'}
+else{d.classList.add('active',state);t.textContent=label||state}
+}
+
+function resetDesks(){
+AG.forEach(a=>setDesk(a.id,'idle','idle'));
+setDesk('ceo','active','ready');
+document.getElementById('s-agents').textContent='1';
+}
+
+function log(agentId,msg){
+const a=AG.find(x=>x.id===agentId)||{name:'SYS',color:'#00b894'};
+const now=new Date();
+const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+const el=document.createElement('div');
+el.className='log';
+el.innerHTML=`<span class="time">${t}</span><span class="badge" style="background:${a.color}22;color:${a.color}">${a.name}</span><span class="msg">${msg}</span>`;
+const c=document.getElementById('logs');
+c.insertBefore(el,c.firstChild);
+if(c.children.length>50)c.removeChild(c.lastChild);
+}
+
+function updateWF(steps,idx){
+const b=document.getElementById('wfbar');
+b.innerHTML='';
+steps.forEach((s,i)=>{
+if(i>0)b.innerHTML+='<span class="wf-arr">&rarr;</span>';
+const ag=AG.find(x=>x.id===s.a);
+const cls=i<idx?'done':i===idx?'now':'wait';
+b.innerHTML+=`<span class="wf-chip ${cls}">${ag?.name||'?'}</span>`;
+});
+}
+
+async function go(){
+if(running)return;
+running=true;
+const text=document.getElementById('inp').value.trim()||'new feature';
+document.getElementById('inp').value='';
+let proj=document.getElementById('sel').value;
+if(proj==='auto'){
+if(text.match(/dr\.?slot|슬롯|게임|카지노|입금|출금|wallet|보너스/i))proj='drslot';
+else if(text.match(/jarvis|자비스|텔레|프롬프트|crm|고객|영업/i))proj='jarvis2';
+else if(text.match(/커뮤|community|비교|랭킹|리뷰/i))proj='community';
+else proj='drslot';
+}
+const names={drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community'};
+document.getElementById('s-proj').textContent=names[proj];
+log('ceo','Boss: "'+text+'"');
+log('ceo','Project: '+names[proj]);
+const steps=SCEN[proj];
+let prev=null;
+for(let i=0;i<steps.length;i++){
+const s=steps[i];
+updateWF(steps,i);
+if(prev&&prev!==s.a)setDesk(prev,'idle','done');
+setDesk(s.a,s.s,s.m.substring(0,20));
+const actives=document.querySelectorAll('.desk.active').length;
+document.getElementById('s-agents').textContent=actives;
+log(s.a,s.m);
+await new Promise(r=>setTimeout(r,s.d));
+prev=s.a;
+}
+tasks++;
+document.getElementById('s-tasks').textContent=tasks;
+updateWF(steps,steps.length);
+log('ceo','Task #'+tasks+' complete.');
+await new Promise(r=>setTimeout(r,1500));
+resetDesks();
+document.getElementById('wfbar').innerHTML='';
+document.getElementById('s-proj').textContent='standby';
+running=false;
+}
+
+buildDesks();
+log('ceo','Ready. Awaiting boss directive.');
+
+setInterval(()=>{
+const n=new Date();
+document.getElementById('clock').textContent=
+String(n.getHours()).padStart(2,'0')+':'+
+String(n.getMinutes()).padStart(2,'0')+':'+
+String(n.getSeconds()).padStart(2,'0');
+const e=Math.floor((Date.now()-start)/1000);
+document.getElementById('s-up').textContent=
+String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+},1000);
+</script>
+</body>
+</html>
