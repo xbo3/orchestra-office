@@ -423,6 +423,71 @@ model.position.set(a.x,0,a.z);
 model.rotation.y=a.ry;
 scene.add(model);
 
+// === FACE FEATURES ===
+var faceGroup=new THREE.Group();
+faceGroup.position.y=1.42;
+faceGroup.position.z=.12;
+
+// -- LEFT EYE --
+var eyeLWhite=new THREE.Mesh(new THREE.SphereGeometry(.06,16,16),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.2,metalness:.05}));
+eyeLWhite.position.set(-.08,.02,0);faceGroup.add(eyeLWhite);
+var eyeLIris=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),new THREE.MeshStandardMaterial({color:a.c,roughness:.3,metalness:.1}));
+eyeLIris.position.set(-.08,.02,.04);faceGroup.add(eyeLIris);
+var eyeLPupil=new THREE.Mesh(new THREE.SphereGeometry(.018,10,10),new THREE.MeshBasicMaterial({color:0x111111}));
+eyeLPupil.position.set(-.08,.02,.055);faceGroup.add(eyeLPupil);
+var eyeLShine=new THREE.Mesh(new THREE.SphereGeometry(.008,6,6),new THREE.MeshBasicMaterial({color:0xFFFFFF}));
+eyeLShine.position.set(-.065,.035,.06);faceGroup.add(eyeLShine);
+
+// -- RIGHT EYE --
+var eyeRWhite=new THREE.Mesh(new THREE.SphereGeometry(.06,16,16),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.2,metalness:.05}));
+eyeRWhite.position.set(.08,.02,0);faceGroup.add(eyeRWhite);
+var eyeRIris=new THREE.Mesh(new THREE.SphereGeometry(.035,12,12),new THREE.MeshStandardMaterial({color:a.c,roughness:.3,metalness:.1}));
+eyeRIris.position.set(.08,.02,.04);faceGroup.add(eyeRIris);
+var eyeRPupil=new THREE.Mesh(new THREE.SphereGeometry(.018,10,10),new THREE.MeshBasicMaterial({color:0x111111}));
+eyeRPupil.position.set(.08,.02,.055);faceGroup.add(eyeRPupil);
+var eyeRShine=new THREE.Mesh(new THREE.SphereGeometry(.008,6,6),new THREE.MeshBasicMaterial({color:0xFFFFFF}));
+eyeRShine.position.set(.095,.035,.06);faceGroup.add(eyeRShine);
+
+// -- LEFT EYEBROW --
+var browL=new THREE.Mesh(new THREE.BoxGeometry(.08,.015,.015),new THREE.MeshStandardMaterial({color:0x333333,roughness:.5}));
+browL.position.set(-.08,.09,.04);browL.rotation.z=.15;faceGroup.add(browL);
+
+// -- RIGHT EYEBROW --
+var browR=new THREE.Mesh(new THREE.BoxGeometry(.08,.015,.015),new THREE.MeshStandardMaterial({color:0x333333,roughness:.5}));
+browR.position.set(.08,.09,.04);browR.rotation.z=-.15;faceGroup.add(browR);
+
+// -- SMILE --
+var smileCurve=new THREE.Mesh(new THREE.TorusGeometry(.05,.01,8,16,Math.PI),new THREE.MeshStandardMaterial({color:0xFF6B6B,roughness:.4}));
+smileCurve.position.set(0,-.06,.05);smileCurve.rotation.x=Math.PI;faceGroup.add(smileCurve);
+
+// -- CHEEKS (blush) --
+var cheekL=new THREE.Mesh(new THREE.SphereGeometry(.03,8,8),new THREE.MeshStandardMaterial({color:0xFF9999,transparent:true,opacity:.25,roughness:.6}));
+cheekL.position.set(-.12,-.03,.03);faceGroup.add(cheekL);
+var cheekR=new THREE.Mesh(new THREE.SphereGeometry(.03,8,8),new THREE.MeshStandardMaterial({color:0xFF9999,transparent:true,opacity:.25,roughness:.6}));
+cheekR.position.set(.12,-.03,.03);faceGroup.add(cheekR);
+
+// -- NAME PLATE --
+var plateGeo=new THREE.PlaneGeometry(.5,.15);
+var plateCanvas=document.createElement('canvas');
+plateCanvas.width=256;plateCanvas.height=64;
+var pCtx=plateCanvas.getContext('2d');
+pCtx.fillStyle='rgba(0,0,0,0.6)';
+pCtx.beginPath();pCtx.roundRect(4,4,248,56,12);pCtx.fill();
+pCtx.font='bold 32px system-ui';pCtx.fillStyle='#'+new THREE.Color(a.c).getHexString();
+pCtx.textAlign='center';pCtx.fillText(a.n,128,42);
+var plateTex=new THREE.CanvasTexture(plateCanvas);
+var plateMat=new THREE.MeshBasicMaterial({map:plateTex,transparent:true,side:THREE.DoubleSide});
+var plate=new THREE.Mesh(plateGeo,plateMat);
+plate.position.set(0,.28,0);
+faceGroup.add(plate);
+
+model.add(faceGroup);
+a.faceGroup=faceGroup;
+a.eyeLPupil=eyeLPupil;a.eyeRPupil=eyeRPupil;
+a.eyeLShine=eyeLShine;a.eyeRShine=eyeRShine;
+a.browL=browL;a.browR=browR;
+a.smileCurve=smileCurve;
+
 var mixer=new THREE.AnimationMixer(model);
 a.mixer=mixer;
 a.actions={};
@@ -492,6 +557,51 @@ window._clock3d.userData.hh.rotation.z=-ha;
 window._clock3d.userData.hh.position.set(Math.sin(ha)*0.04,Math.cos(ha)*0.04,0.02);
 window._clock3d.userData.mh.rotation.z=-ma;
 window._clock3d.userData.mh.position.set(Math.sin(ma)*0.055,Math.cos(ma)*0.055,0.02);
+}
+
+// Animate faces
+var t2=clock.getElapsedTime();
+for(var fi=0;fi<AGENTS.length;fi++){
+var fa=AGENTS[fi];
+if(!fa.eyeLPupil)continue;
+var isTyp=fa.s==='typing',isTh=fa.s==='thinking',isPr=fa.s==='presenting',isCe=fa.s==='celebrating';
+
+// Eye look direction
+var lookX=Math.sin(t2*0.5+fi)*0.008;
+var lookY=Math.cos(t2*0.3+fi)*0.005;
+if(isTyp){lookX=Math.sin(t2*2)*0.01;lookY=-0.01;}
+if(isTh){lookX=0.01;lookY=0.01;}
+fa.eyeLPupil.position.x=-0.08+lookX;fa.eyeLPupil.position.y=0.02+lookY;
+fa.eyeRPupil.position.x=0.08+lookX;fa.eyeRPupil.position.y=0.02+lookY;
+fa.eyeLShine.position.x=-0.065+lookX;fa.eyeLShine.position.y=0.035+lookY;
+fa.eyeRShine.position.x=0.095+lookX;fa.eyeRShine.position.y=0.035+lookY;
+
+// Eyebrow expressions
+if(isCe){
+fa.browL.rotation.z=0.3;fa.browR.rotation.z=-0.3;
+fa.browL.position.y=0.1;fa.browR.position.y=0.1;
+}else if(isTh){
+fa.browL.rotation.z=0.05;fa.browR.rotation.z=-0.25;
+fa.browL.position.y=0.09;fa.browR.position.y=0.095;
+}else if(isTyp){
+fa.browL.rotation.z=0.1;fa.browR.rotation.z=-0.1;
+fa.browL.position.y=0.09;fa.browR.position.y=0.09;
+}else{
+fa.browL.rotation.z=0.15;fa.browR.rotation.z=-0.15;
+fa.browL.position.y=0.09;fa.browR.position.y=0.09;
+}
+
+// Smile size based on state
+if(isCe){
+fa.smileCurve.scale.set(1.5,1.5,1.5);
+fa.smileCurve.material.color.setHex(0xFF4444);
+}else if(isPr){
+fa.smileCurve.scale.set(1.3,1.3,1.3);
+fa.smileCurve.material.color.setHex(0xFF6B6B);
+}else{
+fa.smileCurve.scale.set(1,1,1);
+fa.smileCurve.material.color.setHex(0xFF8888);
+}
 }
 
 renderer.render(scene,camera);
