@@ -40,6 +40,29 @@ canvas{display:block;position:fixed;top:0;left:0}
 #log{font-size:8px;color:rgba(255,255,255,.3);margin-top:4px;max-height:30px;overflow:hidden}
 #log div{margin-bottom:1px}
 .hint{position:fixed;top:50px;left:50%;transform:translateX(-50%);font-size:10px;color:rgba(255,255,255,.2);z-index:5;pointer-events:none;transition:opacity 1s}
+
+#tp{position:fixed;right:12px;top:50px;width:260px;z-index:15;pointer-events:auto;display:none}
+#tp.show{display:block}
+.tpc{background:rgba(10,10,20,.75);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.tpt{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.tppct{font-size:26px;font-weight:800;font-family:monospace;background:linear-gradient(135deg,#6c5ce7,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tpbw{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin:6px 0 12px;overflow:hidden}
+.tpb{height:100%;border-radius:2px;background:linear-gradient(90deg,#6c5ce7,#34d399);transition:width .4s}
+.tps{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.tps:last-child{border-bottom:none}
+.tpd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tpd.d{background:#34d399}
+.tpd.a{background:#6c5ce7;box-shadow:0 0 8px rgba(108,92,231,.5);animation:tpp 1s infinite}
+.tpd.w{background:rgba(255,255,255,.06)}
+@keyframes tpp{50%{box-shadow:0 0 14px rgba(108,92,231,.8)}}
+.tpi{flex:1;min-width:0}
+.tpn{font-size:9px;font-weight:700}
+.tptk{font-size:7px;color:rgba(255,255,255,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tpst{font-size:7px;font-weight:600;flex-shrink:0}
+.tpst.d{color:#34d399}
+.tpst.a{color:#a29bfe}
+.tpst.w{color:rgba(255,255,255,.12)}
+.tpel{font-size:8px;color:rgba(255,255,255,.15);font-family:monospace;text-align:right;margin-top:6px}
 </style>
 </head>
 <body>
@@ -50,6 +73,7 @@ canvas{display:block;position:fixed;top:0;left:0}
 <div style="display:flex;align-items:center;gap:8px"><h1>WOO ORCHESTRA OFFICE</h1></div>
 <div style="display:flex;align-items:center;gap:8px"><div class="ags" id="ags"></div><span class="pill"><i></i>Live</span></div>
 </div>
+<div id="tp"><div class="tpc"><div class="tpt">Task progress</div><div><div class="tppct" id="tppct">0%</div><div style="font-size:8px;color:rgba(255,255,255,.2)" id="tplbl">Waiting...</div><div class="tpbw"><div class="tpb" id="tpbar"></div></div></div><div id="tpsteps"></div><div class="tpel" id="tpel">00:00</div></div></div>
 <div id="hud">
 <div class="row">
 <div class="st"><small>Agents</small><div id="sa">0/7</div></div>
@@ -72,7 +96,7 @@ canvas{display:block;position:fixed;top:0;left:0}
 <script>
 var scene,camera,renderer,controls,clock;
 var AGENTS=[
-{id:'ceo',n:'CEO',c:0x6c5ce7,h:'#6c5ce7',x:0,z:-2.5,ry:Math.PI,s:'idle'},
+{id:'ceo',n:'CEO',c:0x6c5ce7,h:'#6c5ce7',x:0,z:-2.5,ry:0,s:'idle'},
 {id:'fe',n:'FE',c:0x14b8a6,h:'#14b8a6',x:-2.8,z:0.5,ry:Math.PI/2,s:'idle'},
 {id:'be',n:'BE',c:0x3b82f6,h:'#3b82f6',x:-2.8,z:3,ry:Math.PI/2,s:'idle'},
 {id:'pe',n:'PE',c:0xec4899,h:'#ec4899',x:2.8,z:0.5,ry:-Math.PI/2,s:'idle'},
@@ -458,13 +482,38 @@ b.innerHTML+='<span class="'+cls+'">'+(a?a.n:'?')+'</span>';
 }
 
 var SCEN={
-drslot:[{a:'ceo',s:'thinking',d:1500},{a:'ceo',s:'presenting',d:1000},{a:'ds',s:'typing',d:2400},{a:'be',s:'typing',d:2800},{a:'fe',s:'typing',d:2800},{a:'qa',s:'typing',d:1800},{a:'dv',s:'typing',d:1600},{a:'ceo',s:'celebrating',d:2000}],
-jarvis2:[{a:'ceo',s:'thinking',d:1500},{a:'pe',s:'typing',d:2800},{a:'be',s:'typing',d:2800},{a:'qa',s:'typing',d:2000},{a:'dv',s:'typing',d:1600},{a:'ceo',s:'celebrating',d:2000}],
-community:[{a:'ceo',s:'thinking',d:1500},{a:'ds',s:'typing',d:2600},{a:'fe',s:'typing',d:2800},{a:'qa',s:'typing',d:1800},{a:'ceo',s:'celebrating',d:2000}]
+drslot:[{a:'ceo',s:'thinking',d:1500,t:'Analyzing task scope'},{a:'ceo',s:'presenting',d:1000,t:'Assigning subtasks'},{a:'ds',s:'typing',d:2400,t:'Designing UI layout'},{a:'be',s:'typing',d:2800,t:'Writing API endpoints'},{a:'fe',s:'typing',d:2800,t:'Building React pages'},{a:'qa',s:'typing',d:1800,t:'Running test suite'},{a:'dv',s:'typing',d:1600,t:'Deploying to Railway'},{a:'ceo',s:'celebrating',d:2000,t:'Task completed!'}],
+jarvis2:[{a:'ceo',s:'thinking',d:1500,t:'Analyzing scope'},{a:'pe',s:'typing',d:2800,t:'Tuning prompts'},{a:'be',s:'typing',d:2800,t:'Updating FastAPI'},{a:'qa',s:'typing',d:2000,t:'Testing AI quality'},{a:'dv',s:'typing',d:1600,t:'Deploying'},{a:'ceo',s:'celebrating',d:2000,t:'Complete!'}],
+community:[{a:'ceo',s:'thinking',d:1500,t:'Planning site'},{a:'ds',s:'typing',d:2600,t:'Creating mockup'},{a:'fe',s:'typing',d:2800,t:'Building prototype'},{a:'qa',s:'typing',d:1800,t:'Browser testing'},{a:'ceo',s:'celebrating',d:2000,t:'Done!'}]
 };
+
+var taskStartTime=0;
+function upProgress(steps,ci){
+var p=document.getElementById("tp");p.classList.add("show");
+var pct=Math.round(((ci+1)/steps.length)*100);
+document.getElementById("tppct").textContent=pct+"%";
+document.getElementById("tpbar").style.width=pct+"%";
+var cur=steps[ci];var ca=null;
+for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===cur.a)ca=AGENTS[i]}
+document.getElementById("tplbl").textContent=(ca?ca.n:"")+": "+(cur.t||cur.s);
+var h="";
+for(var i=0;i<steps.length;i++){
+var s=steps[i];var ag=null;
+for(var j=0;j<AGENTS.length;j++){if(AGENTS[j].id===s.a)ag=AGENTS[j]}
+var st,dc,sc;
+if(i<ci){st="Done";dc="d";sc="d"}
+else if(i===ci){st="Working...";dc="a";sc="a"}
+else{st="Pending";dc="w";sc="w"}
+h+="<div class=\"tps\"><div class=\"tpd "+dc+"\"></div>";
+h+="<div class=\"tpi\"><div class=\"tpn\" style=\"color:"+(ag?ag.h:"#888")+"\">"+(ag?ag.n:"?")+"</div>";
+h+="<div class=\"tptk\">"+(s.t||"")+"</div></div>";
+h+="<div class=\"tpst "+sc+"\">"+st+"</div></div>";}
+document.getElementById("tpsteps").innerHTML=h;
+}
 
 function go(){
 if(running)return;running=true;
+taskStartTime=Date.now();
 var text=document.getElementById('inp').value.trim()||'new feature';
 document.getElementById('inp').value='';
 var proj='drslot';
@@ -490,6 +539,7 @@ updateUI(AGENTS[i]);
 }
 document.getElementById('wf').innerHTML='';
 document.getElementById('sp').textContent='standby';
+document.getElementById('tp').classList.remove('show');
 document.getElementById('sa').textContent='0/7';
 running=false;
 },2500);
@@ -522,7 +572,8 @@ for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].s!=='idle')ac++}
 document.getElementById('sa').textContent=ac+'/7';
 
 var a=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===step.a)a=AGENTS[i]}
-addLog(step.a,(a?a.n:'')+' '+step.s);
+addLog(step.a,(a?a.n:'')+' '+(step.t||step.s));
+upProgress(steps,idx-1);
 
 prev=step.a;idx++;
 setTimeout(next,step.d);
@@ -536,6 +587,7 @@ init();
 });
 
 setInterval(function(){
+if(running&&taskStartTime){var te=Math.floor((Date.now()-taskStartTime)/1000);var el=document.getElementById('tpel');if(el)el.textContent='Elapsed: '+String(Math.floor(te/60)).padStart(2,'0')+':'+String(te%60).padStart(2,'0');}
 var e=Math.floor((Date.now()-t0)/1000);
 document.getElementById('su').textContent=String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
 },1000);
