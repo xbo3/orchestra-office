@@ -4,248 +4,299 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>WOO ORCHESTRA OFFICE</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0c10;--bg2:#11141b;--bg3:#171b25;--bg4:#1d2230;--border:#252b3a;--text:#e8eaf0;--text2:#8892a8;--text3:#4a5168;--accent:#6c5ce7;--accent2:#a29bfe;--green:#00b894;--amber:#fdcb6e;--red:#e17055;--blue:#74b9ff;--pink:#fd79a8;--teal:#00cec9}
+:root{--bg:#08090d;--bg2:#0f1118;--bg3:#161925;--bg4:#1c2030;--border:#1e2338;--border2:#2a3050;--text:#e4e8f4;--text2:#7882a4;--text3:#454d6e;--accent:#7c6cf6;--accent2:#b0a6ff;--accentbg:rgba(124,108,246,.08);--green:#34d399;--greenbg:rgba(52,211,153,.08);--amber:#fbbf24;--amberbg:rgba(251,191,36,.08);--red:#f87171;--redbg:rgba(248,113,113,.08);--blue:#60a5fa;--bluebg:rgba(96,165,250,.08);--pink:#f472b6;--pinkbg:rgba(244,114,182,.08);--teal:#2dd4bf;--tealbg:rgba(45,212,191,.08);--floor:#141824;--wall:#0c0e16;--desk:#1a1f30;--chair:#252a3e}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 .mono{font-family:'JetBrains Mono',monospace}
 
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:54px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
-.topbar-left{display:flex;align-items:center;gap:12px}
-.logo{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
-.topbar h1{font-size:15px;font-weight:600;letter-spacing:-.3px}
-.topbar .sub{color:var(--text2);font-size:12px;margin-left:8px}
-.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
-.pill.on{background:rgba(0,184,148,.1);color:var(--green)}
-.pill .blink{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 2s infinite}
-@keyframes blink{50%{opacity:.2}}
-.clock{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;background:linear-gradient(180deg,rgba(124,108,246,.06),transparent);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);position:sticky;top:0;z-index:50}
+.topbar-l{display:flex;align-items:center;gap:10px}
+.logo{width:28px;height:28px;background:linear-gradient(135deg,#7c6cf6,#b0a6ff);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
+.topbar h1{font-size:14px;font-weight:700;letter-spacing:-.5px}
+.topbar .tag{color:var(--text3);font-size:11px;margin-left:6px;padding:2px 8px;background:var(--bg3);border-radius:10px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600}
+.pill.on{background:var(--greenbg);color:var(--green)}
+.pill .dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.2}}
+.clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
 
-.layout{display:grid;grid-template-columns:1fr 320px;gap:0;min-height:calc(100vh - 54px)}
+.layout{display:grid;grid-template-columns:1fr 300px;min-height:calc(100vh - 52px)}
 
-.office-floor{padding:24px;overflow-y:auto}
-.floor-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.floor-title::before{content:'';width:3px;height:12px;background:var(--accent);border-radius:2px}
+.main-area{padding:20px;overflow-y:auto}
 
-.desks{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-.desk{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
-.desk:hover{border-color:var(--accent);transform:translateY(-2px)}
-.desk.active{border-color:var(--accent);box-shadow:0 0 20px rgba(108,92,231,.15)}
-.desk.active::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
-.desk.idle{opacity:.5}
+.office-scene{position:relative;width:100%;aspect-ratio:16/9;min-height:420px;background:var(--floor);border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:20px}
+.office-wall{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(180deg,#0e1020 0%,#121628 100%);border-bottom:2px solid var(--border2)}
+.office-window{position:absolute;top:5%;width:18%;height:25%;border:2px solid var(--border2);border-radius:8px;background:linear-gradient(180deg,#0a1628,#0f1f3a);overflow:hidden}
+.office-window::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(96,165,250,.04),rgba(124,108,246,.06));pointer-events:none}
+.window-stars{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.4}
+.office-window:nth-child(1){left:5%}
+.office-window:nth-child(2){left:27%}
+.office-window:nth-child(3){left:49%}
+.office-window:nth-child(4){left:71%}
+.floor-grid{position:absolute;bottom:0;left:0;right:0;height:62%;background:repeating-conic-gradient(var(--floor) 0% 25%,rgba(20,24,36,.6) 0% 50%) 0 0/60px 60px;opacity:.5}
 
-.humanoid{width:60px;height:80px;margin:0 auto 8px;position:relative}
-.h-head{width:20px;height:20px;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);transition:all .3s}
-.h-body{width:24px;height:28px;border-radius:6px 6px 4px 4px;position:absolute;top:22px;left:50%;transform:translateX(-50%)}
-.h-arm-l,.h-arm-r{width:6px;height:20px;border-radius:3px;position:absolute;top:24px;transition:all .3s}
-.h-arm-l{left:calc(50% - 18px)}
-.h-arm-r{right:calc(50% - 18px)}
-.h-leg-l,.h-leg-r{width:8px;height:18px;border-radius:3px;position:absolute;top:50px;opacity:.6}
-.h-leg-l{left:calc(50% - 10px)}
-.h-leg-r{right:calc(50% - 10px)}
-.h-desk-surface{width:52px;height:6px;border-radius:3px;position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:var(--bg4)}
-.h-monitor{width:22px;height:16px;border-radius:3px;border:1.5px solid;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);opacity:.7}
-.h-monitor-stand{width:2px;height:4px;position:absolute;bottom:16px;left:50%;transform:translateX(-50%);opacity:.5}
+.plant{position:absolute;z-index:5}
+.plant-pot{width:20px;height:14px;background:#3a2820;border-radius:2px 2px 4px 4px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.plant-leaf{width:3px;height:18px;background:#22c55e;border-radius:50%;position:absolute;bottom:12px;transform-origin:bottom center}
 
-.desk.typing .h-arm-l{animation:type-l .4s infinite alternate}
-.desk.typing .h-arm-r{animation:type-r .4s infinite alternate .2s}
-.desk.thinking .h-head{animation:think .8s infinite alternate}
-.desk.presenting .h-arm-r{animation:present 1s infinite alternate}
-.desk.celebrating .h-arm-l,.desk.celebrating .h-arm-r{animation:celebrate .5s infinite alternate}
-@keyframes type-l{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(3px) rotate(5deg)}}
-@keyframes type-r{0%{transform:translateY(0) rotate(5deg)}100%{transform:translateY(3px) rotate(-5deg)}}
-@keyframes think{0%{transform:translateX(-50%) rotate(0)}100%{transform:translateX(-50%) rotate(8deg)}}
-@keyframes present{0%{transform:rotate(0)}100%{transform:rotate(-40deg) translateY(-8px)}}
-@keyframes celebrate{0%{transform:rotate(0) translateY(0)}100%{transform:rotate(-30deg) translateY(-10px)}}
+.agent-station{position:absolute;z-index:10;cursor:pointer;transition:transform .2s}
+.agent-station:hover{transform:scale(1.04)}
 
-.desk .name{font-size:12px;font-weight:600;margin-top:4px}
-.desk .role{font-size:10px;color:var(--text3)}
-.desk .task-label{font-size:10px;color:var(--accent2);margin-top:6px;min-height:14px;font-family:'JetBrains Mono',monospace}
+.s-desk{width:80px;height:32px;background:linear-gradient(180deg,#1e243a,#181d30);border:1px solid var(--border2);border-radius:6px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.s-desk::after{content:'';position:absolute;top:3px;left:8px;right:8px;height:1px;background:rgba(255,255,255,.03)}
+.s-monitor{width:28px;height:20px;border:1.5px solid;border-radius:3px;position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);overflow:hidden}
+.s-monitor .screen{position:absolute;inset:2px;border-radius:1px;opacity:.6}
+.s-monitor-stand{width:2px;height:5px;position:absolute;bottom:23px;left:50%;transform:translateX(-50%);opacity:.4}
+.s-chair{width:22px;height:10px;border-radius:10px 10px 4px 4px;position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);opacity:.4}
 
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
-.stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
-.stat .label{font-size:11px;color:var(--text3);margin-bottom:6px}
-.stat .val{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace}
-.stat .sub{font-size:10px;color:var(--text3);margin-top:2px}
+.humanoid{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:40px;height:58px}
+.h-head{width:16px;height:16px;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;transition:all .4s}
+.h-neck{width:4px;height:4px;position:absolute;top:15px;left:50%;transform:translateX(-50%);border-radius:1px;opacity:.7}
+.h-torso{width:22px;height:20px;border-radius:4px 4px 2px 2px;position:absolute;top:18px;left:50%;transform:translateX(-50%)}
+.h-arm{width:5px;height:16px;border-radius:3px;position:absolute;top:20px;transition:all .3s ease;transform-origin:top center}
+.h-arm.l{left:5px}
+.h-arm.r{right:5px}
+.h-leg{width:6px;height:14px;border-radius:3px;position:absolute;top:37px;opacity:.6}
+.h-leg.l{left:11px}
+.h-leg.r{right:11px}
+.h-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap;letter-spacing:.5px}
+.h-thought{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:7px;padding:2px 6px;border-radius:8px;background:rgba(255,255,255,.08);color:var(--text2);white-space:nowrap;opacity:0;transition:opacity .3s;border:1px solid var(--border)}
+.agent-station.active .h-thought{opacity:1}
 
-.task-area{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px}
-.task-row{display:flex;gap:10px;margin-top:12px}
-.task-row input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:13px;font-family:'Outfit',sans-serif;outline:none}
-.task-row input:focus{border-color:var(--accent)}
-.task-row select{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px;color:var(--text);font-size:12px;outline:none}
-.task-row button{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif}
-.task-row button:hover{background:#7c6cf0}
+.agent-station.typing .h-arm.l{animation:tL .35s infinite alternate ease-in-out}
+.agent-station.typing .h-arm.r{animation:tR .35s infinite alternate ease-in-out .15s}
+.agent-station.typing .s-monitor .screen{animation:screenGlow 1s infinite alternate}
+.agent-station.thinking .h-head{animation:think .6s infinite alternate ease-in-out}
+.agent-station.presenting .h-arm.r{animation:present .8s infinite alternate}
+.agent-station.celebrating .h-arm{animation:celebrate .4s infinite alternate}
+.agent-station.idle .humanoid{opacity:.35}
+.agent-station.idle .s-monitor .screen{opacity:.1}
+@keyframes tL{to{transform:rotate(-10deg) translateY(3px)}}
+@keyframes tR{to{transform:rotate(10deg) translateY(3px)}}
+@keyframes think{to{transform:translateX(-50%) rotate(10deg)}}
+@keyframes present{to{transform:rotate(-45deg) translateY(-6px)}}
+@keyframes celebrate{0%{transform:rotate(-25deg) translateY(-8px)}100%{transform:rotate(25deg) translateY(-8px)}}
+@keyframes screenGlow{0%{opacity:.4}100%{opacity:.9}}
 
-.wf-bar{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap;min-height:36px}
-.wf-chip{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--bg3);transition:all .3s}
-.wf-chip.done{background:rgba(0,184,148,.1);border-color:rgba(0,184,148,.3);color:var(--green)}
-.wf-chip.now{background:rgba(108,92,231,.15);border-color:rgba(108,92,231,.4);color:var(--accent2);animation:glow 1.5s infinite}
-.wf-chip.wait{opacity:.3}
-.wf-arr{color:var(--text3);font-size:14px}
-@keyframes glow{50%{box-shadow:0 0 10px rgba(108,92,231,.3)}}
+.s-name{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap;color:var(--text2)}
 
-.projects-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.proj{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
-.proj .hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.proj .pname{font-size:13px;font-weight:600}
-.proj .badge{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:500}
-.proj .badge.live{background:rgba(0,184,148,.1);color:var(--green)}
-.proj .badge.dev{background:rgba(253,203,110,.1);color:var(--amber)}
-.proj .badge.plan{background:rgba(116,185,255,.1);color:var(--blue)}
-.proj .bar{height:4px;background:var(--bg4);border-radius:2px;margin:8px 0}
-.proj .bar-fill{height:100%;border-radius:2px}
+.bottom-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px}
+.panel-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.panel-title .bar{width:3px;height:10px;background:var(--accent);border-radius:2px}
+
+.cmd-input{display:flex;gap:8px;margin-bottom:12px}
+.cmd-input select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:11px;font-family:'Outfit',sans-serif;outline:none}
+.cmd-input input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;font-family:'Outfit',sans-serif;outline:none;transition:border .2s}
+.cmd-input input:focus{border-color:var(--accent)}
+.cmd-input button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s}
+.cmd-input button:hover{background:#8b7df8}
+
+.wf-bar{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:28px}
+.wf-chip{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid var(--border);background:var(--bg3);transition:all .3s}
+.wf-chip.done{background:var(--greenbg);border-color:rgba(52,211,153,.3);color:var(--green)}
+.wf-chip.now{background:var(--accentbg);border-color:rgba(124,108,246,.4);color:var(--accent2);box-shadow:0 0 12px rgba(124,108,246,.15)}
+.wf-chip.wait{opacity:.25}
+.wf-arr{color:var(--text3);font-size:12px}
+
+.proj-list{display:flex;flex-direction:column;gap:8px}
+.proj-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--bg3);border:1px solid var(--border)}
+.proj-row .pname{font-size:12px;font-weight:600;flex:1}
+.proj-row .pbadge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600}
+.proj-row .pbadge.live{background:var(--greenbg);color:var(--green)}
+.proj-row .pbadge.dev{background:var(--amberbg);color:var(--amber)}
+.proj-row .pbadge.plan{background:var(--bluebg);color:var(--blue)}
+.proj-row .pbar{width:60px;height:3px;background:var(--bg);border-radius:2px;overflow:hidden}
+.proj-row .pbar-fill{height:100%;border-radius:2px}
+
+.stats-strip{display:flex;gap:12px;margin-bottom:16px}
+.sstat{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.sstat .sl{font-size:10px;color:var(--text3);margin-bottom:4px}
+.sstat .sv{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace}
 
 .sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column}
-.sidebar-hdr{padding:16px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
-.sidebar-hdr::before{content:'';width:3px;height:12px;background:var(--green);border-radius:2px}
-.log-list{flex:1;overflow-y:auto;padding:8px 12px}
-.log{display:flex;gap:8px;padding:8px;border-radius:8px;margin-bottom:4px;transition:background .2s}
+.side-hdr{padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.side-hdr .bar{width:3px;height:10px;background:var(--green);border-radius:2px}
+.log-list{flex:1;overflow-y:auto;padding:6px 10px}
+.log{display:flex;gap:6px;padding:7px 6px;border-radius:6px;margin-bottom:2px}
 .log:hover{background:var(--bg3)}
-.log .time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);min-width:40px;margin-top:2px}
-.log .badge{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;white-space:nowrap;margin-top:1px}
-.log .msg{font-size:12px;color:var(--text2);line-height:1.4;flex:1}
+.log .lt{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);min-width:36px;margin-top:2px}
+.log .lb{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:1px;height:fit-content}
+.log .lm{font-size:11px;color:var(--text2);line-height:1.4;flex:1}
+
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.bottom-panel{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="topbar">
-<div class="topbar-left">
+<div class="topbar-l">
 <div class="logo">W</div>
 <h1>WOO ORCHESTRA</h1>
-<span class="sub">AI agent workspace</span>
+<span class="tag">v1.0</span>
 </div>
-<div style="display:flex;align-items:center;gap:14px">
-<span class="pill on"><span class="blink"></span>Online</span>
+<div style="display:flex;align-items:center;gap:12px">
+<span class="pill on"><span class="dot"></span>Online</span>
 <span class="clock mono" id="clock">00:00:00</span>
 </div>
 </div>
 
 <div class="layout">
-<div class="office-floor">
-<div class="stats-grid">
-<div class="stat"><div class="label">Active agents</div><div class="val" id="s-agents">1</div><div class="sub">/ 7 total</div></div>
-<div class="stat"><div class="label">Tasks done</div><div class="val" id="s-tasks">0</div><div class="sub">today</div></div>
-<div class="stat"><div class="label">Current project</div><div class="val" style="font-size:15px" id="s-proj">standby</div><div class="sub">awaiting</div></div>
-<div class="stat"><div class="label">Uptime</div><div class="val mono" id="s-up">00:00</div><div class="sub">session</div></div>
+<div class="main-area">
+<div class="stats-strip">
+<div class="sstat"><div class="sl">Agents</div><div class="sv" id="s-a">1<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span></div></div>
+<div class="sstat"><div class="sl">Tasks done</div><div class="sv" id="s-t">0</div></div>
+<div class="sstat"><div class="sl">Project</div><div class="sv" style="font-size:14px" id="s-p">standby</div></div>
+<div class="sstat"><div class="sl">Uptime</div><div class="sv mono" id="s-u">00:00</div></div>
 </div>
 
-<div class="floor-title">Office floor</div>
-<div class="desks" id="desks"></div>
+<div class="office-scene" id="office">
+<div class="office-wall">
+<div class="office-window"><div class="window-stars" style="top:20%;left:30%"></div><div class="window-stars" style="top:50%;left:70%"></div><div class="window-stars" style="top:35%;left:50%"></div></div>
+<div class="office-window"><div class="window-stars" style="top:40%;left:25%"></div><div class="window-stars" style="top:15%;left:65%"></div></div>
+<div class="office-window"><div class="window-stars" style="top:25%;left:40%"></div><div class="window-stars" style="top:60%;left:20%"></div><div class="window-stars" style="top:45%;left:75%"></div></div>
+<div class="office-window"><div class="window-stars" style="top:30%;left:55%"></div><div class="window-stars" style="top:55%;left:35%"></div></div>
+</div>
+<div class="floor-grid"></div>
+<div class="plant" style="left:3%;bottom:15%"><div style="position:relative;width:20px;height:40px"><div class="plant-leaf" style="left:8px;transform:rotate(-15deg);height:22px;background:#22c55e"></div><div class="plant-leaf" style="left:12px;transform:rotate(12deg);height:18px;background:#16a34a"></div><div class="plant-leaf" style="left:5px;transform:rotate(-30deg);height:15px;background:#15803d"></div><div class="plant-pot"></div></div></div>
+<div class="plant" style="right:3%;bottom:18%"><div style="position:relative;width:20px;height:40px"><div class="plant-leaf" style="left:8px;transform:rotate(10deg);height:24px;background:#22c55e"></div><div class="plant-leaf" style="left:4px;transform:rotate(-20deg);height:16px;background:#16a34a"></div><div class="plant-pot"></div></div></div>
+<div class="plant" style="left:48%;bottom:12%"><div style="position:relative;width:16px;height:30px"><div class="plant-leaf" style="left:6px;transform:rotate(-8deg);height:16px;background:#22c55e"></div><div class="plant-leaf" style="left:10px;transform:rotate(15deg);height:12px;background:#16a34a"></div><div class="plant-pot" style="width:14px;height:10px"></div></div></div>
+<div id="stations"></div>
+</div>
 
-<div class="task-area">
-<div class="floor-title">Command center</div>
-<div class="task-row">
+<div class="bottom-panel">
+<div class="panel">
+<div class="panel-title"><span class="bar"></span>Command center</div>
+<div class="cmd-input">
 <select id="sel"><option value="auto">auto</option><option value="drslot">DR.SLOT</option><option value="jarvis2">JARVIS2</option><option value="community">Community</option></select>
-<input id="inp" placeholder="Tell the orchestra what to build..." onkeydown="if(event.key==='Enter')go()">
-<button onclick="go()">Execute</button>
+<input id="inp" placeholder="What should we build?" onkeydown="if(event.key==='Enter')go()">
+<button onclick="go()">Go</button>
 </div>
 <div class="wf-bar" id="wfbar"></div>
+<div class="proj-list" style="margin-top:12px">
+<div class="proj-row"><span class="pname">DR.SLOT</span><span class="pbadge dev">dev</span><div class="pbar"><div class="pbar-fill" style="width:65%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
+<div class="proj-row"><span class="pname">JARVIS2</span><span class="pbadge live">live</span><div class="pbar"><div class="pbar-fill" style="width:80%;background:linear-gradient(90deg,var(--accent),var(--green))"></div></div></div>
+<div class="proj-row"><span class="pname">Community</span><span class="pbadge plan">plan</span><div class="pbar"><div class="pbar-fill" style="width:15%;background:var(--blue)"></div></div></div>
 </div>
-
-<div class="floor-title">Projects</div>
-<div class="projects-row">
-<div class="proj"><div class="hdr"><span class="pname">DR.SLOT</span><span class="badge dev">dev</span></div><div class="bar"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
-<div class="proj"><div class="hdr"><span class="pname">JARVIS2</span><span class="badge live">live</span></div><div class="bar"><div class="bar-fill" style="width:80%;background:linear-gradient(90deg,var(--accent),var(--green))"></div></div></div>
-<div class="proj"><div class="hdr"><span class="pname">Community</span><span class="badge plan">plan</span></div><div class="bar"><div class="bar-fill" style="width:15%;background:var(--blue)"></div></div></div>
+</div>
+<div class="panel" id="agent-detail">
+<div class="panel-title"><span class="bar"></span>Agent detail</div>
+<div id="detail-content" style="font-size:12px;color:var(--text2);line-height:1.6">Click an agent to see details</div>
+</div>
 </div>
 </div>
 
 <div class="sidebar">
-<div class="sidebar-hdr">Activity log</div>
+<div class="side-hdr"><span class="bar"></span>Activity log</div>
 <div class="log-list" id="logs"></div>
 </div>
 </div>
 
 <script>
 const AG=[
-{id:'ceo',name:'CEO',role:'Orchestrator',color:'#6c5ce7',head:'#a29bfe',body:'#6c5ce7'},
-{id:'fe',name:'Frontend',role:'React / Next.js',color:'#00cec9',head:'#81ecec',body:'#00cec9'},
-{id:'be',name:'Backend',role:'API / DB',color:'#74b9ff',head:'#a9d4ff',body:'#74b9ff'},
-{id:'pe',name:'Prompt Eng',role:'JARVIS2 AI',color:'#fd79a8',head:'#ffb1c8',body:'#fd79a8'},
-{id:'ds',name:'Design',role:'UI / UX',color:'#fdcb6e',head:'#ffeaa7',body:'#fdcb6e'},
-{id:'qa',name:'QA Tester',role:'Test / Review',color:'#00b894',head:'#55efc4',body:'#00b894'},
-{id:'dv',name:'DevOps',role:'Deploy / Infra',color:'#636e72',head:'#b2bec3',body:'#636e72'}
+{id:'ceo',name:'CEO',role:'Orchestrator',x:50,y:52,color:'#7c6cf6',head:'#b0a6ff',body:'#7c6cf6',skin:'#dbb89a',monitor:'#7c6cf6',detail:'Task decomposition, agent assignment, progress tracking, quality control, final reporting to boss.'},
+{id:'fe',name:'Frontend',role:'React / Next.js',x:18,y:72,color:'#2dd4bf',head:'#5eead4',body:'#2dd4bf',skin:'#c8a882',monitor:'#2dd4bf',detail:'UI pages, React components, Tailwind styling, mobile responsive, Next.js routing.'},
+{id:'be',name:'Backend',role:'API / DB',x:36,y:72,color:'#60a5fa',head:'#93c5fd',body:'#60a5fa',skin:'#d4a574',monitor:'#60a5fa',detail:'Express/FastAPI routes, Prisma/SQLAlchemy ORM, PostgreSQL/SQLite, JWT auth, error handling.'},
+{id:'pe',name:'Prompt',role:'JARVIS2 AI',x:64,y:72,color:'#f472b6',head:'#f9a8d4',body:'#f472b6',skin:'#c49a6c',monitor:'#f472b6',detail:'9-section prompt builder, thawing logic, vibe tuning, model_hint for Opus, token optimization.'},
+{id:'ds',name:'Design',role:'UI / UX',x:82,y:72,color:'#fbbf24',head:'#fde68a',body:'#fbbf24',skin:'#dbb89a',monitor:'#fbbf24',detail:'Wireframes, color system, typography, layout, Stake.com reference, mobile-first mockups.'},
+{id:'qa',name:'QA',role:'Tester',x:27,y:90,color:'#34d399',head:'#6ee7b7',body:'#34d399',skin:'#c8a882',monitor:'#34d399',detail:'Code review, syntax validation, API response checks, edge cases, auth/permissions, mobile testing.'},
+{id:'dv',name:'DevOps',role:'Deploy',x:73,y:90,color:'#94a3b8',head:'#cbd5e1',body:'#94a3b8',skin:'#d4a574',monitor:'#94a3b8',detail:'Railway deploy, Vercel, git push, env vars, health checks, log analysis. No railway up on GitHub services!'}
 ];
 
 const SCEN={
 drslot:[
-{a:'ceo',m:'Analyzing DR.SLOT scope...',s:'thinking',d:1200},
-{a:'ceo',m:'Decomposed into 4 subtasks',s:'presenting',d:1000},
-{a:'ds',m:'Wireframing UI layout',s:'typing',d:2200},
-{a:'be',m:'Writing API + DB migration',s:'typing',d:2500},
-{a:'fe',m:'Building React components',s:'typing',d:2500},
-{a:'qa',m:'Running integration tests',s:'typing',d:1800},
+{a:'ceo',m:'Analyzing DR.SLOT task...',s:'thinking',d:1400},
+{a:'ceo',m:'4 subtasks created',s:'presenting',d:1000},
+{a:'ds',m:'Designing component layout',s:'typing',d:2200},
+{a:'be',m:'Writing API + DB schema',s:'typing',d:2600},
+{a:'fe',m:'Building React components',s:'typing',d:2600},
+{a:'qa',m:'Integration testing',s:'typing',d:1800},
 {a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
-{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
 ],
 jarvis2:[
-{a:'ceo',m:'Analyzing JARVIS2 scope...',s:'thinking',d:1200},
+{a:'ceo',m:'Analyzing JARVIS2 task...',s:'thinking',d:1400},
 {a:'pe',m:'Tuning prompt sections',s:'typing',d:2500},
 {a:'be',m:'Updating FastAPI routes',s:'typing',d:2500},
-{a:'qa',m:'Testing AI responses',s:'typing',d:2000},
+{a:'qa',m:'Testing AI quality',s:'typing',d:2000},
 {a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
-{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
 ],
 community:[
-{a:'ceo',m:'Analyzing Community scope...',s:'thinking',d:1200},
-{a:'ds',m:'Creating mockup',s:'typing',d:2200},
-{a:'fe',m:'Building prototype pages',s:'typing',d:2500},
-{a:'qa',m:'Browser testing',s:'typing',d:1500},
-{a:'ceo',m:'All done. Reporting.',s:'celebrating',d:1000}
+{a:'ceo',m:'Analyzing Community task...',s:'thinking',d:1400},
+{a:'ds',m:'Creating mockup',s:'typing',d:2400},
+{a:'fe',m:'Building prototype',s:'typing',d:2600},
+{a:'qa',m:'Browser testing',s:'typing',d:1600},
+{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
 ]
 };
 
 let tasks=0,running=false,start=Date.now();
 
-function buildDesks(){
-const c=document.getElementById('desks');
+function buildStations(){
+const c=document.getElementById('stations');
 AG.forEach(a=>{
-c.innerHTML+=`<div class="desk idle" id="d-${a.id}">
+const s=document.createElement('div');
+s.className='agent-station '+(a.id==='ceo'?'idle':'idle');
+s.id='st-'+a.id;
+s.style.cssText=`left:${a.x}%;top:${a.y}%;transform:translate(-50%,-50%)`;
+s.onclick=()=>showDetail(a);
+s.innerHTML=`
+<div class="h-thought" id="th-${a.id}"></div>
 <div class="humanoid">
-<div class="h-head" style="background:${a.head}"></div>
-<div class="h-body" style="background:${a.body}"></div>
-<div class="h-arm-l" style="background:${a.body}"></div>
-<div class="h-arm-r" style="background:${a.body}"></div>
-<div class="h-leg-l" style="background:${a.body}"></div>
-<div class="h-leg-r" style="background:${a.body}"></div>
-<div class="h-monitor" style="border-color:${a.color}"></div>
-<div class="h-monitor-stand" style="background:${a.color}"></div>
-<div class="h-desk-surface"></div>
+<div class="h-badge" style="background:${a.color}22;color:${a.color}">${a.name}</div>
+<div class="h-head" style="background:${a.skin}"></div>
+<div class="h-neck" style="background:${a.skin}"></div>
+<div class="h-torso" style="background:${a.body}"></div>
+<div class="h-arm l" style="background:${a.body}"></div>
+<div class="h-arm r" style="background:${a.body}"></div>
+<div class="h-leg l" style="background:${a.body}"></div>
+<div class="h-leg r" style="background:${a.body}"></div>
 </div>
-<div class="name">${a.name}</div>
-<div class="role">${a.role}</div>
-<div class="task-label" id="tl-${a.id}">idle</div>
-</div>`;
+<div class="s-monitor" style="border-color:${a.color}40"><div class="screen" style="background:${a.monitor}"></div></div>
+<div class="s-monitor-stand" style="background:${a.color}"></div>
+<div class="s-desk"></div>
+<div class="s-chair" style="background:${a.color}30"></div>
+<div class="s-name">${a.name}</div>`;
+c.appendChild(s);
 });
-document.getElementById('d-ceo').classList.remove('idle');
-document.getElementById('d-ceo').classList.add('active');
-document.getElementById('tl-ceo').textContent='ready';
+setState('ceo','idle');
 }
 
-function setDesk(id,state,label){
-const d=document.getElementById('d-'+id);
-const t=document.getElementById('tl-'+id);
-d.className='desk';
-if(state==='idle'){d.classList.add('idle');t.textContent='idle'}
-else{d.classList.add('active',state);t.textContent=label||state}
+function setState(id,state,thought){
+const s=document.getElementById('st-'+id);
+if(!s)return;
+s.className='agent-station '+state;
+const th=document.getElementById('th-'+id);
+if(thought){th.textContent=thought;s.classList.add('active')}
+else{th.textContent='';s.classList.remove('active')}
 }
 
-function resetDesks(){
-AG.forEach(a=>setDesk(a.id,'idle','idle'));
-setDesk('ceo','active','ready');
-document.getElementById('s-agents').textContent='1';
+function resetAll(){
+AG.forEach(a=>setState(a.id,'idle',''));
+document.getElementById('s-a').innerHTML='0<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span>';
 }
 
-function log(agentId,msg){
-const a=AG.find(x=>x.id===agentId)||{name:'SYS',color:'#00b894'};
+function showDetail(a){
+document.getElementById('detail-content').innerHTML=`
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+<div style="width:24px;height:24px;border-radius:6px;background:${a.color}20;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${a.color}">${a.name.charAt(0)}</div>
+<div><div style="font-weight:600;color:var(--text)">${a.name}</div><div style="font-size:10px;color:var(--text3)">${a.role}</div></div>
+</div>
+<div style="padding:8px;background:var(--bg3);border-radius:8px;font-size:11px;line-height:1.6">${a.detail}</div>`;
+}
+
+function log(aid,msg){
+const a=AG.find(x=>x.id===aid)||{name:'SYS',color:'#34d399'};
 const now=new Date();
 const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
 const el=document.createElement('div');
 el.className='log';
-el.innerHTML=`<span class="time">${t}</span><span class="badge" style="background:${a.color}22;color:${a.color}">${a.name}</span><span class="msg">${msg}</span>`;
+el.innerHTML=`<span class="lt">${t}</span><span class="lb" style="background:${a.color}18;color:${a.color}">${a.name}</span><span class="lm">${msg}</span>`;
 const c=document.getElementById('logs');
 c.insertBefore(el,c.firstChild);
-if(c.children.length>50)c.removeChild(c.lastChild);
+if(c.children.length>60)c.removeChild(c.lastChild);
 }
 
 function updateWF(steps,idx){
@@ -255,7 +306,7 @@ steps.forEach((s,i)=>{
 if(i>0)b.innerHTML+='<span class="wf-arr">&rarr;</span>';
 const ag=AG.find(x=>x.id===s.a);
 const cls=i<idx?'done':i===idx?'now':'wait';
-b.innerHTML+=`<span class="wf-chip ${cls}">${ag?.name||'?'}</span>`;
+b.innerHTML+='<span class="wf-chip '+cls+'">'+(ag?.name||'?')+'</span>';
 });
 }
 
@@ -266,13 +317,13 @@ const text=document.getElementById('inp').value.trim()||'new feature';
 document.getElementById('inp').value='';
 let proj=document.getElementById('sel').value;
 if(proj==='auto'){
-if(text.match(/dr\.?slot|슬롯|게임|카지노|입금|출금|wallet|보너스/i))proj='drslot';
-else if(text.match(/jarvis|자비스|텔레|프롬프트|crm|고객|영업/i))proj='jarvis2';
+if(text.match(/dr\.?slot|슬롯|게임|카지노|입금|출금|wallet|보너스|쿠폰/i))proj='drslot';
+else if(text.match(/jarvis|자비스|텔레|프롬프트|crm|고객|영업|아웃바운드/i))proj='jarvis2';
 else if(text.match(/커뮤|community|비교|랭킹|리뷰/i))proj='community';
 else proj='drslot';
 }
 const names={drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community'};
-document.getElementById('s-proj').textContent=names[proj];
+document.getElementById('s-p').textContent=names[proj];
 log('ceo','Boss: "'+text+'"');
 log('ceo','Project: '+names[proj]);
 const steps=SCEN[proj];
@@ -280,37 +331,33 @@ let prev=null;
 for(let i=0;i<steps.length;i++){
 const s=steps[i];
 updateWF(steps,i);
-if(prev&&prev!==s.a)setDesk(prev,'idle','done');
-setDesk(s.a,s.s,s.m.substring(0,20));
-const actives=document.querySelectorAll('.desk.active').length;
-document.getElementById('s-agents').textContent=actives;
+if(prev&&prev!==s.a)setState(prev,'idle','');
+setState(s.a,s.s,s.m);
+const ac=document.querySelectorAll('.agent-station.typing,.agent-station.thinking,.agent-station.presenting,.agent-station.celebrating').length;
+document.getElementById('s-a').innerHTML=ac+'<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span>';
 log(s.a,s.m);
 await new Promise(r=>setTimeout(r,s.d));
 prev=s.a;
 }
 tasks++;
-document.getElementById('s-tasks').textContent=tasks;
+document.getElementById('s-t').textContent=tasks;
 updateWF(steps,steps.length);
-log('ceo','Task #'+tasks+' complete.');
-await new Promise(r=>setTimeout(r,1500));
-resetDesks();
+log('ceo','Task #'+tasks+' complete!');
+await new Promise(r=>setTimeout(r,2000));
+resetAll();
 document.getElementById('wfbar').innerHTML='';
-document.getElementById('s-proj').textContent='standby';
+document.getElementById('s-p').textContent='standby';
 running=false;
 }
 
-buildDesks();
-log('ceo','Ready. Awaiting boss directive.');
+buildStations();
+log('ceo','Office ready. 7 agents on standby.');
 
 setInterval(()=>{
 const n=new Date();
-document.getElementById('clock').textContent=
-String(n.getHours()).padStart(2,'0')+':'+
-String(n.getMinutes()).padStart(2,'0')+':'+
-String(n.getSeconds()).padStart(2,'0');
+document.getElementById('clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
 const e=Math.floor((Date.now()-start)/1000);
-document.getElementById('s-up').textContent=
-String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
+document.getElementById('s-u').textContent=String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
 },1000);
 </script>
 </body>
