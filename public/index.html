@@ -283,36 +283,31 @@ var mol=BX(26,0.1,0.1,0xD0C8BC,0.6);mol.position.set(0,0.05,-6.94);scene.add(mol
 
 function buildDesk(a){
 var g=new THREE.Group();
-var top=BX(2.2,0.08,1.1,0xC8A870,0.4,0.03);top.position.y=0.76;g.add(top);
-var edge=BX(2.22,0.025,1.12,0xDBB888,0.3,0.02);edge.position.y=0.785;g.add(edge);
+var top=BX(2.4,0.1,1.2,0x5C4A2A,0.35,0.04);top.position.y=0.76;g.add(top);
+var edge=BX(2.42,0.03,1.22,0x8B7345,0.3,0.03);edge.position.y=0.81;g.add(edge);
 var legs=[[-.95,.45],[.95,.45],[-.95,-.45],[.95,-.45]];
 for(var i=0;i<4;i++){var l=BX(.06,.76,.06,0x8A6A38,.6);l.position.set(legs[i][0],.38,legs[i][1]);g.add(l)}
-var pn=BX(1.9,.5,.04,0xB09860,.55);pn.position.set(0,.52,-.48);g.add(pn);
+var pn=BX(2.2,.5,.04,0x4A3A1E,.5);pn.position.set(0,.52,-.48);g.add(pn);
 
 var mg=new THREE.Group();
-var lBase=BX(.45,.02,.3,0x333333,.3,.15);lBase.position.y=.01;mg.add(lBase);
-var lKey=BX(.4,.005,.25,0x222222,.35,.1);lKey.position.y=.02;lKey.position.z=.01;mg.add(lKey);
-for(var kr=0;kr<4;kr++)for(var kc=0;kc<10;kc++){var ky=BX(.028,.004,.02,0x444444,.4,.05);ky.position.set(-.16+kc*.035,.025,-.07+kr*.03);mg.add(ky)}
-var tpad=BX(.1,.004,.07,0x3a3a3a,.3,.08);tpad.position.set(0,.025,.09);mg.add(tpad);
+var lBase=BX(.7,.025,.45,0x2a2a2a,.25,.2);lBase.position.y=.01;mg.add(lBase);
+var lKey=BX(.62,.006,.38,0x1a1a1a,.3,.15);lKey.position.y=.02;lKey.position.z=.01;mg.add(lKey);
+for(var kr=0;kr<5;kr++)for(var kc=0;kc<12;kc++){var ky=BX(.035,.005,.025,0x444444,.4,.08);ky.position.set(-.24+kc*.042,.028,-.12+kr*.04);mg.add(ky)}
+var tpad=BX(.15,.005,.1,0x3a3a3a,.25,.1);tpad.position.set(0,.03,.13);mg.add(tpad);
 var lScreen=new THREE.Group();
-var lBack=BX(.44,.3,.015,0x333333,.25,.15);lBack.position.y=.15;lScreen.add(lBack);
+var lBack=BX(.68,.45,.015,0x222222,.2,.2);lBack.position.y=.225;lScreen.add(lBack);
 var dm=new THREE.MeshBasicMaterial({color:0x0A1525});
-var dp=new THREE.Mesh(new THREE.PlaneGeometry(.4,.26),dm);
-dp.position.set(0,.15,.009);lScreen.add(dp);
+var dp=new THREE.Mesh(new THREE.PlaneGeometry(.62,.38),dm);
+dp.position.set(0,.225,.009);lScreen.add(dp);
 a.screen=dp;
-var lLogo=BX(.03,.03,.001,0x555555,.3,.2);lLogo.position.set(0,.15,-.009);lScreen.add(lLogo);
-lScreen.position.set(0,.02,-.13);
-lScreen.rotation.x=-.25;
+var lLogo=BX(.05,.05,.001,0x555555,.3,.3);lLogo.position.set(0,.225,-.009);lScreen.add(lLogo);
+lScreen.position.set(0,.025,-.2);
+lScreen.rotation.x=-.3;
 mg.add(lScreen);
-var lHinge=BX(.3,.015,.015,0x444444,.3,.15);lHinge.position.set(0,.02,-.14);mg.add(lHinge);
-mg.position.set(0,.79,.05);g.add(mg);
+var lHinge=BX(.5,.02,.02,0x333333,.3,.2);lHinge.position.set(0,.025,-.2);mg.add(lHinge);
+mg.position.set(0,.82,0);g.add(mg);
 
-var kb=BX(.26,.012,.12,0xE0E0E0,.3,.05);kb.position.set(0,.8,.2);g.add(kb);
-for(var r=0;r<3;r++)for(var c=0;c<7;c++){
-var k=BX(.025,.01,.028,0xCCC,.35,.05);
-k.position.set(-.08+c*.028,.81,.16+r*.028);g.add(k)}
-
-var mouse=CY(.022,.016,.012,0xDDD,10);mouse.position.set(.38,.81,.22);g.add(mouse);
+// laptop has its own keyboard, no separate kb/mouse needed
 
 var fc=[0x4ade80,0x60a5fa,0xfbbf24,0xf87171,0xa78bfa];
 for(var i=0;i<4;i++){
@@ -356,11 +351,11 @@ plant(-10,.5,1.3);plant(10,-.5,1.1);plant(-10,5.5,1);plant(10,5.5,1.2);plant(0,-
 function part(x,z,w){
 var p=BX(w,.95,.05,0xBCC4D4,.45);p.position.set(x,.88,z);p.receiveShadow=true;scene.add(p);
 var t=BX(w+.05,.04,.06,0xA8B0C0,.4,.05);t.position.set(x,1.36,z);scene.add(t)}
-part(0,1.6,3);part(0,4.2,3);
-part(-5.5,1.6,1.2);part(-5.5,4.2,1.2);
-part(5.5,1.6,1.2);part(5.5,4.2,1.2);
+// center partitions removed for visibility
+part(-5.8,1.6,0.6);part(-5.8,4.2,0.6);
+part(5.8,1.6,0.6);part(5.8,4.2,0.6);
 
-var wb=BX(2.5,1.5,.04,0xFFFFFF,.3);wb.position.set(5,2.5,-6.95);scene.add(wb);
+var wb=BX(4,2.2,.04,0xFFFFFF,.25,.02);wb.position.set(0,2.8,-6.95);scene.add(wb);
 var nc=[0xFEE2A7,0x81ECEC,0xA29BFE,0xFD79A8];
 for(var i=0;i<4;i++){
 var n=BX(.22,.16,.005,nc[i],.6);n.position.set(4.2+i*.35,2.6+Math.sin(i)*.12,-6.93);scene.add(n)}
