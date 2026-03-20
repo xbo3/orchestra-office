@@ -6,229 +6,302 @@
 <title>WOO ORCHESTRA OFFICE</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#08090d;--bg2:#0f1118;--bg3:#161925;--bg4:#1c2030;--border:#1e2338;--border2:#2a3050;--text:#e4e8f4;--text2:#7882a4;--text3:#454d6e;--accent:#7c6cf6;--accent2:#b0a6ff;--accentbg:rgba(124,108,246,.08);--green:#34d399;--greenbg:rgba(52,211,153,.08);--amber:#fbbf24;--amberbg:rgba(251,191,36,.08);--red:#f87171;--redbg:rgba(248,113,113,.08);--blue:#60a5fa;--bluebg:rgba(96,165,250,.08);--pink:#f472b6;--pinkbg:rgba(244,114,182,.08);--teal:#2dd4bf;--tealbg:rgba(45,212,191,.08);--floor:#141824;--wall:#0c0e16;--desk:#1a1f30;--chair:#252a3e}
+:root{
+--bg:#f4f6fb;--bg2:#ffffff;--bg3:#eef1f8;--bg4:#e2e6f0;
+--border:#d8dce8;--border2:#c4c9d8;
+--text:#1a1d2e;--text2:#5c6280;--text3:#9198b0;
+--accent:#6c5ce7;--accent2:#8578f0;--accentbg:rgba(108,92,231,.08);
+--green:#10b981;--greenbg:rgba(16,185,129,.08);
+--amber:#f59e0b;--amberbg:rgba(245,158,11,.08);
+--red:#ef4444;--redbg:rgba(239,68,68,.08);
+--blue:#3b82f6;--bluebg:rgba(59,130,246,.08);
+--pink:#ec4899;--pinkbg:rgba(236,72,153,.08);
+--teal:#14b8a6;--tealbg:rgba(20,184,166,.08);
+--floor:#e8ecf4;--wall:#f0f3fa;
+--shadow:0 2px 12px rgba(0,0,0,.06);
+}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 .mono{font-family:'JetBrains Mono',monospace}
 
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;background:linear-gradient(180deg,rgba(124,108,246,.06),transparent);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);position:sticky;top:0;z-index:50}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;background:var(--bg2);border-bottom:1px solid var(--border);box-shadow:var(--shadow);position:sticky;top:0;z-index:50}
 .topbar-l{display:flex;align-items:center;gap:10px}
-.logo{width:28px;height:28px;background:linear-gradient(135deg,#7c6cf6,#b0a6ff);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
-.topbar h1{font-size:14px;font-weight:700;letter-spacing:-.5px}
-.topbar .tag{color:var(--text3);font-size:11px;margin-left:6px;padding:2px 8px;background:var(--bg3);border-radius:10px}
-.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:14px;font-size:10px;font-weight:600}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#6c5ce7,#a29bfe);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;box-shadow:0 2px 8px rgba(108,92,231,.3)}
+.topbar h1{font-size:15px;font-weight:700;letter-spacing:-.5px;background:linear-gradient(135deg,#1a1d2e,#6c5ce7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar .tag{color:var(--text3);font-size:10px;padding:2px 8px;background:var(--bg3);border-radius:10px;font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:14px;font-size:10px;font-weight:600}
 .pill.on{background:var(--greenbg);color:var(--green)}
-.pill .dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
-@keyframes pulse{50%{opacity:.2}}
-.clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
 
-.layout{display:grid;grid-template-columns:1fr 300px;min-height:calc(100vh - 52px)}
+.layout{display:grid;grid-template-columns:1fr 280px;min-height:calc(100vh - 54px)}
 
 .main-area{padding:20px;overflow-y:auto}
 
-.office-scene{position:relative;width:100%;aspect-ratio:16/9;min-height:420px;background:var(--floor);border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:20px}
-.office-wall{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(180deg,#0e1020 0%,#121628 100%);border-bottom:2px solid var(--border2)}
-.office-window{position:absolute;top:5%;width:18%;height:25%;border:2px solid var(--border2);border-radius:8px;background:linear-gradient(180deg,#0a1628,#0f1f3a);overflow:hidden}
-.office-window::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(96,165,250,.04),rgba(124,108,246,.06));pointer-events:none}
-.window-stars{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.4}
-.office-window:nth-child(1){left:5%}
-.office-window:nth-child(2){left:27%}
-.office-window:nth-child(3){left:49%}
-.office-window:nth-child(4){left:71%}
-.floor-grid{position:absolute;bottom:0;left:0;right:0;height:62%;background:repeating-conic-gradient(var(--floor) 0% 25%,rgba(20,24,36,.6) 0% 50%) 0 0/60px 60px;opacity:.5}
+.stats-strip{display:flex;gap:12px;margin-bottom:16px}
+.sstat{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.sstat .sl{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.sstat .sv{font-size:22px;font-weight:700;margin-top:4px;font-family:'JetBrains Mono',monospace}
 
-.plant{position:absolute;z-index:5}
-.plant-pot{width:20px;height:14px;background:#3a2820;border-radius:2px 2px 4px 4px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
-.plant-leaf{width:3px;height:18px;background:#22c55e;border-radius:50%;position:absolute;bottom:12px;transform-origin:bottom center}
+.office-scene{position:relative;width:100%;min-height:480px;background:linear-gradient(180deg,#dfe6f2 0%,var(--floor) 40%,#d0d8e8 100%);border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow)}
 
-.agent-station{position:absolute;z-index:10;cursor:pointer;transition:transform .2s}
-.agent-station:hover{transform:scale(1.04)}
+.sky{position:absolute;top:0;left:0;right:0;height:35%;background:linear-gradient(180deg,#87CEEB 0%,#B0D4F1 40%,#dfe6f2 100%)}
+.cloud{position:absolute;background:#fff;border-radius:50%;opacity:.7}
+.sun{position:absolute;top:8%;right:12%;width:40px;height:40px;background:radial-gradient(circle,#fff59d 30%,#ffee58 60%,transparent 70%);border-radius:50%;box-shadow:0 0 40px rgba(255,238,88,.4)}
 
-.s-desk{width:80px;height:32px;background:linear-gradient(180deg,#1e243a,#181d30);border:1px solid var(--border2);border-radius:6px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
-.s-desk::after{content:'';position:absolute;top:3px;left:8px;right:8px;height:1px;background:rgba(255,255,255,.03)}
-.s-monitor{width:28px;height:20px;border:1.5px solid;border-radius:3px;position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);overflow:hidden}
-.s-monitor .screen{position:absolute;inset:2px;border-radius:1px;opacity:.6}
-.s-monitor-stand{width:2px;height:5px;position:absolute;bottom:23px;left:50%;transform:translateX(-50%);opacity:.4}
-.s-chair{width:22px;height:10px;border-radius:10px 10px 4px 4px;position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);opacity:.4}
+.window-frame{position:absolute;top:6%;width:14%;height:22%;background:#fff;border:3px solid #c4c9d8;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 20px rgba(135,206,235,.2),0 2px 8px rgba(0,0,0,.08)}
+.window-frame::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:#c4c9d8}
+.window-frame::before{content:'';position:absolute;left:0;right:0;top:50%;height:2px;background:#c4c9d8}
+.window-glass{width:100%;height:100%;background:linear-gradient(180deg,rgba(135,206,235,.3),rgba(176,212,241,.15))}
+.window-frame:nth-child(1){left:4%}
+.window-frame:nth-child(2){left:22%}
+.window-frame:nth-child(3){left:62%}
+.window-frame:nth-child(4){left:80%}
 
-.humanoid{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:40px;height:58px}
-.h-head{width:16px;height:16px;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;transition:all .4s}
-.h-neck{width:4px;height:4px;position:absolute;top:15px;left:50%;transform:translateX(-50%);border-radius:1px;opacity:.7}
-.h-torso{width:22px;height:20px;border-radius:4px 4px 2px 2px;position:absolute;top:18px;left:50%;transform:translateX(-50%)}
-.h-arm{width:5px;height:16px;border-radius:3px;position:absolute;top:20px;transition:all .3s ease;transform-origin:top center}
-.h-arm.l{left:5px}
-.h-arm.r{right:5px}
-.h-leg{width:6px;height:14px;border-radius:3px;position:absolute;top:37px;opacity:.6}
-.h-leg.l{left:11px}
-.h-leg.r{right:11px}
-.h-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap;letter-spacing:.5px}
-.h-thought{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:7px;padding:2px 6px;border-radius:8px;background:rgba(255,255,255,.08);color:var(--text2);white-space:nowrap;opacity:0;transition:opacity .3s;border:1px solid var(--border)}
-.agent-station.active .h-thought{opacity:1}
+.floor-area{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(180deg,#d8dfe8,#c8d0dc)}
+.floor-tile{position:absolute;inset:0;background:repeating-conic-gradient(#d2dae6 0% 25%,#ccd4e0 0% 50%) 0 0/40px 40px;opacity:.4}
 
-.agent-station.typing .h-arm.l{animation:tL .35s infinite alternate ease-in-out}
-.agent-station.typing .h-arm.r{animation:tR .35s infinite alternate ease-in-out .15s}
-.agent-station.typing .s-monitor .screen{animation:screenGlow 1s infinite alternate}
-.agent-station.thinking .h-head{animation:think .6s infinite alternate ease-in-out}
-.agent-station.presenting .h-arm.r{animation:present .8s infinite alternate}
-.agent-station.celebrating .h-arm{animation:celebrate .4s infinite alternate}
-.agent-station.idle .humanoid{opacity:.35}
-.agent-station.idle .s-monitor .screen{opacity:.1}
-@keyframes tL{to{transform:rotate(-10deg) translateY(3px)}}
-@keyframes tR{to{transform:rotate(10deg) translateY(3px)}}
-@keyframes think{to{transform:translateX(-50%) rotate(10deg)}}
-@keyframes present{to{transform:rotate(-45deg) translateY(-6px)}}
-@keyframes celebrate{0%{transform:rotate(-25deg) translateY(-8px)}100%{transform:rotate(25deg) translateY(-8px)}}
-@keyframes screenGlow{0%{opacity:.4}100%{opacity:.9}}
+.partition{position:absolute;z-index:4}
+.partition-panel{background:linear-gradient(180deg,#e8ecf4,#dde2ee);border:1px solid var(--border);border-radius:4px;box-shadow:2px 0 8px rgba(0,0,0,.05)}
+.partition-leg{position:absolute;bottom:-4px;width:3px;height:8px;background:#b0b8c8;border-radius:1px}
 
-.s-name{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;white-space:nowrap;color:var(--text2)}
+.plant-pot{position:absolute;z-index:5}
+.pot{background:linear-gradient(180deg,#d97706,#b45309);border-radius:3px 3px 5px 5px}
+.soil{background:#92400e;border-radius:2px;position:absolute;top:0;left:2px;right:2px;height:3px}
+.stem{position:absolute;background:#16a34a;border-radius:2px}
+.leaf{position:absolute;border-radius:50%;transform-origin:bottom center}
 
-.bottom-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px}
-.panel-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.panel-title .bar{width:3px;height:10px;background:var(--accent);border-radius:2px}
+.water-cooler{position:absolute;z-index:5}
 
-.cmd-input{display:flex;gap:8px;margin-bottom:12px}
-.cmd-input select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:11px;font-family:'Outfit',sans-serif;outline:none}
-.cmd-input input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;font-family:'Outfit',sans-serif;outline:none;transition:border .2s}
-.cmd-input input:focus{border-color:var(--accent)}
-.cmd-input button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .15s}
-.cmd-input button:hover{background:#8b7df8}
+.agent-spot{position:absolute;z-index:10;cursor:pointer;transition:transform .15s}
+.agent-spot:hover{transform:translate(-50%,-50%) scale(1.06)}
+
+.a-desk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:8px;background:linear-gradient(180deg,#b8bfd0,#a8b0c2);border-radius:3px;box-shadow:0 2px 4px rgba(0,0,0,.1)}
+.a-desk-leg{position:absolute;bottom:-14px;width:3px;height:14px;background:#9098a8;border-radius:1px}
+.a-desk-leg.l{left:8px}
+.a-desk-leg.r{right:8px}
+.a-desk-top{position:absolute;top:-2px;left:4px;right:4px;height:2px;background:#c4ccdc;border-radius:1px}
+
+.a-monitor{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:30px;height:22px;background:#1a1d2e;border:2px solid #2d3348;border-radius:3px;overflow:hidden}
+.a-monitor .scr{position:absolute;inset:2px;border-radius:1px;transition:opacity .3s}
+.a-monitor-stand{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:2px;height:4px;background:#4a5168}
+.a-monitor-base{position:absolute;bottom:0px;left:50%;transform:translateX(-50%);width:10px;height:2px;background:#4a5168;border-radius:1px}
+
+.a-chair{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%)}
+.chair-seat{width:24px;height:6px;border-radius:8px 8px 3px 3px;position:relative}
+.chair-back{width:20px;height:14px;border-radius:4px 4px 2px 2px;position:absolute;bottom:6px;left:2px;opacity:.7}
+.chair-leg{position:absolute;width:2px;height:6px;border-radius:1px;bottom:-6px;opacity:.5}
+
+.human{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:50px;height:70px}
+.h-head{width:18px;height:18px;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3;transition:transform .3s}
+.h-hair{position:absolute;top:-2px;left:50%;transform:translateX(-50%);border-radius:50%;z-index:4}
+.h-eye{position:absolute;width:2px;height:2px;border-radius:50%;background:#1a1d2e;top:8px;z-index:4}
+.h-eye.l{left:calc(50% - 5px)}
+.h-eye.r{left:calc(50% + 3px)}
+.h-mouth{position:absolute;width:4px;height:1.5px;border-radius:0 0 3px 3px;background:#c0756b;top:12px;left:50%;transform:translateX(-50%);z-index:4}
+.h-neck{width:5px;height:5px;position:absolute;top:16px;left:50%;transform:translateX(-50%);border-radius:2px;z-index:2}
+.h-torso{width:24px;height:22px;border-radius:5px 5px 3px 3px;position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:2}
+.h-upper-arm{width:6px;height:14px;border-radius:3px;position:absolute;top:21px;z-index:1;transform-origin:top center;transition:transform .2s}
+.h-upper-arm.l{left:8px}
+.h-upper-arm.r{right:8px}
+.h-lower-arm{width:5px;height:12px;border-radius:3px;position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);transform-origin:top center;transition:transform .2s}
+.h-hand{width:5px;height:5px;border-radius:50%;position:absolute;bottom:-4px;left:50%;transform:translateX(-50%)}
+.h-upper-leg{width:7px;height:12px;border-radius:3px;position:absolute;top:40px;transform-origin:top center;z-index:1}
+.h-upper-leg.l{left:14px}
+.h-upper-leg.r{right:14px}
+.h-lower-leg{width:6px;height:10px;border-radius:3px;position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);transform-origin:top center}
+.h-shoe{width:8px;height:4px;border-radius:2px 4px 2px 2px;position:absolute;bottom:-3px;left:-1px}
+
+.h-name-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.h-bubble{position:absolute;top:-32px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:500;padding:3px 8px;border-radius:10px;background:var(--bg2);color:var(--text2);white-space:nowrap;opacity:0;transition:all .3s;box-shadow:0 2px 8px rgba(0,0,0,.1);border:1px solid var(--border)}
+.h-bubble::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:6px;height:6px;background:var(--bg2);border-right:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(-50%) rotate(45deg)}
+.agent-spot.active .h-bubble{opacity:1}
+
+.agent-spot.typing .h-upper-arm.l{animation:typeArmL .3s infinite alternate ease-in-out}
+.agent-spot.typing .h-upper-arm.r{animation:typeArmR .3s infinite alternate ease-in-out .15s}
+.agent-spot.typing .h-upper-arm.l .h-lower-arm{animation:typeForeL .3s infinite alternate ease-in-out}
+.agent-spot.typing .h-upper-arm.r .h-lower-arm{animation:typeForeR .3s infinite alternate ease-in-out .15s}
+.agent-spot.typing .a-monitor .scr{animation:screenPulse .8s infinite alternate}
+
+.agent-spot.thinking .h-head{animation:thinkHead 1s infinite alternate ease-in-out}
+.agent-spot.thinking .h-upper-arm.r{transform:rotate(-60deg)}
+.agent-spot.thinking .h-upper-arm.r .h-lower-arm{transform:rotate(-90deg)}
+
+.agent-spot.presenting .h-upper-arm.r{animation:presentArm .8s infinite alternate}
+.agent-spot.presenting .h-upper-arm.r .h-lower-arm{transform:rotate(-20deg)}
+.agent-spot.presenting .h-upper-arm.l{transform:rotate(5deg)}
+
+.agent-spot.celebrating .h-upper-arm.l{animation:celebL .4s infinite alternate}
+.agent-spot.celebrating .h-upper-arm.r{animation:celebR .4s infinite alternate .2s}
+.agent-spot.celebrating .h-upper-arm .h-lower-arm{transform:rotate(-30deg)}
+.agent-spot.celebrating .h-head{animation:celebHead .4s infinite alternate}
+
+.agent-spot.walking .h-upper-leg.l{animation:walkLegL .5s infinite alternate}
+.agent-spot.walking .h-upper-leg.r{animation:walkLegR .5s infinite alternate .25s}
+.agent-spot.walking .h-upper-arm.l{animation:walkArmL .5s infinite alternate .25s}
+.agent-spot.walking .h-upper-arm.r{animation:walkArmR .5s infinite alternate}
+
+.agent-spot.idle .human{opacity:.45}
+.agent-spot.idle .a-monitor .scr{opacity:.15}
+
+@keyframes typeArmL{0%{transform:rotate(-15deg)}100%{transform:rotate(-25deg)}}
+@keyframes typeArmR{0%{transform:rotate(15deg)}100%{transform:rotate(25deg)}}
+@keyframes typeForeL{0%{transform:translateX(-50%) rotate(10deg)}100%{transform:translateX(-50%) rotate(25deg)}}
+@keyframes typeForeR{0%{transform:translateX(-50%) rotate(-10deg)}100%{transform:translateX(-50%) rotate(-25deg)}}
+@keyframes screenPulse{0%{opacity:.5}100%{opacity:1}}
+@keyframes thinkHead{0%{transform:translateX(-50%)}100%{transform:translateX(-50%) rotate(12deg) translateY(-2px)}}
+@keyframes presentArm{0%{transform:rotate(-30deg)}100%{transform:rotate(-80deg)}}
+@keyframes celebL{0%{transform:rotate(-40deg)}100%{transform:rotate(-100deg)}}
+@keyframes celebR{0%{transform:rotate(40deg)}100%{transform:rotate(100deg)}}
+@keyframes celebHead{0%{transform:translateX(-50%) rotate(-5deg)}100%{transform:translateX(-50%) rotate(5deg) translateY(-3px)}}
+@keyframes walkLegL{0%{transform:rotate(-20deg)}100%{transform:rotate(20deg)}}
+@keyframes walkLegR{0%{transform:rotate(20deg)}100%{transform:rotate(-20deg)}}
+@keyframes walkArmL{0%{transform:rotate(15deg)}100%{transform:rotate(-15deg)}}
+@keyframes walkArmR{0%{transform:rotate(-15deg)}100%{transform:rotate(15deg)}}
+
+.bottom-panel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.panel-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.panel-title .bar{width:3px;height:10px;border-radius:2px}
+
+.cmd-input{display:flex;gap:8px;margin-bottom:10px}
+.cmd-input select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:11px;font-family:'Outfit',sans-serif;outline:none}
+.cmd-input input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;font-family:'Outfit',sans-serif;outline:none}
+.cmd-input input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,92,231,.1)}
+.cmd-input button{background:linear-gradient(135deg,#6c5ce7,#8578f0);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;box-shadow:0 2px 8px rgba(108,92,231,.3)}
+.cmd-input button:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(108,92,231,.4)}
 
 .wf-bar{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:28px}
 .wf-chip{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid var(--border);background:var(--bg3);transition:all .3s}
-.wf-chip.done{background:var(--greenbg);border-color:rgba(52,211,153,.3);color:var(--green)}
-.wf-chip.now{background:var(--accentbg);border-color:rgba(124,108,246,.4);color:var(--accent2);box-shadow:0 0 12px rgba(124,108,246,.15)}
+.wf-chip.done{background:var(--greenbg);border-color:rgba(16,185,129,.3);color:var(--green)}
+.wf-chip.now{background:var(--accentbg);border-color:rgba(108,92,231,.4);color:var(--accent);box-shadow:0 0 10px rgba(108,92,231,.15)}
 .wf-chip.wait{opacity:.25}
-.wf-arr{color:var(--text3);font-size:12px}
+.wf-arr{color:var(--text3);font-size:11px}
 
-.proj-list{display:flex;flex-direction:column;gap:8px}
-.proj-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--bg3);border:1px solid var(--border)}
-.proj-row .pname{font-size:12px;font-weight:600;flex:1}
-.proj-row .pbadge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600}
-.proj-row .pbadge.live{background:var(--greenbg);color:var(--green)}
-.proj-row .pbadge.dev{background:var(--amberbg);color:var(--amber)}
-.proj-row .pbadge.plan{background:var(--bluebg);color:var(--blue)}
-.proj-row .pbar{width:60px;height:3px;background:var(--bg);border-radius:2px;overflow:hidden}
-.proj-row .pbar-fill{height:100%;border-radius:2px}
+.proj-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);margin-bottom:6px}
+.proj-row .pn{font-size:12px;font-weight:600;flex:1}
+.proj-row .pb{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:600}
+.proj-row .pb.live{background:var(--greenbg);color:var(--green)}
+.proj-row .pb.dev{background:var(--amberbg);color:var(--amber)}
+.proj-row .pb.plan{background:var(--bluebg);color:var(--blue)}
+.proj-row .pbar{width:50px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.proj-row .pbar-f{height:100%;border-radius:2px}
 
-.stats-strip{display:flex;gap:12px;margin-bottom:16px}
-.sstat{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
-.sstat .sl{font-size:10px;color:var(--text3);margin-bottom:4px}
-.sstat .sv{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace}
-
-.sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column}
-.side-hdr{padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
-.side-hdr .bar{width:3px;height:10px;background:var(--green);border-radius:2px}
+.sidebar{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;box-shadow:-2px 0 8px rgba(0,0,0,.03)}
+.side-hdr{padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600}
 .log-list{flex:1;overflow-y:auto;padding:6px 10px}
-.log{display:flex;gap:6px;padding:7px 6px;border-radius:6px;margin-bottom:2px}
+.log{display:flex;gap:6px;padding:6px;border-radius:6px;margin-bottom:2px}
 .log:hover{background:var(--bg3)}
-.log .lt{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);min-width:36px;margin-top:2px}
-.log .lb{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:1px;height:fit-content}
+.log .lt{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);min-width:34px;margin-top:2px}
+.log .lb{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;white-space:nowrap;height:fit-content;margin-top:1px}
 .log .lm{font-size:11px;color:var(--text2);line-height:1.4;flex:1}
-
-@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}.bottom-panel{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="topbar">
-<div class="topbar-l">
-<div class="logo">W</div>
-<h1>WOO ORCHESTRA</h1>
-<span class="tag">v1.0</span>
+<div class="topbar-l"><div class="logo">W</div><h1>WOO ORCHESTRA OFFICE</h1><span class="tag">v2.0</span></div>
+<div style="display:flex;align-items:center;gap:12px"><span class="pill on"><span class="dot"></span>Online</span><span class="mono" style="font-size:11px;color:var(--text3)" id="clock">00:00</span></div>
 </div>
-<div style="display:flex;align-items:center;gap:12px">
-<span class="pill on"><span class="dot"></span>Online</span>
-<span class="clock mono" id="clock">00:00:00</span>
-</div>
-</div>
-
 <div class="layout">
 <div class="main-area">
 <div class="stats-strip">
-<div class="sstat"><div class="sl">Agents</div><div class="sv" id="s-a">1<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span></div></div>
+<div class="sstat"><div class="sl">Active agents</div><div class="sv" id="s-a">1<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span></div></div>
 <div class="sstat"><div class="sl">Tasks done</div><div class="sv" id="s-t">0</div></div>
 <div class="sstat"><div class="sl">Project</div><div class="sv" style="font-size:14px" id="s-p">standby</div></div>
 <div class="sstat"><div class="sl">Uptime</div><div class="sv mono" id="s-u">00:00</div></div>
 </div>
 
 <div class="office-scene" id="office">
-<div class="office-wall">
-<div class="office-window"><div class="window-stars" style="top:20%;left:30%"></div><div class="window-stars" style="top:50%;left:70%"></div><div class="window-stars" style="top:35%;left:50%"></div></div>
-<div class="office-window"><div class="window-stars" style="top:40%;left:25%"></div><div class="window-stars" style="top:15%;left:65%"></div></div>
-<div class="office-window"><div class="window-stars" style="top:25%;left:40%"></div><div class="window-stars" style="top:60%;left:20%"></div><div class="window-stars" style="top:45%;left:75%"></div></div>
-<div class="office-window"><div class="window-stars" style="top:30%;left:55%"></div><div class="window-stars" style="top:55%;left:35%"></div></div>
+<div class="sky">
+<div class="sun"></div>
+<div class="cloud" style="top:10%;left:15%;width:50px;height:18px"></div>
+<div class="cloud" style="top:6%;left:18%;width:30px;height:14px"></div>
+<div class="cloud" style="top:14%;left:45%;width:60px;height:16px"></div>
+<div class="cloud" style="top:10%;left:48%;width:35px;height:12px"></div>
+<div class="cloud" style="top:18%;left:70%;width:40px;height:14px"></div>
 </div>
-<div class="floor-grid"></div>
-<div class="plant" style="left:3%;bottom:15%"><div style="position:relative;width:20px;height:40px"><div class="plant-leaf" style="left:8px;transform:rotate(-15deg);height:22px;background:#22c55e"></div><div class="plant-leaf" style="left:12px;transform:rotate(12deg);height:18px;background:#16a34a"></div><div class="plant-leaf" style="left:5px;transform:rotate(-30deg);height:15px;background:#15803d"></div><div class="plant-pot"></div></div></div>
-<div class="plant" style="right:3%;bottom:18%"><div style="position:relative;width:20px;height:40px"><div class="plant-leaf" style="left:8px;transform:rotate(10deg);height:24px;background:#22c55e"></div><div class="plant-leaf" style="left:4px;transform:rotate(-20deg);height:16px;background:#16a34a"></div><div class="plant-pot"></div></div></div>
-<div class="plant" style="left:48%;bottom:12%"><div style="position:relative;width:16px;height:30px"><div class="plant-leaf" style="left:6px;transform:rotate(-8deg);height:16px;background:#22c55e"></div><div class="plant-leaf" style="left:10px;transform:rotate(15deg);height:12px;background:#16a34a"></div><div class="plant-pot" style="width:14px;height:10px"></div></div></div>
+<div class="window-frame"><div class="window-glass"></div></div>
+<div class="window-frame"><div class="window-glass"></div></div>
+<div class="window-frame"><div class="window-glass"></div></div>
+<div class="window-frame"><div class="window-glass"></div></div>
+<div class="floor-area"><div class="floor-tile"></div></div>
+
+<div class="partition" style="left:33%;top:38%;z-index:4"><div class="partition-panel" style="width:4px;height:55px;background:linear-gradient(180deg,#c8d0e0,#b8c0d0);border-radius:2px"></div></div>
+<div class="partition" style="left:66%;top:38%;z-index:4"><div class="partition-panel" style="width:4px;height:55px;background:linear-gradient(180deg,#c8d0e0,#b8c0d0);border-radius:2px"></div></div>
+<div class="partition" style="left:15%;top:58%;z-index:4"><div class="partition-panel" style="width:4px;height:50px;background:linear-gradient(180deg,#c8d0e0,#b8c0d0);border-radius:2px"></div></div>
+<div class="partition" style="left:50%;top:58%;z-index:4"><div class="partition-panel" style="width:4px;height:50px;background:linear-gradient(180deg,#c8d0e0,#b8c0d0);border-radius:2px"></div></div>
+<div class="partition" style="left:84%;top:58%;z-index:4"><div class="partition-panel" style="width:4px;height:50px;background:linear-gradient(180deg,#c8d0e0,#b8c0d0);border-radius:2px"></div></div>
+
+<div class="plant-pot" style="left:2%;bottom:22%"><div class="pot" style="width:16px;height:12px;position:relative"><div class="soil"></div></div><div class="stem" style="width:2px;height:20px;bottom:12px;left:7px"><div class="leaf" style="width:10px;height:10px;background:#22c55e;top:-8px;left:-4px;transform:rotate(-20deg)"></div><div class="leaf" style="width:8px;height:8px;background:#16a34a;top:-2px;left:2px;transform:rotate(25deg)"></div></div></div>
+<div class="plant-pot" style="right:2%;bottom:25%"><div class="pot" style="width:14px;height:10px;position:relative"><div class="soil"></div></div><div class="stem" style="width:2px;height:18px;bottom:10px;left:6px"><div class="leaf" style="width:9px;height:9px;background:#22c55e;top:-6px;left:-3px;transform:rotate(15deg)"></div><div class="leaf" style="width:7px;height:7px;background:#15803d;top:0;left:2px;transform:rotate(-20deg)"></div></div></div>
+<div class="plant-pot" style="left:48%;bottom:18%"><div class="pot" style="width:12px;height:8px;position:relative"><div class="soil"></div></div><div class="stem" style="width:2px;height:14px;bottom:8px;left:5px"><div class="leaf" style="width:8px;height:8px;background:#22c55e;top:-5px;left:-3px;transform:rotate(-10deg)"></div></div></div>
+
 <div id="stations"></div>
 </div>
 
 <div class="bottom-panel">
 <div class="panel">
-<div class="panel-title"><span class="bar"></span>Command center</div>
+<div class="panel-title"><span class="bar" style="background:var(--accent)"></span>Command center</div>
 <div class="cmd-input">
 <select id="sel"><option value="auto">auto</option><option value="drslot">DR.SLOT</option><option value="jarvis2">JARVIS2</option><option value="community">Community</option></select>
-<input id="inp" placeholder="What should we build?" onkeydown="if(event.key==='Enter')go()">
-<button onclick="go()">Go</button>
+<input id="inp" placeholder="What should we build today?" onkeydown="if(event.key==='Enter')go()">
+<button onclick="go()">Execute</button>
 </div>
 <div class="wf-bar" id="wfbar"></div>
-<div class="proj-list" style="margin-top:12px">
-<div class="proj-row"><span class="pname">DR.SLOT</span><span class="pbadge dev">dev</span><div class="pbar"><div class="pbar-fill" style="width:65%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
-<div class="proj-row"><span class="pname">JARVIS2</span><span class="pbadge live">live</span><div class="pbar"><div class="pbar-fill" style="width:80%;background:linear-gradient(90deg,var(--accent),var(--green))"></div></div></div>
-<div class="proj-row"><span class="pname">Community</span><span class="pbadge plan">plan</span><div class="pbar"><div class="pbar-fill" style="width:15%;background:var(--blue)"></div></div></div>
+<div style="margin-top:10px">
+<div class="proj-row"><span class="pn">DR.SLOT</span><span class="pb dev">dev</span><div class="pbar"><div class="pbar-f" style="width:65%;background:linear-gradient(90deg,var(--amber),var(--green))"></div></div></div>
+<div class="proj-row"><span class="pn">JARVIS2</span><span class="pb live">live</span><div class="pbar"><div class="pbar-f" style="width:80%;background:linear-gradient(90deg,var(--accent),var(--green))"></div></div></div>
+<div class="proj-row"><span class="pn">Community</span><span class="pb plan">plan</span><div class="pbar"><div class="pbar-f" style="width:15%;background:var(--blue)"></div></div></div>
 </div>
 </div>
-<div class="panel" id="agent-detail">
-<div class="panel-title"><span class="bar"></span>Agent detail</div>
-<div id="detail-content" style="font-size:12px;color:var(--text2);line-height:1.6">Click an agent to see details</div>
+<div class="panel">
+<div class="panel-title"><span class="bar" style="background:var(--green)"></span>Agent info</div>
+<div id="detail" style="font-size:12px;color:var(--text2);line-height:1.6">Click any agent in the office</div>
 </div>
 </div>
 </div>
-
 <div class="sidebar">
-<div class="side-hdr"><span class="bar"></span>Activity log</div>
+<div class="side-hdr">Activity log</div>
 <div class="log-list" id="logs"></div>
 </div>
 </div>
 
 <script>
 const AG=[
-{id:'ceo',name:'CEO',role:'Orchestrator',x:50,y:52,color:'#7c6cf6',head:'#b0a6ff',body:'#7c6cf6',skin:'#dbb89a',monitor:'#7c6cf6',detail:'Task decomposition, agent assignment, progress tracking, quality control, final reporting to boss.'},
-{id:'fe',name:'Frontend',role:'React / Next.js',x:18,y:72,color:'#2dd4bf',head:'#5eead4',body:'#2dd4bf',skin:'#c8a882',monitor:'#2dd4bf',detail:'UI pages, React components, Tailwind styling, mobile responsive, Next.js routing.'},
-{id:'be',name:'Backend',role:'API / DB',x:36,y:72,color:'#60a5fa',head:'#93c5fd',body:'#60a5fa',skin:'#d4a574',monitor:'#60a5fa',detail:'Express/FastAPI routes, Prisma/SQLAlchemy ORM, PostgreSQL/SQLite, JWT auth, error handling.'},
-{id:'pe',name:'Prompt',role:'JARVIS2 AI',x:64,y:72,color:'#f472b6',head:'#f9a8d4',body:'#f472b6',skin:'#c49a6c',monitor:'#f472b6',detail:'9-section prompt builder, thawing logic, vibe tuning, model_hint for Opus, token optimization.'},
-{id:'ds',name:'Design',role:'UI / UX',x:82,y:72,color:'#fbbf24',head:'#fde68a',body:'#fbbf24',skin:'#dbb89a',monitor:'#fbbf24',detail:'Wireframes, color system, typography, layout, Stake.com reference, mobile-first mockups.'},
-{id:'qa',name:'QA',role:'Tester',x:27,y:90,color:'#34d399',head:'#6ee7b7',body:'#34d399',skin:'#c8a882',monitor:'#34d399',detail:'Code review, syntax validation, API response checks, edge cases, auth/permissions, mobile testing.'},
-{id:'dv',name:'DevOps',role:'Deploy',x:73,y:90,color:'#94a3b8',head:'#cbd5e1',body:'#94a3b8',skin:'#d4a574',monitor:'#94a3b8',detail:'Railway deploy, Vercel, git push, env vars, health checks, log analysis. No railway up on GitHub services!'}
+{id:'ceo',name:'CEO',role:'Orchestrator',x:50,y:46,color:'#6c5ce7',shirt:'#6c5ce7',pants:'#2d2854',hair:'#1a1520',hairW:20,hairH:6,skin:'#e8b89a',shoe:'#1a1520',chairCol:'#6c5ce7',det:'Analyzes tasks, breaks them into subtasks, assigns to agents, tracks progress, reports to boss.'},
+{id:'fe',name:'Frontend',role:'React / Next.js',x:20,y:65,color:'#14b8a6',shirt:'#14b8a6',pants:'#0d5c54',hair:'#8B4513',hairW:18,hairH:5,skin:'#d4a574',shoe:'#2d1a0e',chairCol:'#14b8a6',det:'UI pages, React components, Tailwind CSS, mobile responsive, Next.js App Router.'},
+{id:'be',name:'Backend',role:'API / Database',x:42,y:65,color:'#3b82f6',shirt:'#3b82f6',pants:'#1e3a5f',hair:'#1a1520',hairW:19,hairH:7,skin:'#e8c4a0',shoe:'#1a1520',chairCol:'#3b82f6',det:'Express/FastAPI, Prisma ORM, PostgreSQL, JWT auth, REST API design.'},
+{id:'pe',name:'Prompt',role:'JARVIS2 AI',x:58,y:65,color:'#ec4899',shirt:'#ec4899',pants:'#6b1d4a',hair:'#4a2028',hairW:20,hairH:8,skin:'#dbb89a',shoe:'#2d1a1a',chairCol:'#ec4899',det:'9-section prompt builder, thawing logic, vibe tuning, Opus model_hint, token cost analysis.'},
+{id:'ds',name:'Design',role:'UI / UX',x:80,y:65,color:'#f59e0b',shirt:'#f59e0b',pants:'#7c4a05',hair:'#D4A03C',hairW:20,hairH:9,skin:'#e8b89a',shoe:'#5c3a10',chairCol:'#f59e0b',det:'Wireframes, color systems, Stake.com reference, mobile-first, component prototyping.'},
+{id:'qa',name:'QA',role:'Tester',x:30,y:84,color:'#10b981',shirt:'#10b981',pants:'#065f42',hair:'#2d1a0e',hairW:18,hairH:5,skin:'#c49a6c',shoe:'#1a1510',chairCol:'#10b981',det:'Code review, syntax check, API tests, edge cases, auth/permissions, mobile QA.'},
+{id:'dv',name:'DevOps',role:'Deploy / Infra',x:70,y:84,color:'#64748b',shirt:'#64748b',pants:'#334155',hair:'#1a1d2e',hairW:19,hairH:6,skin:'#d4a574',shoe:'#0f172a',chairCol:'#64748b',det:'Railway, Vercel, git, env vars, health checks. Never railway up on GitHub services!'}
 ];
 
 const SCEN={
 drslot:[
-{a:'ceo',m:'Analyzing DR.SLOT task...',s:'thinking',d:1400},
-{a:'ceo',m:'4 subtasks created',s:'presenting',d:1000},
-{a:'ds',m:'Designing component layout',s:'typing',d:2200},
-{a:'be',m:'Writing API + DB schema',s:'typing',d:2600},
-{a:'fe',m:'Building React components',s:'typing',d:2600},
-{a:'qa',m:'Integration testing',s:'typing',d:1800},
-{a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
-{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
+{a:'ceo',m:'Analyzing task scope...',s:'thinking',d:1500},
+{a:'ceo',m:'4 subtasks assigned!',s:'presenting',d:1000},
+{a:'ds',m:'Designing layout...',s:'typing',d:2400},
+{a:'be',m:'Writing API routes...',s:'typing',d:2800},
+{a:'fe',m:'Building components...',s:'typing',d:2800},
+{a:'qa',m:'Running tests...',s:'typing',d:2000},
+{a:'dv',m:'Deploying...',s:'typing',d:1600},
+{a:'ceo',m:'All done!',s:'celebrating',d:1500}
 ],
 jarvis2:[
-{a:'ceo',m:'Analyzing JARVIS2 task...',s:'thinking',d:1400},
-{a:'pe',m:'Tuning prompt sections',s:'typing',d:2500},
-{a:'be',m:'Updating FastAPI routes',s:'typing',d:2500},
-{a:'qa',m:'Testing AI quality',s:'typing',d:2000},
-{a:'dv',m:'Deploying to Railway',s:'typing',d:1500},
-{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
+{a:'ceo',m:'Analyzing scope...',s:'thinking',d:1500},
+{a:'pe',m:'Tuning prompts...',s:'typing',d:2800},
+{a:'be',m:'Updating FastAPI...',s:'typing',d:2800},
+{a:'qa',m:'Testing AI output...',s:'typing',d:2200},
+{a:'dv',m:'Deploying...',s:'typing',d:1600},
+{a:'ceo',m:'Complete!',s:'celebrating',d:1500}
 ],
 community:[
-{a:'ceo',m:'Analyzing Community task...',s:'thinking',d:1400},
-{a:'ds',m:'Creating mockup',s:'typing',d:2400},
-{a:'fe',m:'Building prototype',s:'typing',d:2600},
-{a:'qa',m:'Browser testing',s:'typing',d:1600},
-{a:'ceo',m:'All complete!',s:'celebrating',d:1200}
+{a:'ceo',m:'Planning...',s:'thinking',d:1500},
+{a:'ds',m:'Creating mockup...',s:'typing',d:2600},
+{a:'fe',m:'Building prototype...',s:'typing',d:2800},
+{a:'qa',m:'Testing...',s:'typing',d:1800},
+{a:'ceo',m:'Done!',s:'celebrating',d:1500}
 ]
 };
 
@@ -237,71 +310,68 @@ let tasks=0,running=false,start=Date.now();
 function buildStations(){
 const c=document.getElementById('stations');
 AG.forEach(a=>{
-const s=document.createElement('div');
-s.className='agent-station '+(a.id==='ceo'?'idle':'idle');
-s.id='st-'+a.id;
-s.style.cssText=`left:${a.x}%;top:${a.y}%;transform:translate(-50%,-50%)`;
-s.onclick=()=>showDetail(a);
-s.innerHTML=`
-<div class="h-thought" id="th-${a.id}"></div>
-<div class="humanoid">
-<div class="h-badge" style="background:${a.color}22;color:${a.color}">${a.name}</div>
-<div class="h-head" style="background:${a.skin}"></div>
-<div class="h-neck" style="background:${a.skin}"></div>
-<div class="h-torso" style="background:${a.body}"></div>
-<div class="h-arm l" style="background:${a.body}"></div>
-<div class="h-arm r" style="background:${a.body}"></div>
-<div class="h-leg l" style="background:${a.body}"></div>
-<div class="h-leg r" style="background:${a.body}"></div>
-</div>
-<div class="s-monitor" style="border-color:${a.color}40"><div class="screen" style="background:${a.monitor}"></div></div>
-<div class="s-monitor-stand" style="background:${a.color}"></div>
-<div class="s-desk"></div>
-<div class="s-chair" style="background:${a.color}30"></div>
-<div class="s-name">${a.name}</div>`;
-c.appendChild(s);
+const el=document.createElement('div');
+el.className='agent-spot '+(a.id==='ceo'?'idle':'idle');
+el.id='st-'+a.id;
+el.style.cssText='left:'+a.x+'%;top:'+a.y+'%;transform:translate(-50%,-50%)';
+el.onclick=()=>showDetail(a);
+el.innerHTML=
+'<div class="h-bubble" id="bub-'+a.id+'"></div>'+
+'<div class="human">'+
+  '<div class="h-name-tag" style="background:'+a.color+'18;color:'+a.color+'">'+a.name+'</div>'+
+  '<div class="h-head" style="background:'+a.skin+'">'+
+    '<div class="h-hair" style="background:'+a.hair+';width:'+a.hairW+'px;height:'+a.hairH+'px"></div>'+
+    '<div class="h-eye l"></div><div class="h-eye r"></div>'+
+    '<div class="h-mouth"></div>'+
+  '</div>'+
+  '<div class="h-neck" style="background:'+a.skin+'"></div>'+
+  '<div class="h-torso" style="background:'+a.shirt+'"></div>'+
+  '<div class="h-upper-arm l" style="background:'+a.shirt+'"><div class="h-lower-arm" style="background:'+a.skin+'"><div class="h-hand" style="background:'+a.skin+'"></div></div></div>'+
+  '<div class="h-upper-arm r" style="background:'+a.shirt+'"><div class="h-lower-arm" style="background:'+a.skin+'"><div class="h-hand" style="background:'+a.skin+'"></div></div></div>'+
+  '<div class="h-upper-leg l" style="background:'+a.pants+'"><div class="h-lower-leg" style="background:'+a.pants+'"><div class="h-shoe" style="background:'+a.shoe+'"></div></div></div>'+
+  '<div class="h-upper-leg r" style="background:'+a.pants+'"><div class="h-lower-leg" style="background:'+a.pants+'"><div class="h-shoe" style="background:'+a.shoe+'"></div></div></div>'+
+'</div>'+
+'<div class="a-monitor" style="border-color:'+a.color+'60"><div class="scr" style="background:'+a.color+'"></div></div>'+
+'<div class="a-monitor-stand"></div><div class="a-monitor-base"></div>'+
+'<div class="a-desk"><div class="a-desk-top"></div><div class="a-desk-leg l"></div><div class="a-desk-leg r"></div></div>'+
+'<div class="a-chair"><div class="chair-back" style="background:'+a.chairCol+'40"></div><div class="chair-seat" style="background:'+a.chairCol+'60"></div><div class="chair-leg" style="left:3px;background:'+a.chairCol+'40"></div><div class="chair-leg" style="right:3px;background:'+a.chairCol+'40"></div></div>';
+c.appendChild(el);
 });
-setState('ceo','idle');
 }
 
-function setState(id,state,thought){
-const s=document.getElementById('st-'+id);
-if(!s)return;
-s.className='agent-station '+state;
-const th=document.getElementById('th-'+id);
-if(thought){th.textContent=thought;s.classList.add('active')}
-else{th.textContent='';s.classList.remove('active')}
+function setState(id,state,msg){
+const el=document.getElementById('st-'+id);
+if(!el)return;
+el.className='agent-spot '+state;
+const bub=document.getElementById('bub-'+id);
+if(msg){bub.textContent=msg;el.classList.add('active')}
+else{bub.textContent='';el.classList.remove('active')}
 }
 
-function resetAll(){
-AG.forEach(a=>setState(a.id,'idle',''));
-document.getElementById('s-a').innerHTML='0<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span>';
-}
+function resetAll(){AG.forEach(a=>setState(a.id,'idle',''));document.getElementById('s-a').innerHTML='0<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span>'}
 
 function showDetail(a){
-document.getElementById('detail-content').innerHTML=`
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-<div style="width:24px;height:24px;border-radius:6px;background:${a.color}20;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:${a.color}">${a.name.charAt(0)}</div>
-<div><div style="font-weight:600;color:var(--text)">${a.name}</div><div style="font-size:10px;color:var(--text3)">${a.role}</div></div>
-</div>
-<div style="padding:8px;background:var(--bg3);border-radius:8px;font-size:11px;line-height:1.6">${a.detail}</div>`;
+document.getElementById('detail').innerHTML=
+'<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">'+
+'<div style="width:28px;height:28px;border-radius:8px;background:'+a.color+'15;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+a.color+'">'+a.name.charAt(0)+'</div>'+
+'<div><div style="font-weight:600;font-size:13px;color:var(--text)">'+a.name+'</div><div style="font-size:10px;color:var(--text3)">'+a.role+'</div></div></div>'+
+'<div style="padding:10px;background:var(--bg3);border-radius:8px;font-size:11px;line-height:1.7">'+a.det+'</div>';
 }
 
 function log(aid,msg){
-const a=AG.find(x=>x.id===aid)||{name:'SYS',color:'#34d399'};
-const now=new Date();
-const t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+const a=AG.find(x=>x.id===aid)||{name:'SYS',color:'#10b981'};
+const n=new Date();
+const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
 const el=document.createElement('div');
 el.className='log';
-el.innerHTML=`<span class="lt">${t}</span><span class="lb" style="background:${a.color}18;color:${a.color}">${a.name}</span><span class="lm">${msg}</span>`;
+el.innerHTML='<span class="lt">'+t+'</span><span class="lb" style="background:'+a.color+'15;color:'+a.color+'">'+a.name+'</span><span class="lm">'+msg+'</span>';
 const c=document.getElementById('logs');
 c.insertBefore(el,c.firstChild);
 if(c.children.length>60)c.removeChild(c.lastChild);
 }
 
 function updateWF(steps,idx){
-const b=document.getElementById('wfbar');
-b.innerHTML='';
+const b=document.getElementById('wfbar');b.innerHTML='';
 steps.forEach((s,i)=>{
 if(i>0)b.innerHTML+='<span class="wf-arr">&rarr;</span>';
 const ag=AG.find(x=>x.id===s.a);
@@ -311,47 +381,35 @@ b.innerHTML+='<span class="wf-chip '+cls+'">'+(ag?.name||'?')+'</span>';
 }
 
 async function go(){
-if(running)return;
-running=true;
+if(running)return;running=true;
 const text=document.getElementById('inp').value.trim()||'new feature';
 document.getElementById('inp').value='';
 let proj=document.getElementById('sel').value;
 if(proj==='auto'){
 if(text.match(/dr\.?slot|슬롯|게임|카지노|입금|출금|wallet|보너스|쿠폰/i))proj='drslot';
-else if(text.match(/jarvis|자비스|텔레|프롬프트|crm|고객|영업|아웃바운드/i))proj='jarvis2';
+else if(text.match(/jarvis|자비스|텔레|프롬프트|crm|고객|영업|아웃/i))proj='jarvis2';
 else if(text.match(/커뮤|community|비교|랭킹|리뷰/i))proj='community';
 else proj='drslot';
 }
 const names={drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community'};
 document.getElementById('s-p').textContent=names[proj];
 log('ceo','Boss: "'+text+'"');
-log('ceo','Project: '+names[proj]);
-const steps=SCEN[proj];
-let prev=null;
+const steps=SCEN[proj];let prev=null;
 for(let i=0;i<steps.length;i++){
-const s=steps[i];
-updateWF(steps,i);
+const s=steps[i];updateWF(steps,i);
 if(prev&&prev!==s.a)setState(prev,'idle','');
 setState(s.a,s.s,s.m);
-const ac=document.querySelectorAll('.agent-station.typing,.agent-station.thinking,.agent-station.presenting,.agent-station.celebrating').length;
+const ac=document.querySelectorAll('.agent-spot.typing,.agent-spot.thinking,.agent-spot.presenting,.agent-spot.celebrating').length;
 document.getElementById('s-a').innerHTML=ac+'<span style="font-size:11px;color:var(--text3);font-weight:400"> / 7</span>';
-log(s.a,s.m);
-await new Promise(r=>setTimeout(r,s.d));
-prev=s.a;
+log(s.a,s.m);await new Promise(r=>setTimeout(r,s.d));prev=s.a;
 }
-tasks++;
-document.getElementById('s-t').textContent=tasks;
-updateWF(steps,steps.length);
-log('ceo','Task #'+tasks+' complete!');
+tasks++;document.getElementById('s-t').textContent=tasks;
+updateWF(steps,steps.length);log('ceo','Task #'+tasks+' complete!');
 await new Promise(r=>setTimeout(r,2000));
-resetAll();
-document.getElementById('wfbar').innerHTML='';
-document.getElementById('s-p').textContent='standby';
-running=false;
+resetAll();document.getElementById('wfbar').innerHTML='';document.getElementById('s-p').textContent='standby';running=false;
 }
 
-buildStations();
-log('ceo','Office ready. 7 agents on standby.');
+buildStations();log('ceo','Office open! 7 agents ready.');
 
 setInterval(()=>{
 const n=new Date();
