@@ -283,29 +283,29 @@ var mol=BX(26,0.1,0.1,0xD0C8BC,0.6);mol.position.set(0,0.05,-6.94);scene.add(mol
 
 function buildDesk(a){
 var g=new THREE.Group();
-var top=BX(2.4,0.1,1.2,0x5C4A2A,0.35,0.04);top.position.y=0.76;g.add(top);
-var edge=BX(2.42,0.03,1.22,0x8B7345,0.3,0.03);edge.position.y=0.81;g.add(edge);
-var legs=[[-.95,.45],[.95,.45],[-.95,-.45],[.95,-.45]];
-for(var i=0;i<4;i++){var l=BX(.06,.76,.06,0x8A6A38,.6);l.position.set(legs[i][0],.38,legs[i][1]);g.add(l)}
-var pn=BX(2.2,.5,.04,0x4A3A1E,.5);pn.position.set(0,.52,-.48);g.add(pn);
+var top=BX(3.2,0.12,1.8,0x3D2B1A,0.32,0.04);top.position.y=0.76;g.add(top);
+var edge=BX(3.05,0.04,1.65,0x6B5535,0.28,0.03);edge.position.y=0.80;g.add(edge);
+var legs=[[-1.4,.7],[1.4,.7],[-1.4,-.7],[1.4,-.7]];
+for(var i=0;i<4;i++){var l=BX(.08,.74,.08,0x5A4428,.55);l.position.set(legs[i][0],.38,legs[i][1]);g.add(l)}
+var pn=BX(2.8,.5,.05,0x3D2B1A,.5);pn.position.set(0,.50,-.75);g.add(pn);
 
 var mg=new THREE.Group();
-var lBase=BX(.7,.025,.45,0x2a2a2a,.25,.2);lBase.position.y=.01;mg.add(lBase);
-var lKey=BX(.62,.006,.38,0x1a1a1a,.3,.15);lKey.position.y=.02;lKey.position.z=.01;mg.add(lKey);
-for(var kr=0;kr<5;kr++)for(var kc=0;kc<12;kc++){var ky=BX(.035,.005,.025,0x444444,.4,.08);ky.position.set(-.24+kc*.042,.028,-.12+kr*.04);mg.add(ky)}
-var tpad=BX(.15,.005,.1,0x3a3a3a,.25,.1);tpad.position.set(0,.03,.13);mg.add(tpad);
+var lBase=BX(1.0,.03,.65,0x222222,.2,.25);lBase.position.y=.01;mg.add(lBase);
+var lKey=BX(.9,.008,.55,0x1a1a1a,.25,.15);lKey.position.y=.02;lKey.position.z=.01;mg.add(lKey);
+for(var kr=0;kr<5;kr++)for(var kc=0;kc<12;kc++){var ky=BX(.05,.006,.035,0x444444,.35,.08);ky.position.set(-.34+kc*.06,.035,-.18+kr*.055);mg.add(ky)}
+var tpad=BX(.22,.006,.14,0x3a3a3a,.2,.12);tpad.position.set(0,.035,.2);mg.add(tpad);
 var lScreen=new THREE.Group();
-var lBack=BX(.68,.45,.015,0x222222,.2,.2);lBack.position.y=.225;lScreen.add(lBack);
+var lBack=BX(.95,.65,.018,0x1a1a1a,.15,.25);lBack.position.y=.325;lScreen.add(lBack);
 var dm=new THREE.MeshBasicMaterial({color:0x0A1525});
-var dp=new THREE.Mesh(new THREE.PlaneGeometry(.62,.38),dm);
-dp.position.set(0,.225,.009);lScreen.add(dp);
+var dp=new THREE.Mesh(new THREE.PlaneGeometry(.88,.55),dm);
+dp.position.set(0,.325,.01);lScreen.add(dp);
 a.screen=dp;
-var lLogo=BX(.05,.05,.001,0x555555,.3,.3);lLogo.position.set(0,.225,-.009);lScreen.add(lLogo);
-lScreen.position.set(0,.025,-.2);
-lScreen.rotation.x=-.3;
+var lLogo=BX(.07,.07,.001,0x555555,.3,.3);lLogo.position.set(0,.325,-.01);lScreen.add(lLogo);
+lScreen.position.set(0,.03,-.28);
+lScreen.rotation.x=-.35;
 mg.add(lScreen);
-var lHinge=BX(.5,.02,.02,0x333333,.3,.2);lHinge.position.set(0,.025,-.2);mg.add(lHinge);
-mg.position.set(0,.82,0);g.add(mg);
+var lHinge=BX(.7,.025,.025,0x333333,.25,.2);lHinge.position.set(0,.03,-.28);mg.add(lHinge);
+mg.position.set(0,.82,.1);g.add(mg);
 
 // laptop has its own keyboard, no separate kb/mouse needed
 
@@ -355,10 +355,38 @@ var t=BX(w+.05,.04,.06,0xA8B0C0,.4,.05);t.position.set(x,1.36,z);scene.add(t)}
 part(-5.8,1.6,0.6);part(-5.8,4.2,0.6);
 part(5.8,1.6,0.6);part(5.8,4.2,0.6);
 
-var wb=BX(4,2.2,.04,0xFFFFFF,.25,.02);wb.position.set(0,2.8,-6.95);scene.add(wb);
+var wb=BX(6,3,.06,0xFAFAFA,.2,.02);wb.position.set(0,3,-6.92);scene.add(wb);
+var wbfL=BX(.08,3,.08,0x555555,.3,.5);wbfL.position.set(-3.05,3,-6.89);scene.add(wbfL);
+var wbfR=BX(.08,3,.08,0x555555,.3,.5);wbfR.position.set(3.05,3,-6.89);scene.add(wbfR);
+var wbfT=BX(6.2,.08,.08,0x555555,.3,.5);wbfT.position.set(0,4.5,-6.89);scene.add(wbfT);
+var wbfB=BX(6.2,.08,.08,0x555555,.3,.5);wbfB.position.set(0,1.5,-6.89);scene.add(wbfB);
+var wbCV=document.createElement('canvas');wbCV.width=1024;wbCV.height=512;
+var cx2=wbCV.getContext('2d');
+cx2.fillStyle='#fafafa';cx2.fillRect(0,0,1024,512);
+cx2.font='bold 44px sans-serif';cx2.fillStyle='#222';cx2.fillText('WOO ORCHESTRA',50,50);
+cx2.font='20px sans-serif';cx2.fillStyle='#999';cx2.fillText('Sprint Board',50,78);
+cx2.strokeStyle='#ddd';cx2.lineWidth=2;cx2.beginPath();cx2.moveTo(40,95);cx2.lineTo(984,95);cx2.stroke();
+cx2.font='bold 28px sans-serif';
+cx2.fillStyle='#6c5ce7';cx2.fillText('TODO',100,135);
+cx2.fillStyle='#f59e0b';cx2.fillText('DOING',400,135);
+cx2.fillStyle='#10b981';cx2.fillText('DONE',700,135);
+cx2.strokeStyle='#e0e0e0';cx2.lineWidth=1;
+cx2.beginPath();cx2.moveTo(330,100);cx2.lineTo(330,490);cx2.stroke();
+cx2.beginPath();cx2.moveTo(640,100);cx2.lineTo(640,490);cx2.stroke();
+var stC=['#fef3c7','#dbeafe','#fce7f3','#d1fae5','#ede9fe','#ffedd5'];
+var stT=['DR.SLOT UI','BIPAY 연동','프롬프트','API 테스트','배포','커뮤니티'];
+for(var si=0;si<6;si++){cx2.fillStyle=stC[si];cx2.fillRect(55+si%3*305,155+Math.floor(si/3)*80,250,65);cx2.fillStyle='#333';cx2.font='20px sans-serif';cx2.fillText(stT[si],70+si%3*305,195+Math.floor(si/3)*80);}
+var wbTX=new THREE.CanvasTexture(wbCV);
+var wbPL=new THREE.Mesh(new THREE.PlaneGeometry(5.8,2.8),new THREE.MeshBasicMaterial({map:wbTX}));
+wbPL.position.set(0,3,-6.87);scene.add(wbPL);
+var mtray2=BX(1.5,.05,.15,0x777777,.3,.3);mtray2.position.set(0,1.52,-6.82);scene.add(mtray2);
+var mk_r=BX(.13,.04,.04,0xe74c3c,.4);mk_r.position.set(-.3,1.58,-6.82);scene.add(mk_r);
+var mk_b=BX(.13,.04,.04,0x3498db,.4);mk_b.position.set(0,1.58,-6.82);scene.add(mk_b);
+var mk_g=BX(.13,.04,.04,0x2ecc71,.4);mk_g.position.set(.3,1.58,-6.82);scene.add(mk_g);
+
 var nc=[0xFEE2A7,0x81ECEC,0xA29BFE,0xFD79A8];
 for(var i=0;i<4;i++){
-var n=BX(.22,.16,.005,nc[i],.6);n.position.set(4.2+i*.35,2.6+Math.sin(i)*.12,-6.93);scene.add(n)}
+var n=BX(.35,.25,.008,nc[i],.5);n.position.set(-1.2+i*.8,4.3+Math.sin(i)*.12,-6.93);scene.add(n)}
 
 var wcB=BX(.28,.65,.28,0xE8E8E8,.3,.05);wcB.position.set(10,.325,-4);scene.add(wcB);
 var wcW=CY(.1,.1,.3,0xB8D8F0,16);wcW.material.transparent=true;wcW.material.opacity=.6;
