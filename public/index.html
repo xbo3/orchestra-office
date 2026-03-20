@@ -482,6 +482,7 @@ b.innerHTML+='<span class="'+cls+'">'+(a?a.n:'?')+'</span>';
 }
 
 var SCEN={
+stitch:[{a:'ceo',s:'thinking',d:1500,t:'디자인 요구사항 분석'},{a:'ceo',s:'presenting',d:1000,t:'디자이너에게 Stitch 작업 지시'},{a:'ds',s:'typing',d:3500,t:'Stitch MCP로 UI 생성 중'},{a:'ds',s:'typing',d:2500,t:'디자인 시스템 적용 + 수정'},{a:'fe',s:'typing',d:2800,t:'React 컴포넌트로 변환 중'},{a:'qa',s:'typing',d:1800,t:'UI/UX 검증 중'},{a:'dv',s:'typing',d:1600,t:'스테이징 배포 중'},{a:'ceo',s:'celebrating',d:2000,t:'디자인 완료!'}],
 drslot:[{a:'ceo',s:'thinking',d:1500,t:'태스크 범위 분석 중'},{a:'ceo',s:'presenting',d:1000,t:'팀원들에게 업무 배분'},{a:'ds',s:'typing',d:2400,t:'UI 레이아웃 디자인 중'},{a:'be',s:'typing',d:2800,t:'API 엔드포인트 작성 중'},{a:'fe',s:'typing',d:2800,t:'React 페이지 빌드 중'},{a:'qa',s:'typing',d:1800,t:'테스트 실행 중'},{a:'dv',s:'typing',d:1600,t:'Railway 배포 중'},{a:'ceo',s:'celebrating',d:2000,t:'태스크 완료!'}],
 jarvis2:[{a:'ceo',s:'thinking',d:1500,t:'JARVIS2 범위 분석'},{a:'pe',s:'typing',d:2800,t:'9섹션 프롬프트 튜닝'},{a:'be',s:'typing',d:2800,t:'FastAPI 라우트 업데이트'},{a:'qa',s:'typing',d:2000,t:'AI 응답 품질 테스트'},{a:'dv',s:'typing',d:1600,t:'Railway 배포 중'},{a:'ceo',s:'celebrating',d:2000,t:'완료!'}],
 community:[{a:'ceo',s:'thinking',d:1500,t:'커뮤니티 사이트 기획'},{a:'ds',s:'typing',d:2600,t:'UI 목업 제작 중'},{a:'fe',s:'typing',d:2800,t:'프로토타입 빌드 중'},{a:'qa',s:'typing',d:1800,t:'브라우저 테스트'},{a:'ceo',s:'celebrating',d:2000,t:'완료!'}]
@@ -517,9 +518,10 @@ taskStartTime=Date.now();
 var text=document.getElementById('inp').value.trim()||'new feature';
 document.getElementById('inp').value='';
 var proj='drslot';
+if(text.match(/stitch|디자인|목업|UI|레이아웃|mockup|와이어프레임/i))proj='stitch';
 if(text.match(/jarvis|자비스|텔레|프롬프트|crm|영업/i))proj='jarvis2';
 else if(text.match(/커뮤|community|비교/i))proj='community';
-var names={drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community'};
+var names={stitch:'Stitch 디자인',drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community'};
 document.getElementById('sp').textContent=names[proj];
 addLog('ceo','"'+text+'"');
 
