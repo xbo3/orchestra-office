@@ -63,6 +63,40 @@ canvas{display:block;position:fixed;top:0;left:0}
 .tpst.a{color:#a29bfe}
 .tpst.w{color:rgba(255,255,255,.12)}
 .tpel{font-size:8px;color:rgba(255,255,255,.15);font-family:monospace;text-align:right;margin-top:6px}
+
+#wb{position:fixed;left:12px;top:50px;width:300px;z-index:15;pointer-events:auto;max-height:calc(100vh - 120px);overflow-y:auto}
+#wb::-webkit-scrollbar{width:3px}
+#wb::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.wbc{background:rgba(15,18,28,.8);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px;margin-bottom:8px}
+.wbt{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:10px}
+.wbl{font-size:8px;font-weight:600;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.wbk{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.wbki{padding:8px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.03);border-radius:8px;text-align:center}
+.wbki .v{font-size:18px;font-weight:800;font-family:monospace}
+.wbki .l{font-size:7px;color:rgba(255,255,255,.2);text-transform:uppercase;margin-top:2px}
+.wba{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;margin-bottom:3px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.03);transition:.3s}
+.wba.on{background:rgba(108,92,231,.08);border-color:rgba(108,92,231,.15)}
+.wba .d{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.wba .d.idle{background:rgba(255,255,255,.04)}
+.wba .d.work{background:#6c5ce7;animation:wbpp 1s infinite}
+.wba .d.done{background:#34d399}
+.wba .d.wait{background:rgba(255,255,255,.06)}
+@keyframes wbpp{50%{box-shadow:0 0 10px rgba(108,92,231,.6)}}
+.wba .i{flex:1;min-width:0}
+.wba .n{font-size:9px;font-weight:700}
+.wba .t{font-size:7px;color:rgba(255,255,255,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wba .s{font-size:7px;font-weight:600;flex-shrink:0}
+.wba .s.work{color:#a29bfe}
+.wba .s.done{color:#34d399}
+.wba .s.wait{color:rgba(255,255,255,.1)}
+.wbpb{height:4px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden;margin:6px 0}
+.wbpf{height:100%;border-radius:2px;background:linear-gradient(90deg,#6c5ce7,#34d399);transition:width .4s}
+.wbh{max-height:80px;overflow-y:auto}
+.wbh::-webkit-scrollbar{width:2px}
+.wbh::-webkit-scrollbar-thumb{background:rgba(255,255,255,.05)}
+.wbhi{display:flex;gap:5px;padding:2px 0;font-size:7px;border-bottom:1px solid rgba(255,255,255,.02)}
+.wbhi .ht{color:rgba(255,255,255,.12);font-family:monospace;min-width:26px}
+.wbhi .hm{color:rgba(255,255,255,.25);flex:1}
 </style>
 </head>
 <body>
@@ -72,6 +106,24 @@ canvas{display:block;position:fixed;top:0;left:0}
 <div id="top">
 <div style="display:flex;align-items:center;gap:8px"><h1>WOO ORCHESTRA OFFICE</h1></div>
 <div style="display:flex;align-items:center;gap:8px"><div class="ags" id="ags"></div><span class="pill"><i></i>Live</span></div>
+</div>
+<div id="wb">
+<div class="wbc">
+<div class="wbt">📋 화이트보드 — 업무 현황판</div>
+<div class="wbl">📊 성과 지표</div>
+<div class="wbk">
+<div class="wbki"><div class="v" id="wkT" style="color:#34d399">0</div><div class="l">완료 태스크</div></div>
+<div class="wbki"><div class="v" id="wkR" style="color:#a29bfe">—</div><div class="l">평균 시간</div></div>
+<div class="wbki"><div class="v" id="wkA" style="color:#fbbf24">0</div><div class="l">활동중</div></div>
+<div class="wbki"><div class="v" id="wkP" style="color:#60a5fa">—</div><div class="l">프로젝트</div></div>
+</div>
+<div class="wbl">🚀 현재 작업</div>
+<div id="wkC" style="font-size:9px;color:rgba(255,255,255,.15);padding:6px">대기 중...</div>
+<div class="wbl" style="margin-top:8px">👥 에이전트</div>
+<div id="wkAg"></div>
+<div class="wbl" style="margin-top:8px">📝 이력</div>
+<div class="wbh" id="wkH"></div>
+</div>
 </div>
 <div id="tp"><div class="tpc"><div class="tpt">작업 진행 상황</div><div><div class="tppct" id="tppct">0%</div><div style="font-size:8px;color:rgba(255,255,255,.2)" id="tplbl">Waiting...</div><div class="tpbw"><div class="tpb" id="tpbar"></div></div></div><div id="tpsteps"></div><div class="tpel" id="tpel">00:00</div></div></div>
 <div id="hud">
@@ -231,21 +283,29 @@ var mol=BX(26,0.1,0.1,0xD0C8BC,0.6);mol.position.set(0,0.05,-6.94);scene.add(mol
 
 function buildDesk(a){
 var g=new THREE.Group();
-var top=BX(2,0.07,1,0xC8A870,0.45);top.position.y=0.76;g.add(top);
-var edge=BX(2.02,0.02,1.02,0xDBB888,0.35);edge.position.y=0.785;g.add(edge);
+var top=BX(2.2,0.08,1.1,0xC8A870,0.4,0.03);top.position.y=0.76;g.add(top);
+var edge=BX(2.22,0.025,1.12,0xDBB888,0.3,0.02);edge.position.y=0.785;g.add(edge);
 var legs=[[-.95,.45],[.95,.45],[-.95,-.45],[.95,-.45]];
 for(var i=0;i<4;i++){var l=BX(.06,.76,.06,0x8A6A38,.6);l.position.set(legs[i][0],.38,legs[i][1]);g.add(l)}
 var pn=BX(1.9,.5,.04,0xB09860,.55);pn.position.set(0,.52,-.48);g.add(pn);
 
 var mg=new THREE.Group();
-var ms=BX(.04,.22,.04,0x444,.3,.3);ms.position.y=.11;mg.add(ms);
-var mb=BX(.2,.02,.14,0x444,.3,.3);mg.add(mb);
-var scr=BX(.58,.4,.03,0x111,.15,.1);scr.position.y=.42;mg.add(scr);
+var lBase=BX(.45,.02,.3,0x333333,.3,.15);lBase.position.y=.01;mg.add(lBase);
+var lKey=BX(.4,.005,.25,0x222222,.35,.1);lKey.position.y=.02;lKey.position.z=.01;mg.add(lKey);
+for(var kr=0;kr<4;kr++)for(var kc=0;kc<10;kc++){var ky=BX(.028,.004,.02,0x444444,.4,.05);ky.position.set(-.16+kc*.035,.025,-.07+kr*.03);mg.add(ky)}
+var tpad=BX(.1,.004,.07,0x3a3a3a,.3,.08);tpad.position.set(0,.025,.09);mg.add(tpad);
+var lScreen=new THREE.Group();
+var lBack=BX(.44,.3,.015,0x333333,.25,.15);lBack.position.y=.15;lScreen.add(lBack);
 var dm=new THREE.MeshBasicMaterial({color:0x0A1525});
-var dp=new THREE.Mesh(new THREE.PlaneGeometry(.54,.36),dm);
-dp.position.set(0,.42,.017);mg.add(dp);
+var dp=new THREE.Mesh(new THREE.PlaneGeometry(.4,.26),dm);
+dp.position.set(0,.15,.009);lScreen.add(dp);
 a.screen=dp;
-mg.position.set(0,.8,-.22);g.add(mg);
+var lLogo=BX(.03,.03,.001,0x555555,.3,.2);lLogo.position.set(0,.15,-.009);lScreen.add(lLogo);
+lScreen.position.set(0,.02,-.13);
+lScreen.rotation.x=-.25;
+mg.add(lScreen);
+var lHinge=BX(.3,.015,.015,0x444444,.3,.15);lHinge.position.set(0,.02,-.14);mg.add(lHinge);
+mg.position.set(0,.79,.05);g.add(mg);
 
 var kb=BX(.26,.012,.12,0xE0E0E0,.3,.05);kb.position.set(0,.8,.2);g.add(kb);
 for(var r=0;r<3;r++)for(var c=0;c<7;c++){
@@ -413,7 +473,7 @@ next.reset().fadeIn(0.4).play();
 a.currentAnim=animName;
 
 if(a.screen){
-if(name==='typing')a.screen.material.color.setHex(0x1a3a6a);
+if(name==='typing')a.screen.material.color.setHex(0x1a3a6a);a.screen.material.needsUpdate=true;
 else a.screen.material.color.setHex(0x080e1a);
 }
 }
@@ -488,6 +548,49 @@ jarvis2:[{a:'ceo',s:'thinking',d:1500,t:'JARVIS2 범위 분석'},{a:'pe',s:'typi
 community:[{a:'ceo',s:'thinking',d:1500,t:'커뮤니티 사이트 기획'},{a:'ds',s:'typing',d:2600,t:'UI 목업 제작 중'},{a:'fe',s:'typing',d:2800,t:'프로토타입 빌드 중'},{a:'qa',s:'typing',d:1800,t:'브라우저 테스트'},{a:'ceo',s:'celebrating',d:2000,t:'완료!'}]
 };
 
+var wbTT=[];
+function wbI(){
+var h="";
+for(var i=0;i<AGENTS.length;i++){var a=AGENTS[i];
+h+="<div class=\"wba\" id=\"wa-"+a.id+"\"><div class=\"d idle\"></div><div class=\"i\"><div class=\"n\" style=\"color:"+a.h+"\">"+a.n+"</div><div class=\"t\">대기 중</div></div><div class=\"s wait\">대기</div></div>";}
+document.getElementById("wkAg").innerHTML=h;
+}
+
+function wbU(steps,ci,pn){
+document.getElementById("wkP").textContent=pn||"—";
+var pct=Math.round(((ci+1)/steps.length)*100);
+var cur=steps[ci];var ca=null;
+for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===cur.a)ca=AGENTS[i]}
+var ch="<div style=\"display:flex;justify-content:space-between\"><span style=\"font-size:10px;font-weight:700;color:"+(ca?ca.h:"#fff")+"\">"+( ca?ca.n:"?")+"</span><span style=\"font-size:11px;font-weight:800;font-family:monospace;color:#a29bfe\">"+pct+"%</span></div>";
+ch+="<div style=\"font-size:8px;color:rgba(255,255,255,.35);margin:2px 0\">"+(cur.t||cur.s)+"</div>";
+ch+="<div class=\"wbpb\"><div class=\"wbpf\" style=\"width:"+pct+"%\"></div></div>";
+ch+="<div style=\"display:flex;flex-wrap:wrap;gap:2px;margin-top:4px\">";
+for(var i=0;i<steps.length;i++){var s=steps[i];var ag=null;for(var j=0;j<AGENTS.length;j++){if(AGENTS[j].id===s.a)ag=AGENTS[j]}var bg,col;if(i<ci){bg="rgba(52,211,153,.1)";col="#34d399"}else if(i===ci){bg="rgba(108,92,231,.12)";col="#a29bfe"}else{bg="rgba(255,255,255,.02)";col="rgba(255,255,255,.1)"}ch+="<div style=\"padding:2px 5px;border-radius:3px;font-size:6px;font-weight:600;background:"+bg+";color:"+col+"\">"+(ag?ag.n:"?")+"</div>";}ch+="</div>";
+document.getElementById("wkC").innerHTML=ch;
+for(var i=0;i<AGENTS.length;i++){var a=AGENTS[i];var el=document.getElementById("wa-"+a.id);if(!el)continue;
+var isW=false,isD=false;for(var j=0;j<steps.length;j++){if(steps[j].a===a.id){if(j<ci)isD=true;if(j===ci)isW=true;}}
+el.className="wba"+(isW?" on":"");
+el.querySelector(".d").className="d "+(isW?"work":isD?"done":"wait");
+el.querySelector(".t").textContent=isW?(cur.t||cur.s):(isD?"완료":"대기 중");
+el.querySelector(".s").className="s "+(isW?"work":isD?"done":"wait");
+el.querySelector(".s").textContent=isW?"작업 중":isD?"완료":"대기";}
+var ac=0;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].s!=="idle")ac++}document.getElementById("wkA").textContent=ac;
+}
+
+function wbR(){
+document.getElementById("wkC").innerHTML="<div style=\"font-size:9px;color:rgba(255,255,255,.15);padding:6px\">대기 중...</div>";
+document.getElementById("wkP").textContent="—";document.getElementById("wkA").textContent="0";
+for(var i=0;i<AGENTS.length;i++){var el=document.getElementById("wa-"+AGENTS[i].id);if(!el)continue;el.className="wba";el.querySelector(".d").className="d idle";el.querySelector(".t").textContent="대기 중";el.querySelector(".s").className="s wait";el.querySelector(".s").textContent="대기";}
+}
+
+function wbAH(ag,msg){
+var c=document.getElementById("wkH");var now=new Date();
+var t=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+var el=document.createElement("div");el.className="wbhi";
+el.innerHTML="<span class=\"ht\">"+t+"</span><span class=\"hm\"><b style=\"color:"+ag.h+"\">"+ag.n+"</b> "+msg+"</span>";
+c.insertBefore(el,c.firstChild);if(c.children.length>15)c.removeChild(c.lastChild);
+}
+
 var taskStartTime=0;
 function upProgress(steps,ci){
 var p=document.getElementById("tp");p.classList.add("show");
@@ -542,6 +645,11 @@ updateUI(AGENTS[i]);
 document.getElementById('wf').innerHTML='';
 document.getElementById('sp').textContent='standby';
 document.getElementById('tp').classList.remove('show');
+wbR();
+document.getElementById('wkT').textContent=tasks;
+wbTT.push(Math.round((Date.now()-taskStartTime)/1000));
+var avg=Math.round(wbTT.reduce(function(a,b){return a+b},0)/wbTT.length);
+document.getElementById('wkR').textContent=avg+'초';
 document.getElementById('sa').textContent='0/7';
 running=false;
 },2500);
@@ -576,6 +684,8 @@ document.getElementById('sa').textContent=ac+'/7';
 var a=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===step.a)a=AGENTS[i]}
 addLog(step.a,(a?a.n:'')+' '+(step.t||step.s));
 upProgress(steps,idx-1);
+wbU(steps,idx-1,names[proj]);
+wbAH(a||{n:"?",h:"#888"},step.t||step.s);
 
 prev=step.a;idx++;
 setTimeout(next,step.d);
@@ -586,6 +696,7 @@ next();
 window.addEventListener('load',function(){
 buildAgentPills();
 init();
+wbI();
 });
 
 setInterval(function(){
