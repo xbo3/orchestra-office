@@ -305,7 +305,7 @@ lScreen.position.set(0,.03,-.28);
 lScreen.rotation.x=-.35;
 mg.add(lScreen);
 var lHinge=BX(.7,.025,.025,0x333333,.25,.2);lHinge.position.set(0,.03,-.28);mg.add(lHinge);
-mg.position.set(0,.82,.1);g.add(mg);
+mg.position.set(0,.82,.35);g.add(mg);
 
 // laptop has its own keyboard, no separate kb/mouse needed
 
@@ -333,7 +333,7 @@ var an=i*Math.PI*2/5;
 var arm=CY(.012,.012,.2,0x666);arm.rotation.z=Math.PI/2;
 arm.position.set(Math.cos(an)*.15,.12,Math.sin(an)*.15);cg.add(arm);
 var wh=CY(.025,.025,.025,0x333,8);wh.position.set(Math.cos(an)*.22,.025,Math.sin(an)*.22);cg.add(wh)}
-cg.position.set(a.x,0,a.z+(a.ry>0?-.55:.55));cg.rotation.y=a.ry;scene.add(cg);
+cg.position.set(a.x+Math.sin(a.ry)*1.0,0,a.z+Math.cos(a.ry)*1.0);cg.rotation.y=a.ry;scene.add(cg);
 }
 
 function buildDecor(){
@@ -414,7 +414,7 @@ prog(90);
 var baseModel=gltf.scene;
 var baseAnims=gltf.animations;
 
-baseModel.scale.set(0.55,0.55,0.55);
+baseModel.scale.set(0.48,0.48,0.48);
 
 baseModel.traverse(function(child){
 if(child.isMesh){
@@ -447,13 +447,15 @@ child.receiveShadow=true;
 }
 });
 
-model.position.set(a.x,0,a.z);
+var rOffX=Math.sin(a.ry)*1.2;
+var rOffZ=Math.cos(a.ry)*1.2;
+model.position.set(a.x+rOffX,0,a.z+rOffZ);
 model.rotation.y=a.ry;
 scene.add(model);
 
 // === FACE FEATURES ===
 var faceGroup=new THREE.Group();
-faceGroup.position.y=1.42;
+faceGroup.position.y=1.25;
 faceGroup.position.z=.12;
 
 // -- LEFT EYE --
