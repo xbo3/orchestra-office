@@ -450,13 +450,13 @@ child.receiveShadow=true;
 });
 
 var seat=SEATS[a.id];
-model.position.set(seat[0],0.28,seat[1]);
+model.position.set(seat[0],0.15,seat[1]);
 model.rotation.y=a.ry;
 scene.add(model);
 
 // === FACE FEATURES ===
 var faceGroup=new THREE.Group();
-faceGroup.position.y=0.88;
+faceGroup.position.y=0.78;
 faceGroup.position.z=.12;
 
 // -- LEFT EYE --
@@ -529,7 +529,7 @@ for(var j=0;j<baseAnims.length;j++){
 var clip=baseAnims[j];
 var action=mixer.clipAction(clip);
 a.actions[clip.name]=action;
-if(clip.name==='Sitting'){action.play();a.currentAnim='Sitting';}
+if(clip.name==='Sitting'){action.setLoop(THREE.LoopOnce);action.clampWhenFinished=true;action.play();a.currentAnim='Sitting';}
 if(clip.name==='Idle'&&!a.actions['Sitting']){action.play();a.currentAnim='Idle';}
 }
 a.currentAnim='Sitting';
@@ -560,6 +560,7 @@ if(!a.actions[animName])return;
 var prev=a.actions[a.currentAnim];
 var next=a.actions[animName];
 if(prev){prev.fadeOut(0.4)}
+if(animName==='Sitting'){next.setLoop(THREE.LoopOnce);next.clampWhenFinished=true;}
 next.reset().fadeIn(0.4).play();
 a.currentAnim=animName;
 
