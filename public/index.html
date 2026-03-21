@@ -34,8 +34,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .stat{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
 .stat .l{font-size:8px;color:#5a6178;text-transform:uppercase;letter-spacing:.5px}
 .stat .v{font-size:20px;font-weight:700;margin-top:2px;font-family:monospace}
-.scene-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;position:relative;height:340px}
-#cv{width:100%;height:100%;display:block}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
 .card-t{font-size:10px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -111,7 +109,6 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 <div class="stat"><div class="l">프로젝트</div><div class="v" style="font-size:13px" id="sp">대기</div></div>
 <div class="stat"><div class="l">가동시간</div><div class="v" id="su" style="font-family:monospace">00:00</div></div>
 </div>
-<div class="scene-wrap"><canvas id="cv"></canvas></div>
 <div class="cols">
 <div class="card">
 <div class="card-t"><div class="bar" style="background:var(--accent)"></div>업무 지시 & 진행</div>
@@ -129,129 +126,21 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 </div>
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SkeletonUtils.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 var AGENTS=[
-{id:'ceo',n:'CEO 팀장',c:0x6c5ce7,h:'#6c5ce7',x:0,z:-2.5,ry:0,s:'idle'},
-{id:'fe',n:'프론트',c:0x14b8a6,h:'#14b8a6',x:-2.8,z:0.5,ry:Math.PI/2,s:'idle'},
-{id:'be',n:'백엔드',c:0x3b82f6,h:'#3b82f6',x:-2.8,z:3,ry:Math.PI/2,s:'idle'},
-{id:'pe',n:'프롬프트',c:0xec4899,h:'#ec4899',x:2.8,z:0.5,ry:-Math.PI/2,s:'idle'},
-{id:'ds',n:'디자이너',c:0xf59e0b,h:'#f59e0b',x:2.8,z:3,ry:-Math.PI/2,s:'idle'},
-{id:'qa',n:'테스터',c:0x10b981,h:'#10b981',x:-2.8,z:5.5,ry:Math.PI/2,s:'idle'},
-{id:'dv',n:'배포담당',c:0x64748b,h:'#64748b',x:2.8,z:5.5,ry:-Math.PI/2,s:'idle'}
+{id:'ceo',n:'CEO 팀장',h:'#6c5ce7',s:'idle'},
+{id:'fe',n:'프론트',h:'#14b8a6',s:'idle'},
+{id:'be',n:'백엔드',h:'#3b82f6',s:'idle'},
+{id:'pe',n:'프롬프트',h:'#ec4899',s:'idle'},
+{id:'ds',n:'디자이너',h:'#f59e0b',s:'idle'},
+{id:'qa',n:'테스터',h:'#10b981',s:'idle'},
+{id:'dv',n:'배포담당',h:'#64748b',s:'idle'}
 ];
-var SEATS={ceo:[0,-3.5],fe:[-3.8,0.5],be:[-3.8,3],pe:[3.8,0.5],ds:[3.8,3],qa:[-3.8,5.5],dv:[3.8,5.5]};
-var ANIM_MAP={idle:'Sitting',typing:'Sitting',thinking:'Yes',presenting:'Wave',celebrating:'Dance'};
-var scene,camera,renderer,controls,clock;
 var tasks=0,running=false,t0=Date.now();
 
-function initScene(){
-clock=new THREE.Clock();
-var wrap=document.querySelector('.scene-wrap');
-var W=wrap.clientWidth,H=wrap.clientHeight;
-scene=new THREE.Scene();
-scene.background=new THREE.Color(0xC8D4E4);
-scene.fog=new THREE.FogExp2(0xC8D4E4,0.012);
-camera=new THREE.PerspectiveCamera(45,W/H,0.1,100);
-camera.position.set(6,8,12);camera.lookAt(0,1,1.5);
-renderer=new THREE.WebGLRenderer({canvas:document.getElementById('cv'),antialias:true});
-renderer.setSize(W,H);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;
-controls=new THREE.OrbitControls(camera,renderer.domElement);
-controls.target.set(0,1,1.5);controls.enableDamping=true;controls.dampingFactor=0.05;controls.maxPolarAngle=Math.PI/2.1;controls.minDistance=5;controls.maxDistance=25;controls.update();
-scene.add(new THREE.AmbientLight(0xFFFFFF,0.45));
-var sun=new THREE.DirectionalLight(0xFFF8E0,0.9);sun.position.set(6,14,4);sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.near=0.5;sun.shadow.camera.far=40;
-sun.shadow.camera.left=-14;sun.shadow.camera.right=14;sun.shadow.camera.top=14;sun.shadow.camera.bottom=-14;
-scene.add(sun);scene.add(new THREE.DirectionalLight(0xC0D8FF,0.3).translateX(-6).translateY(8));
-scene.add(new THREE.HemisphereLight(0x88BBDD,0xC0B8A0,0.3));
-buildRoom();AGENTS.forEach(function(a){buildDesk(a)});buildDecor();loadRobots();
-window.addEventListener('resize',function(){var w=wrap.clientWidth,h=wrap.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)});
-animate();
-}
-
-function M(c,r,m){return new THREE.MeshStandardMaterial({color:c,roughness:r||.7,metalness:m||.02})}
-function BX(w,h,d,c,r,m){var mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),M(c,r,m));mesh.castShadow=true;mesh.receiveShadow=true;return mesh}
-function CY(t,b,h,c,s){var mesh=new THREE.Mesh(new THREE.CylinderGeometry(t,b,h,s||16),M(c));mesh.castShadow=true;return mesh}
-function SP(r,c){var mesh=new THREE.Mesh(new THREE.SphereGeometry(r,16,16),M(c,0.5));mesh.castShadow=true;return mesh}
-
-function buildRoom(){
-var fl=new THREE.Mesh(new THREE.PlaneGeometry(26,22),M(0xBEB8A8,0.25,0.03));fl.rotation.x=-Math.PI/2;fl.position.set(0,0,1.5);fl.receiveShadow=true;scene.add(fl);
-for(var z=0;z<22;z++)for(var x=0;x<26;x++){if((x+z)%2===0){var t=new THREE.Mesh(new THREE.PlaneGeometry(.98,.98),M(0xB3ADA0,.2));t.rotation.x=-Math.PI/2;t.position.set(x-13,.003,z-9);t.receiveShadow=true;scene.add(t)}}
-var wm=M(0xF0ECE4,0.85);
-scene.add(new THREE.Mesh(new THREE.PlaneGeometry(26,5),wm)).position.set(0,2.5,-7);
-scene.add(new THREE.Mesh(new THREE.PlaneGeometry(22,5),wm)).position.set(-13,2.5,0);scene.children[scene.children.length-1].rotation.y=Math.PI/2;
-scene.add(new THREE.Mesh(new THREE.PlaneGeometry(22,5),wm)).position.set(13,2.5,0);scene.children[scene.children.length-1].rotation.y=-Math.PI/2;
-for(var i=0;i<4;i++){var wx=-6+i*4;var sky=new THREE.Mesh(new THREE.PlaneGeometry(2.4,2.4),new THREE.MeshBasicMaterial({color:0x88CCEE}));sky.position.set(wx,2.6,-6.99);scene.add(sky)}
-}
-
-function buildDesk(a){
-var g=new THREE.Group();
-g.add(BX(3.2,0.12,1.8,0x3D2B1A,0.32,0.04)).position.y=0.55;
-g.add(BX(3.25,0.03,1.85,0x6B5535,0.28,0.03)).position.y=0.58;
-var legs=[[-1.5,.8],[1.5,.8],[-1.5,-.8],[1.5,-.8]];
-for(var i=0;i<4;i++){var l=BX(.09,.55,.09,0x5A4428,.5);l.position.set(legs[i][0],.275,legs[i][1]);g.add(l)}
-var mg=new THREE.Group();mg.add(BX(1,.03,.65,0x222222,.2,.25)).position.y=.01;
-var ls=new THREE.Group();ls.add(BX(.95,.65,.018,0x1a1a1a,.15,.25)).position.y=.325;
-var dm=new THREE.MeshBasicMaterial({color:0x0A1525});
-var dp=new THREE.Mesh(new THREE.PlaneGeometry(.88,.55),dm);dp.position.set(0,.325,.01);ls.add(dp);a.screen=dp;
-ls.position.set(0,.025,-.28);ls.rotation.x=-.35;mg.add(ls);
-mg.position.set(0,.6,.35);g.add(mg);
-g.position.set(a.x,0,a.z);g.rotation.y=a.ry+Math.PI;scene.add(g);
-var cg=new THREE.Group();cg.add(CY(.27,.27,.06,a.c,12)).position.y=.36;
-cg.add(BX(.46,.5,.04,a.c,.5)).position.set(0,.56,-.14);
-cg.add(CY(.03,.03,.22,0x888888)).position.y=.22;
-var seat=SEATS[a.id];cg.position.set(seat[0],0,seat[1]);cg.rotation.y=a.ry;scene.add(cg);
-}
-
-function buildDecor(){
-function plant(x,z,s){var g=new THREE.Group();g.add(CY(.12*s,.1*s,.18*s,0xA05728)).position.y=.09*s;
-for(var i=0;i<7;i++){var l=SP(.08*s,i%2?0x22c55e:0x16a34a);l.scale.set(.5,1.3,.4);l.position.set(Math.cos(i*.9)*.06*s,.3*s+i*.03*s,Math.sin(i*.9)*.06*s);g.add(l)}
-g.position.set(x,0,z);scene.add(g)}
-plant(-10,.5,1.3);plant(10,-.5,1.1);plant(-10,5.5,1);plant(10,5.5,1.2);
-var wb=BX(6,3,.06,0xFAFAFA,.2,.02);wb.position.set(0,3,-6.92);scene.add(wb);
-var wbCV=document.createElement('canvas');wbCV.width=1024;wbCV.height=512;
-var cx2=wbCV.getContext('2d');cx2.fillStyle='#fafafa';cx2.fillRect(0,0,1024,512);
-cx2.font='bold 44px sans-serif';cx2.fillStyle='#222';cx2.fillText('WOO ORCHESTRA',50,50);
-cx2.font='bold 28px sans-serif';cx2.fillStyle='#6c5ce7';cx2.fillText('TODO',100,135);cx2.fillStyle='#f59e0b';cx2.fillText('DOING',400,135);cx2.fillStyle='#10b981';cx2.fillText('DONE',700,135);
-var stT=['DR.SLOT UI','BIPAY 연동','프롬프트','API 테스트','배포','커뮤니티'];
-var stC=['#fef3c7','#dbeafe','#fce7f3','#d1fae5','#ede9fe','#ffedd5'];
-for(var i=0;i<6;i++){cx2.fillStyle=stC[i];cx2.fillRect(55+i%3*305,155+Math.floor(i/3)*80,250,65);cx2.fillStyle='#333';cx2.font='20px sans-serif';cx2.fillText(stT[i],70+i%3*305,195+Math.floor(i/3)*80)}
-var wbTX=new THREE.CanvasTexture(wbCV);
-scene.add(new THREE.Mesh(new THREE.PlaneGeometry(5.8,2.8),new THREE.MeshBasicMaterial({map:wbTX}))).position.set(0,3,-6.87);
-}
-
-function loadRobots(){
-new THREE.GLTFLoader().load('/models/robot.glb',function(gltf){
-var base=gltf.scene;var anims=gltf.animations;base.scale.set(0.42,0.42,0.42);
-base.traverse(function(c){if(c.isMesh){c.castShadow=true;c.receiveShadow=true}});
-for(var i=0;i<AGENTS.length;i++){
-var a=AGENTS[i];var model=typeof THREE.SkeletonUtils!=='undefined'?THREE.SkeletonUtils.clone(base):base.clone();
-model.traverse(function(c){if(c.isMesh){c.material=c.material.clone();var nc=new THREE.Color(a.c);var nh={};nc.getHSL(nh);var oh={};c.material.color.getHSL(oh);c.material.color.setHSL(nh.h,Math.min(oh.s*.7+nh.s*.3,1),oh.l*.8+nh.l*.2);c.material.metalness=.15;c.material.roughness=.45}});
-var seat=SEATS[a.id];model.position.set(seat[0],0.15,seat[1]);model.rotation.y=a.ry;scene.add(model);
-var mixer=new THREE.AnimationMixer(model);a.mixer=mixer;a.actions={};a.model=model;
-for(var j=0;j<anims.length;j++){var clip=anims[j];var action=mixer.clipAction(clip);a.actions[clip.name]=action;
-if(clip.name==='Sitting'){action.setLoop(THREE.LoopOnce);action.clampWhenFinished=true;action.play();a.currentAnim='Sitting'}}
-if(!a.actions['Sitting']&&a.actions['Idle']){a.actions['Idle'].play();a.currentAnim='Idle'}}
+function init(){
 addLog('ceo','사무실 오픈! 7명 에이전트 로딩 완료');
-},function(){},function(){addLog('ceo','모델 로딩 실패 — 폴백 모드')});
 }
-
-function fadeToAction(a,name){
-var animName=ANIM_MAP[name]||'Sitting';if(a.currentAnim===animName||!a.actions[animName])return;
-var prev=a.actions[a.currentAnim];var next=a.actions[animName];
-if(prev)prev.fadeOut(0.4);
-if(animName==='Sitting'){next.setLoop(THREE.LoopOnce);next.clampWhenFinished=true}
-next.reset().fadeIn(0.4).play();a.currentAnim=animName;
-if(a.screen){if(name==='typing'){a.screen.material.color.setHex(0x1a3a6a)}else{a.screen.material.color.setHex(0x080e1a)}}
-}
-
-function animate(){requestAnimationFrame(animate);var d=clock.getDelta();controls.update();
-for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].mixer)AGENTS[i].mixer.update(d)}renderer.render(scene,camera)}
 
 // ===== GitHub API =====
 var GH_REPOS=[
@@ -366,7 +255,7 @@ renderTaskFlow(steps,steps.length);
 document.getElementById('planArea').innerHTML='<div class="ceo-plan">✅ 모든 작업 완료. 태스크 #'+tasks+' 성공적으로 처리됨.</div>';
 addLog('ceo','태스크 #'+tasks+' 완료!');
 setTimeout(function(){
-AGENTS.forEach(function(a){a.s='idle';fadeToAction(a,'idle');updateSideAgent(a)});
+AGENTS.forEach(function(a){a.s='idle';updateSideAgent(a)});
 document.getElementById('sp').textContent='대기';
 document.getElementById('sa').innerHTML='1<span style="font-size:10px;color:#3a4060">/7</span>';
 running=false;
@@ -375,9 +264,9 @@ running=false;
 var step=steps[idx];
 renderTaskFlow(steps,idx);
 if(prev&&prev!==step.a){
-for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===prev){AGENTS[i].s='idle';fadeToAction(AGENTS[i],'idle');updateSideAgent(AGENTS[i])}}
+for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===prev){AGENTS[i].s='idle';updateSideAgent(AGENTS[i])}}
 }
-var ag=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===step.a){ag=AGENTS[i];ag.s=step.s;fadeToAction(ag,step.s);updateSideAgent(ag)}}
+var ag=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===step.a){ag=AGENTS[i];ag.s=step.s;updateSideAgent(ag)}}
 var ac=0;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].s!=='idle')ac++}
 document.getElementById('sa').innerHTML=ac+'<span style="font-size:10px;color:#3a4060">/7</span>';
 if(idx===0){
@@ -397,7 +286,7 @@ next();
 
 // ===== Init =====
 window.addEventListener('load',function(){
-initScene();fetchGitHub();
+init();fetchGitHub();
 setInterval(function(){fetchGitHub()},60000);
 });
 setInterval(function(){
