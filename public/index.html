@@ -8,293 +8,361 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0e4f0;overflow-x:hidden}
 :root{--accent:#6c5ce7;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--blue:#3b82f6;--pink:#ec4899;--teal:#14b8a6;--gray:#64748b;--bg:#0d0f15;--bg2:#13151f;--bg3:#1a1d2a;--border:#1e2235}
-.grid{display:grid;grid-template-columns:200px 1fr;grid-template-rows:48px 1fr;height:100vh}
+.grid{display:grid;grid-template-columns:220px 1fr;grid-template-rows:48px 1fr;height:100vh}
 .topbar{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--bg2);border-bottom:1px solid var(--border)}
 .topbar h1{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
-.topbar h1 span{width:24px;height:24px;background:linear-gradient(135deg,#6c5ce7,#a29bfe);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff}
+.topbar h1 .logo{width:28px;height:28px;background:linear-gradient(135deg,#6c5ce7,#a29bfe);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
 .topbar .sub{font-size:10px;color:#5a6178;margin-left:4px}
 .topbar-r{display:flex;align-items:center;gap:10px}
-.live{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:600;color:var(--green);padding:3px 10px;border-radius:10px;background:rgba(16,185,129,.1)}
-.live i{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.conn{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:600;padding:3px 10px;border-radius:10px}
+.conn.on{color:var(--green);background:rgba(16,185,129,.1)}
+.conn.off{color:var(--red);background:rgba(239,68,68,.1)}
+.conn i{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.2}}
 #clock{font-family:monospace;font-size:10px;color:#5a6178}
-.side{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:8px 0}
+
+/* SIDEBAR */
+.side{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:8px 0;display:flex;flex-direction:column}
 .side-label{font-size:8px;font-weight:600;color:#3a4060;text-transform:uppercase;letter-spacing:1px;padding:10px 12px 4px}
-.agent{display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;transition:background .15s;border-left:3px solid transparent}
-.agent:hover{background:rgba(255,255,255,.03)}
-.agent.active{background:rgba(108,92,231,.08);border-left-color:var(--accent)}
-.agent .av{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0}
+.agent{display:flex;align-items:center;gap:8px;padding:8px 12px;transition:all .2s;border-left:3px solid transparent;position:relative}
+.agent.active{background:rgba(108,92,231,.06);border-left-color:var(--accent)}
+.agent .av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;transition:box-shadow .3s}
+.agent.active .av{box-shadow:0 0 12px rgba(108,92,231,.3)}
 .agent .info{flex:1;min-width:0}
 .agent .nm{font-size:11px;font-weight:600}
-.agent .role{font-size:8px;color:#5a6178}
-.agent .dot{width:6px;height:6px;border-radius:50%;background:#2a2d3a;flex-shrink:0}
-.agent .dot.on{background:var(--green);box-shadow:0 0 6px rgba(16,185,129,.4)}
-.main{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
-.stats{display:flex;gap:8px}
-.stat{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.stat .l{font-size:8px;color:#5a6178;text-transform:uppercase;letter-spacing:.5px}
-.stat .v{font-size:20px;font-weight:700;margin-top:2px;font-family:monospace}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
-.card-t{font-size:10px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.card-t .bar{width:3px;height:10px;border-radius:2px}
-.cmd{display:flex;gap:6px;margin-bottom:10px}
-.cmd input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:#e0e4f0;font-size:11px;outline:none}
-.cmd input:focus{border-color:var(--accent)}
-.cmd input::placeholder{color:#3a4060}
-.cmd button{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:7px 16px;font-size:11px;font-weight:600;cursor:pointer}
-.task-flow{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
-.task-step{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;background:var(--bg3);border:1px solid var(--border)}
-.task-step.active{border-color:rgba(108,92,231,.3);background:rgba(108,92,231,.05)}
-.task-step.done{border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.03)}
-.task-step .d{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.task-step .d.wait{background:#2a2d3a}
-.task-step .d.work{background:var(--accent);box-shadow:0 0 8px rgba(108,92,231,.5);animation:pulse 1s infinite}
-.task-step .d.done{background:var(--green)}
-.task-step .info{flex:1}
-.task-step .ag{font-size:9px;font-weight:700}
-.task-step .desc{font-size:8px;color:#5a6178}
-.task-step .st{font-size:8px;font-weight:600;flex-shrink:0}
-.task-step .st.work{color:#a29bfe}
-.task-step .st.done{color:var(--green)}
-.task-step .st.wait{color:#3a4060}
-.pbar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin:6px 0}
-.pbar .fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .4s}
-.proj{padding:6px 8px;border-radius:6px;background:var(--bg3);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.agent .role{font-size:8px;color:#5a6178;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agent .task-label{font-size:8px;color:var(--accent);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.agent .dot{width:7px;height:7px;border-radius:50%;background:#2a2d3a;flex-shrink:0;transition:all .3s}
+.agent .dot.on{background:var(--green);box-shadow:0 0 8px rgba(16,185,129,.5)}
+.agent .dot.working{background:var(--accent);box-shadow:0 0 8px rgba(108,92,231,.5);animation:pulse 1s infinite}
+
+/* PROJECTS */
+.proj{padding:6px 10px;border-radius:6px;background:var(--bg3);margin:2px 8px;display:flex;align-items:center;gap:8px}
 .proj .n{font-size:11px;font-weight:600;flex:1}
 .proj .badge{font-size:8px;padding:2px 6px;border-radius:8px;font-weight:600}
 .proj .badge.live{background:rgba(16,185,129,.1);color:var(--green)}
 .proj .badge.dev{background:rgba(245,158,11,.1);color:var(--amber)}
 .proj .badge.plan{background:rgba(59,130,246,.1);color:var(--blue)}
-.proj .commits{font-size:8px;color:#5a6178;font-family:monospace}
-.log-item{display:flex;gap:6px;padding:4px 0;font-size:9px;border-bottom:1px solid rgba(255,255,255,.02)}
-.log-item .t{font-family:monospace;color:#3a4060;min-width:30px}
-.log-item .a{font-weight:700;padding:0 4px;border-radius:3px}
-.log-item .m{color:#5a6178;flex:1}
-.boss-cmd{background:rgba(108,92,231,.08);border:1px solid rgba(108,92,231,.15);border-radius:8px;padding:10px;margin-bottom:8px}
-.boss-cmd .label{font-size:8px;color:var(--accent);font-weight:600;margin-bottom:4px}
-.boss-cmd .text{font-size:12px;font-weight:600}
-.ceo-plan{background:var(--bg3);border-radius:6px;padding:8px;margin-bottom:8px;font-size:10px;line-height:1.5;color:#8890b0;border-left:3px solid var(--accent)}
-.gh-info{font-size:8px;color:#5a6178;display:flex;align-items:center;gap:4px;margin-top:2px}
-.gh-info a{color:var(--accent);text-decoration:none}
+.proj.current{border:1px solid rgba(108,92,231,.3);background:rgba(108,92,231,.05)}
+.side-footer{margin-top:auto;padding:8px 12px;border-top:1px solid var(--border);font-size:8px;color:#3a4060}
+
+/* MAIN */
+.main{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.stat .l{font-size:8px;color:#5a6178;text-transform:uppercase;letter-spacing:.5px}
+.stat .v{font-size:22px;font-weight:700;margin-top:4px;font-family:monospace}
+.stat .v .sub{font-size:10px;color:#3a4060;font-weight:400}
+
+/* CURRENT TASK */
+.task-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.task-card.has-task{border-color:rgba(108,92,231,.2)}
+.task-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.task-title{font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.task-title .icon{font-size:14px}
+.task-project{font-size:9px;padding:2px 8px;border-radius:6px;background:rgba(108,92,231,.1);color:var(--accent);font-weight:600}
+.task-desc{font-size:11px;color:#8890b0;margin-bottom:12px;padding:8px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--accent)}
+.pbar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.pbar .fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .5s ease}
+.steps{display:flex;flex-direction:column;gap:4px;max-height:240px;overflow-y:auto}
+.step{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--bg3);border:1px solid transparent;transition:all .2s}
+.step.active{border-color:rgba(108,92,231,.25);background:rgba(108,92,231,.04)}
+.step.done{border-color:rgba(16,185,129,.15);background:rgba(16,185,129,.02)}
+.step .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:all .3s}
+.step .dot.wait{background:#2a2d3a}
+.step .dot.work{background:var(--accent);box-shadow:0 0 10px rgba(108,92,231,.5);animation:pulse 1s infinite}
+.step .dot.done{background:var(--green)}
+.step .s-info{flex:1;min-width:0}
+.step .s-agent{font-size:9px;font-weight:700}
+.step .s-desc{font-size:8px;color:#5a6178}
+.step .s-status{font-size:8px;font-weight:600;flex-shrink:0}
+.step .s-status.work{color:#a29bfe}
+.step .s-status.done{color:var(--green)}
+.step .s-status.wait{color:#3a4060}
+.no-task{text-align:center;padding:30px;color:#3a4060;font-size:12px}
+
+/* LOGS + GITHUB */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
+.card-t{font-size:10px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.card-t .bar{width:3px;height:10px;border-radius:2px}
+.log-item{display:flex;gap:6px;padding:5px 0;font-size:9px;border-bottom:1px solid rgba(255,255,255,.02);animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.log-item .t{font-family:monospace;color:#3a4060;min-width:36px;flex-shrink:0}
+.log-item .a{font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;font-size:8px}
+.log-item .m{color:#6a7090;flex:1;word-break:break-word}
+.gh-repo{margin-bottom:8px}
+.gh-repo-name{font-size:10px;font-weight:600;color:#8890b0;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.gh-commit{font-size:8px;color:#5a6178;padding:2px 0;display:flex;gap:6px}
+.gh-commit .sha{color:var(--accent);font-family:monospace}
+.gh-commit .msg{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="grid">
 <div class="topbar">
-<h1><span>W</span>WOO ORCHESTRA<span class="sub">AI agent workspace</span></h1>
-<div class="topbar-r"><span class="live"><i></i>System online</span><span id="clock">00:00:00</span></div>
+<h1><div class="logo">W</div>WOO ORCHESTRA<span class="sub">AI agent workspace</span></h1>
+<div class="topbar-r">
+  <span class="conn" id="connStatus"><i></i><span id="connText">connecting...</span></span>
+  <span id="clock" style="font-family:monospace;font-size:10px;color:#5a6178">00:00:00</span>
 </div>
+</div>
+
 <div class="side">
 <div class="side-label">Management</div>
-<div class="agent active" id="ag-ceo"><div class="av" style="background:rgba(108,92,231,.15);color:#6c5ce7">CEO</div><div class="info"><div class="nm">CEO 팀장</div><div class="role">task orchestrator</div></div><div class="dot on"></div></div>
+<div class="agent" id="ag-ceo" data-id="ceo"><div class="av" style="background:rgba(108,92,231,.15);color:#6c5ce7">CEO</div><div class="info"><div class="nm">CEO 팀장</div><div class="role">task orchestrator</div><div class="task-label" id="task-ceo"></div></div><div class="dot" id="dot-ceo"></div></div>
+
 <div class="side-label">Dev Team</div>
-<div class="agent" id="ag-fe"><div class="av" style="background:rgba(20,184,166,.15);color:#14b8a6">FE</div><div class="info"><div class="nm">프론트엔드</div><div class="role">UI/React/Next.js</div></div><div class="dot"></div></div>
-<div class="agent" id="ag-be"><div class="av" style="background:rgba(59,130,246,.15);color:#3b82f6">BE</div><div class="info"><div class="nm">백엔드</div><div class="role">API/DB/server</div></div><div class="dot"></div></div>
-<div class="agent" id="ag-pe"><div class="av" style="background:rgba(236,72,153,.15);color:#ec4899">PE</div><div class="info"><div class="nm">프롬프트</div><div class="role">JARVIS2 prompts</div></div><div class="dot"></div></div>
+<div class="agent" id="ag-fe" data-id="fe"><div class="av" style="background:rgba(20,184,166,.15);color:#14b8a6">FE</div><div class="info"><div class="nm">프론트엔드</div><div class="role">UI/React/Next.js</div><div class="task-label" id="task-fe"></div></div><div class="dot" id="dot-fe"></div></div>
+<div class="agent" id="ag-be" data-id="be"><div class="av" style="background:rgba(59,130,246,.15);color:#3b82f6">BE</div><div class="info"><div class="nm">백엔드</div><div class="role">API/DB/server</div><div class="task-label" id="task-be"></div></div><div class="dot" id="dot-be"></div></div>
+<div class="agent" id="ag-pe" data-id="pe"><div class="av" style="background:rgba(236,72,153,.15);color:#ec4899">PE</div><div class="info"><div class="nm">프롬프트</div><div class="role">JARVIS2 prompts</div><div class="task-label" id="task-pe"></div></div><div class="dot" id="dot-pe"></div></div>
+
 <div class="side-label">Ops Team</div>
-<div class="agent" id="ag-ds"><div class="av" style="background:rgba(245,158,11,.15);color:#f59e0b">DS</div><div class="info"><div class="nm">디자이너</div><div class="role">UI/UX/Stitch</div></div><div class="dot"></div></div>
-<div class="agent" id="ag-qa"><div class="av" style="background:rgba(16,185,129,.15);color:#10b981">QA</div><div class="info"><div class="nm">테스터</div><div class="role">test/review</div></div><div class="dot"></div></div>
-<div class="agent" id="ag-dv"><div class="av" style="background:rgba(100,116,139,.15);color:#64748b">DV</div><div class="info"><div class="nm">배포담당</div><div class="role">deploy/infra</div></div><div class="dot"></div></div>
+<div class="agent" id="ag-ds" data-id="ds"><div class="av" style="background:rgba(245,158,11,.15);color:#f59e0b">DS</div><div class="info"><div class="nm">디자이너</div><div class="role">UI/UX/Stitch</div><div class="task-label" id="task-ds"></div></div><div class="dot" id="dot-ds"></div></div>
+<div class="agent" id="ag-qa" data-id="qa"><div class="av" style="background:rgba(16,185,129,.15);color:#10b981">QA</div><div class="info"><div class="nm">테스터</div><div class="role">test/review</div><div class="task-label" id="task-qa"></div></div><div class="dot" id="dot-qa"></div></div>
+<div class="agent" id="ag-dv" data-id="dv"><div class="av" style="background:rgba(100,116,139,.15);color:#64748b">DV</div><div class="info"><div class="nm">배포담당</div><div class="role">deploy/infra</div><div class="task-label" id="task-dv"></div></div><div class="dot" id="dot-dv"></div></div>
+
 <div class="side-label" style="margin-top:12px">Projects</div>
-<div class="proj"><span class="n">DR.SLOT</span><span class="badge dev">dev</span></div>
-<div class="proj"><span class="n">JARVIS2</span><span class="badge live">live</span></div>
-<div class="proj"><span class="n">Community</span><span class="badge plan">plan</span></div>
-<div class="proj"><span class="n">BIPAY</span><span class="badge live">live</span></div>
+<div class="proj" id="proj-drslot"><span class="n">DR.SLOT</span><span class="badge dev">dev</span></div>
+<div class="proj" id="proj-jarvis2"><span class="n">JARVIS2</span><span class="badge live">live</span></div>
+<div class="proj" id="proj-community"><span class="n">Community</span><span class="badge plan">plan</span></div>
+<div class="proj" id="proj-bipay"><span class="n">BIPAY</span><span class="badge live">live</span></div>
+
+<div class="side-footer">
+  <div>SSE 실시간 동기화</div>
+  <div id="sseInfo" style="margin-top:2px">연결 대기...</div>
 </div>
+</div>
+
 <div class="main">
 <div class="stats">
-<div class="stat"><div class="l">활동 에이전트</div><div class="v" id="sa">1<span style="font-size:10px;color:#3a4060">/7</span></div></div>
-<div class="stat"><div class="l">완료 태스크</div><div class="v" id="stk">0</div></div>
-<div class="stat"><div class="l">프로젝트</div><div class="v" style="font-size:13px" id="sp">대기</div></div>
-<div class="stat"><div class="l">가동시간</div><div class="v" id="su" style="font-family:monospace">00:00</div></div>
+<div class="stat"><div class="l">활동 에이전트</div><div class="v" id="activeCount">0<span class="sub">/7</span></div></div>
+<div class="stat"><div class="l">완료 태스크</div><div class="v" id="taskCount">0</div></div>
+<div class="stat"><div class="l">현재 프로젝트</div><div class="v" style="font-size:13px" id="currentProj">대기</div></div>
+<div class="stat"><div class="l">서버 가동</div><div class="v" id="uptime" style="font-family:monospace">00:00</div></div>
 </div>
+
+<div class="task-card" id="taskCard">
+<div class="task-header">
+  <div class="task-title"><span class="icon">📋</span>현재 태스크</div>
+  <span class="task-project" id="taskProject" style="display:none"></span>
+</div>
+<div class="task-desc" id="taskDesc" style="display:none"></div>
+<div class="pbar"><div class="fill" id="pbarFill" style="width:0%"></div></div>
+<div class="steps" id="steps"></div>
+<div class="no-task" id="noTask">대기 중 — 클로드 코드에서 작업이 시작되면 여기에 실시간으로 표시됩니다</div>
+</div>
+
 <div class="cols">
 <div class="card">
-<div class="card-t"><div class="bar" style="background:var(--accent)"></div>업무 지시 & 진행</div>
-<div class="cmd"><input id="inp" placeholder="무엇을 만들까요?" onkeydown="if(event.key==='Enter')go()"><button onclick="go()">실행</button></div>
-<div id="bossArea"></div>
-<div id="planArea"></div>
-<div class="pbar"><div class="fill" id="pbarFill" style="width:0%"></div></div>
-<div class="task-flow" id="taskFlow"></div>
+<div class="card-t"><div class="bar" style="background:var(--green)"></div>실시간 로그</div>
+<div id="logs" style="max-height:280px;overflow-y:auto"></div>
 </div>
 <div class="card">
-<div class="card-t"><div class="bar" style="background:var(--green)"></div>Activity Log & GitHub</div>
-<div id="ghInfo" style="margin-bottom:8px"></div>
-<div id="logs" style="max-height:250px;overflow-y:auto"></div>
+<div class="card-t"><div class="bar" style="background:var(--accent)"></div>GitHub 커밋</div>
+<div id="ghArea"></div>
 </div>
 </div>
 </div>
 </div>
+
 <script>
-var AGENTS=[
-{id:'ceo',n:'CEO 팀장',h:'#6c5ce7',s:'idle'},
-{id:'fe',n:'프론트',h:'#14b8a6',s:'idle'},
-{id:'be',n:'백엔드',h:'#3b82f6',s:'idle'},
-{id:'pe',n:'프롬프트',h:'#ec4899',s:'idle'},
-{id:'ds',n:'디자이너',h:'#f59e0b',s:'idle'},
-{id:'qa',n:'테스터',h:'#10b981',s:'idle'},
-{id:'dv',n:'배포담당',h:'#64748b',s:'idle'}
+var GH_REPOS = [
+  {name:'slotsite', repo:'xbo3/slotsite', badge:'dev'},
+  {name:'bipayments', repo:'xbo3/bipayments', badge:'live'},
+  {name:'jarvis2', repo:'xbo3/jarvis2', badge:'live'},
+  {name:'orchestra', repo:'xbo3/orchestra-office', badge:'dev'}
 ];
-var tasks=0,running=false,t0=Date.now();
 
-function init(){
-addLog('ceo','사무실 오픈! 7명 에이전트 로딩 완료');
-}
+// ===== SSE 실시간 연결 =====
+var evtSource;
+var reconnectTimer;
 
-// ===== GitHub API =====
-var GH_REPOS=[
-{name:'orchestra-office',repo:'xbo3/orchestra-office',badge:'dev'},
-{name:'jarvis2',repo:'xbo3/jarvis2',badge:'live'}
-];
-function fetchGitHub(){
-var html='';
-GH_REPOS.forEach(function(r){
-fetch('https://api.github.com/repos/'+r.repo+'/commits?per_page=3').then(function(res){return res.json()}).then(function(commits){
-if(!Array.isArray(commits))return;
-var el=document.getElementById('gh-'+r.name);
-if(el){var h='';commits.forEach(function(c){
-var d=new Date(c.commit.author.date);var t=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
-h+='<div style="font-size:8px;color:#5a6178;padding:2px 0"><span style="color:#3a4060;font-family:monospace">'+t+'</span> <span style="color:var(--accent)">'+c.sha.substring(0,7)+'</span> '+c.commit.message.substring(0,50)+'</div>';
-});el.innerHTML=h}
-}).catch(function(){})
-});
-var ghDiv=document.getElementById('ghInfo');
-ghDiv.innerHTML='<div style="font-size:10px;font-weight:600;color:#8890b0;margin-bottom:6px">GitHub 연동</div>';
-GH_REPOS.forEach(function(r){
-ghDiv.innerHTML+='<div class="proj"><span class="n">'+r.name+'</span><span class="badge '+r.badge+'">'+r.badge+'</span></div><div id="gh-'+r.name+'" style="padding:0 8px;margin-bottom:6px"></div>';
-});
-}
+function connectSSE() {
+  evtSource = new EventSource('/api/stream');
 
-// ===== Task System =====
-var SCEN={
-drslot:[
-{a:'ceo',s:'thinking',t:'태스크 범위 분석 중',detail:'DR.SLOT 프로젝트 구조 분석, 필요 작업 도출'},
-{a:'ceo',s:'presenting',t:'팀원들에게 업무 배분',detail:'디자이너→백엔드→프론트→QA→배포 순서 결정'},
-{a:'ds',s:'typing',t:'UI 레이아웃 디자인 중',detail:'Stitch MCP로 고화질 UI 생성, 다크 테마 적용'},
-{a:'be',s:'typing',t:'API 엔드포인트 작성 중',detail:'Express 라우터 생성, Prisma 스키마 업데이트'},
-{a:'fe',s:'typing',t:'React 페이지 빌드 중',detail:'Next.js App Router 페이지 생성, Tailwind 스타일링'},
-{a:'qa',s:'typing',t:'테스트 실행 중',detail:'API 응답 검증, 엣지케이스 체크, 모바일 테스트'},
-{a:'dv',s:'typing',t:'Railway 배포 중',detail:'git push → Railway 자동 배포, 헬스체크 확인'},
-{a:'ceo',s:'celebrating',t:'태스크 완료!',detail:'전체 작업 완료, 결과 보고서 작성'}
-],
-jarvis2:[
-{a:'ceo',s:'thinking',t:'JARVIS2 범위 분석',detail:'텔레그램 유저봇 기반 AI CRM 구조 분석'},
-{a:'pe',s:'typing',t:'9섹션 프롬프트 튜닝',detail:'thawing 로직, vibe 조절, model_hint 최적화'},
-{a:'be',s:'typing',t:'FastAPI 라우트 업데이트',detail:'API 엔드포인트 수정, 응답 형식 통일'},
-{a:'qa',s:'typing',t:'AI 응답 품질 테스트',detail:'프롬프트 A/B 테스트, 토큰 비용 분석'},
-{a:'dv',s:'typing',t:'Railway 배포 중',detail:'환경변수 확인, 서버 재시작'},
-{a:'ceo',s:'celebrating',t:'완료!',detail:'JARVIS2 업데이트 배포 완료'}
-],
-stitch:[
-{a:'ceo',s:'thinking',t:'디자인 요구사항 분석',detail:'UI/UX 요구사항 정리, 레퍼런스 수집'},
-{a:'ds',s:'typing',t:'Stitch MCP로 UI 생성 중',detail:'generate_screen_from_text 호출, 3가지 시안'},
-{a:'ds',s:'typing',t:'디자인 시스템 적용',detail:'색상/폰트/간격 통일, 반응형 확인'},
-{a:'fe',s:'typing',t:'React 컴포넌트로 변환',detail:'Stitch HTML → React/Tailwind 변환'},
-{a:'qa',s:'typing',t:'UI/UX 검증 중',detail:'브라우저 테스트, 모바일 반응형 확인'},
-{a:'dv',s:'typing',t:'스테이징 배포',detail:'Vercel preview 배포, 팀 리뷰'},
-{a:'ceo',s:'celebrating',t:'디자인 완료!',detail:'시안 확정, 프로덕션 적용 대기'}
-]
-};
-SCEN.community=SCEN.stitch;
+  evtSource.addEventListener('init', function(e) {
+    var data = JSON.parse(e.data);
+    updateAllAgents(data.agents);
+    updateTaskCount(data.completedTasks);
+    updateCurrentTask(data.currentTask, data.currentProject);
+    data.logs.forEach(function(log) { renderLog(log, true); });
+    setConnected(true);
+    document.getElementById('sseInfo').textContent = 'SSE 연결됨';
+  });
 
-function addLog(aid,msg){
-var a=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===aid)a=AGENTS[i]}
-if(!a)a={n:'SYS',h:'#10b981'};
-var now=new Date();var t=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-var el=document.createElement('div');el.className='log-item';
-el.innerHTML='<span class="t">'+t+'</span><span class="a" style="background:'+a.h+'15;color:'+a.h+'">'+a.n+'</span><span class="m">'+msg+'</span>';
-var c=document.getElementById('logs');c.insertBefore(el,c.firstChild);
-if(c.children.length>30)c.removeChild(c.lastChild);
+  evtSource.addEventListener('agent', function(e) {
+    var agent = JSON.parse(e.data);
+    updateAgent(agent);
+  });
+
+  evtSource.addEventListener('agents', function(e) {
+    updateAllAgents(JSON.parse(e.data));
+  });
+
+  evtSource.addEventListener('task', function(e) {
+    var data = JSON.parse(e.data);
+    if (data.type === 'start') {
+      showTask(data);
+    } else if (data.type === 'step') {
+      updateStep(data);
+    } else if (data.type === 'complete') {
+      completeTask(data);
+    }
+  });
+
+  evtSource.addEventListener('log', function(e) {
+    renderLog(JSON.parse(e.data));
+  });
+
+  evtSource.onerror = function() {
+    setConnected(false);
+    document.getElementById('sseInfo').textContent = '재연결 중...';
+    evtSource.close();
+    clearTimeout(reconnectTimer);
+    reconnectTimer = setTimeout(connectSSE, 3000);
+  };
 }
 
-function updateSideAgent(a){
-var el=document.getElementById('ag-'+a.id);
-if(!el)return;
-var dot=el.querySelector('.dot');
-if(a.s!=='idle'){el.classList.add('active');dot.classList.add('on')}
-else{el.classList.remove('active');dot.classList.remove('on')}
+function setConnected(on) {
+  var el = document.getElementById('connStatus');
+  var txt = document.getElementById('connText');
+  el.className = 'conn ' + (on ? 'on' : 'off');
+  txt.textContent = on ? 'LIVE' : 'offline';
 }
 
-function renderTaskFlow(steps,ci){
-var html='';
-for(var i=0;i<steps.length;i++){
-var s=steps[i];var ag=null;
-for(var j=0;j<AGENTS.length;j++){if(AGENTS[j].id===s.a)ag=AGENTS[j]}
-var cls=i<ci?'done':i===ci?'active':'';
-var dcls=i<ci?'done':i===ci?'work':'wait';
-var scls=i<ci?'done':i===ci?'work':'wait';
-var stxt=i<ci?'완료':i===ci?'작업 중...':'대기';
-html+='<div class="task-step '+cls+'"><div class="d '+dcls+'"></div>';
-html+='<div class="info"><div class="ag" style="color:'+(ag?ag.h:'#888')+'">'+(ag?ag.n:'?')+'</div>';
-html+='<div class="desc">'+s.t+'</div></div>';
-html+='<div class="st '+scls+'">'+stxt+'</div></div>';
-}
-document.getElementById('taskFlow').innerHTML=html;
-var pct=Math.round(((ci+1)/steps.length)*100);
-document.getElementById('pbarFill').style.width=pct+'%';
+// ===== UI 업데이트 =====
+function updateAgent(agent) {
+  var el = document.getElementById('ag-' + agent.id);
+  var dot = document.getElementById('dot-' + agent.id);
+  var taskLabel = document.getElementById('task-' + agent.id);
+  if (!el) return;
+
+  if (agent.status !== 'idle') {
+    el.classList.add('active');
+    dot.className = 'dot working';
+    if (taskLabel) taskLabel.textContent = agent.task || '';
+  } else {
+    el.classList.remove('active');
+    dot.className = 'dot';
+    if (taskLabel) taskLabel.textContent = '';
+  }
+  updateActiveCount();
 }
 
-function go(){
-if(running)return;running=true;
-var text=document.getElementById('inp').value.trim()||'새 기능 만들어';
-document.getElementById('inp').value='';
-var proj='drslot';
-if(text.match(/jarvis|자비스|텔레|프롬프트|crm|영업/i))proj='jarvis2';
-else if(text.match(/커뮤|community|비교|랭킹/i))proj='community';
-else if(text.match(/stitch|디자인|목업|UI|레이아웃/i))proj='stitch';
-var names={drslot:'DR.SLOT',jarvis2:'JARVIS2',community:'Community',stitch:'Stitch 디자인'};
-document.getElementById('sp').textContent=names[proj];
-document.getElementById('bossArea').innerHTML='<div class="boss-cmd"><div class="label">👤 Boss 지시</div><div class="text">"'+text+'"</div></div>';
-addLog('ceo','Boss: "'+text+'"');
-var steps=SCEN[proj];var idx=0;var prev=null;
-function next(){
-if(idx>=steps.length){
-tasks++;document.getElementById('stk').textContent=tasks;
-renderTaskFlow(steps,steps.length);
-document.getElementById('planArea').innerHTML='<div class="ceo-plan">✅ 모든 작업 완료. 태스크 #'+tasks+' 성공적으로 처리됨.</div>';
-addLog('ceo','태스크 #'+tasks+' 완료!');
-setTimeout(function(){
-AGENTS.forEach(function(a){a.s='idle';updateSideAgent(a)});
-document.getElementById('sp').textContent='대기';
-document.getElementById('sa').innerHTML='1<span style="font-size:10px;color:#3a4060">/7</span>';
-running=false;
-},2500);return;
+function updateAllAgents(agents) {
+  Object.values(agents).forEach(updateAgent);
 }
-var step=steps[idx];
-renderTaskFlow(steps,idx);
-if(prev&&prev!==step.a){
-for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===prev){AGENTS[i].s='idle';updateSideAgent(AGENTS[i])}}
+
+function updateActiveCount() {
+  var count = document.querySelectorAll('.agent.active').length;
+  document.getElementById('activeCount').innerHTML = count + '<span class="sub">/7</span>';
 }
-var ag=null;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].id===step.a){ag=AGENTS[i];ag.s=step.s;updateSideAgent(ag)}}
-var ac=0;for(var i=0;i<AGENTS.length;i++){if(AGENTS[i].s!=='idle')ac++}
-document.getElementById('sa').innerHTML=ac+'<span style="font-size:10px;color:#3a4060">/7</span>';
-if(idx===0){
-document.getElementById('planArea').innerHTML='<div class="ceo-plan">📋 CEO 분석 중...<br>"'+text+'" → '+names[proj]+' 프로젝트<br>'+steps.length+'단계 작업 플랜 수립</div>';
-}else if(idx===1){
-var plan='📋 CEO 작업 배분:<br>';
-for(var i=1;i<steps.length;i++){var sa=null;for(var j=0;j<AGENTS.length;j++){if(AGENTS[j].id===steps[i].a)sa=AGENTS[j]}
-plan+=(i)+'. <b style="color:'+(sa?sa.h:'#888')+'">'+(sa?sa.n:'?')+'</b> — '+steps[i].t+'<br>'}
-document.getElementById('planArea').innerHTML='<div class="ceo-plan">'+plan+'</div>';
+
+function updateTaskCount(n) {
+  document.getElementById('taskCount').textContent = n;
 }
-addLog(step.a,step.t+(step.detail?' — '+step.detail:''));
-prev=step.a;idx++;
-setTimeout(next,idx<=2?1500:2200);
+
+function showTask(data) {
+  document.getElementById('noTask').style.display = 'none';
+  document.getElementById('taskProject').textContent = data.project;
+  document.getElementById('taskProject').style.display = '';
+  document.getElementById('taskDesc').textContent = data.task;
+  document.getElementById('taskDesc').style.display = '';
+  document.getElementById('currentProj').textContent = data.project;
+  document.getElementById('taskCard').classList.add('has-task');
+
+  if (data.steps && data.steps.length) {
+    renderSteps(data.steps, -1);
+  }
 }
-next();
+
+function renderSteps(steps, current) {
+  var html = '';
+  steps.forEach(function(s, i) {
+    var cls = i < current ? 'done' : i === current ? 'active' : '';
+    var dcls = i < current ? 'done' : i === current ? 'work' : 'wait';
+    var stxt = i < current ? '완료' : i === current ? '작업 중...' : '대기';
+    var scls = i < current ? 'done' : i === current ? 'work' : 'wait';
+    html += '<div class="step ' + cls + '"><div class="dot ' + dcls + '"></div>';
+    html += '<div class="s-info"><div class="s-agent" style="color:' + (s.color || '#888') + '">' + (s.agent || '?') + '</div>';
+    html += '<div class="s-desc">' + (s.description || '') + '</div></div>';
+    html += '<div class="s-status ' + scls + '">' + stxt + '</div></div>';
+  });
+  document.getElementById('steps').innerHTML = html;
+
+  var pct = current >= 0 ? Math.round(((current + 1) / steps.length) * 100) : 0;
+  document.getElementById('pbarFill').style.width = pct + '%';
 }
+
+function updateStep(data) {
+  // SSE step event updates
+}
+
+function completeTask(data) {
+  updateTaskCount(data.completedTasks);
+  document.getElementById('currentProj').textContent = '대기';
+  document.getElementById('pbarFill').style.width = '100%';
+  setTimeout(function() {
+    document.getElementById('taskCard').classList.remove('has-task');
+    document.getElementById('taskProject').style.display = 'none';
+    document.getElementById('taskDesc').style.display = 'none';
+    document.getElementById('steps').innerHTML = '';
+    document.getElementById('pbarFill').style.width = '0%';
+    document.getElementById('noTask').style.display = '';
+  }, 3000);
+}
+
+function renderLog(entry, silent) {
+  var d = new Date(entry.time);
+  var t = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  var el = document.createElement('div');
+  el.className = 'log-item';
+  if (silent) el.style.animation = 'none';
+  el.innerHTML = '<span class="t">' + t + '</span>' +
+    '<span class="a" style="background:' + entry.agentColor + '15;color:' + entry.agentColor + '">' + entry.agentName + '</span>' +
+    '<span class="m">' + entry.message + '</span>';
+  var logs = document.getElementById('logs');
+  logs.insertBefore(el, logs.firstChild);
+  if (logs.children.length > 50) logs.removeChild(logs.lastChild);
+}
+
+// ===== GitHub =====
+function fetchGitHub() {
+  var area = document.getElementById('ghArea');
+  area.innerHTML = '';
+  GH_REPOS.forEach(function(r) {
+    fetch('https://api.github.com/repos/' + r.repo + '/commits?per_page=3')
+      .then(function(res) { return res.json(); })
+      .then(function(commits) {
+        if (!Array.isArray(commits)) return;
+        var div = document.createElement('div');
+        div.className = 'gh-repo';
+        var h = '<div class="gh-repo-name"><span class="badge ' + r.badge + '" style="font-size:7px;padding:1px 5px">' + r.badge + '</span>' + r.name + '</div>';
+        commits.forEach(function(c) {
+          var d = new Date(c.commit.author.date);
+          var t = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+          h += '<div class="gh-commit"><span style="color:#3a4060;font-family:monospace">' + t + '</span><span class="sha">' + c.sha.substring(0,7) + '</span><span class="msg">' + c.commit.message.substring(0,60) + '</span></div>';
+        });
+        div.innerHTML = h;
+        area.appendChild(div);
+      }).catch(function(){});
+  });
+}
+
+// ===== Clock =====
+setInterval(function() {
+  var n = new Date();
+  document.getElementById('clock').textContent =
+    String(n.getHours()).padStart(2,'0') + ':' +
+    String(n.getMinutes()).padStart(2,'0') + ':' +
+    String(n.getSeconds()).padStart(2,'0');
+}, 1000);
 
 // ===== Init =====
-window.addEventListener('load',function(){
-init();fetchGitHub();
-setInterval(function(){fetchGitHub()},60000);
-});
-setInterval(function(){
-var n=new Date();
-document.getElementById('clock').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
-var e=Math.floor((Date.now()-t0)/1000);
-document.getElementById('su').textContent=String(Math.floor(e/60)).padStart(2,'0')+':'+String(e%60).padStart(2,'0');
-},1000);
+connectSSE();
+fetchGitHub();
+setInterval(fetchGitHub, 60000);
 </script>
 </body>
 </html>
