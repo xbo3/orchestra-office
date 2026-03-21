@@ -147,6 +147,7 @@ canvas{display:block;position:fixed;top:0;left:0}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 var scene,camera,renderer,controls,clock;
+var SEATS={ceo:[0,-1.45],fe:[-1.75,0.5],be:[-1.75,3],pe:[1.75,0.5],ds:[1.75,3],qa:[-1.75,5.5],dv:[1.75,5.5]};
 var AGENTS=[
 {id:'ceo',n:'CEO 팀장',c:0x6c5ce7,h:'#6c5ce7',x:0,z:-2.5,ry:0,s:'idle'},
 {id:'fe',n:'프론트',c:0x14b8a6,h:'#14b8a6',x:-2.8,z:0.5,ry:Math.PI/2,s:'idle'},
@@ -333,7 +334,8 @@ var an=i*Math.PI*2/5;
 var arm=CY(.012,.012,.2,0x666);arm.rotation.z=Math.PI/2;
 arm.position.set(Math.cos(an)*.15,.08,Math.sin(an)*.15);cg.add(arm);
 var wh=CY(.025,.025,.025,0x333,8);wh.position.set(Math.cos(an)*.22,.02,Math.sin(an)*.22);cg.add(wh)}
-cg.position.set(a.x+Math.sin(a.ry)*1.0,0,a.z+Math.cos(a.ry)*1.0);cg.rotation.y=a.ry;scene.add(cg);
+var cseat=SEATS[a.id];
+cg.position.set(cseat[0],0,cseat[1]);cg.rotation.y=a.ry;scene.add(cg);
 }
 
 function buildDecor(){
@@ -447,9 +449,8 @@ child.receiveShadow=true;
 }
 });
 
-var rOffX=Math.sin(a.ry)*1.0;
-var rOffZ=Math.cos(a.ry)*1.0;
-model.position.set(a.x+rOffX,0.32,a.z+rOffZ);
+var seat=SEATS[a.id];
+model.position.set(seat[0],0.36,seat[1]);
 model.rotation.y=a.ry;
 scene.add(model);
 
@@ -523,13 +524,13 @@ a.mixer=mixer;
 a.actions={};
 a.model=model;
 
+if(i===0){console.log('Available animations:');for(var j=0;j<baseAnims.length;j++){console.log('  '+baseAnims[j].name);}}
 for(var j=0;j<baseAnims.length;j++){
 var clip=baseAnims[j];
 var action=mixer.clipAction(clip);
 a.actions[clip.name]=action;
-if(clip.name==='Sitting'){
-action.play();
-}
+if(clip.name==='Sitting'){action.play();a.currentAnim='Sitting';}
+if(clip.name==='Idle'&&!a.actions['Sitting']){action.play();a.currentAnim='Idle';}
 }
 a.currentAnim='Sitting';
 }
