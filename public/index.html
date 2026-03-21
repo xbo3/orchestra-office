@@ -147,7 +147,7 @@ canvas{display:block;position:fixed;top:0;left:0}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
 var scene,camera,renderer,controls,clock;
-var SEATS={ceo:[0,-1.45],fe:[-1.75,0.5],be:[-1.75,3],pe:[1.75,0.5],ds:[1.75,3],qa:[-1.75,5.5],dv:[1.75,5.5]};
+var SEATS={ceo:[0,-3.5],fe:[-3.8,0.5],be:[-3.8,3],pe:[3.8,0.5],ds:[3.8,3],qa:[-3.8,5.5],dv:[3.8,5.5]};
 var AGENTS=[
 {id:'ceo',n:'CEO 팀장',c:0x6c5ce7,h:'#6c5ce7',x:0,z:-2.5,ry:0,s:'idle'},
 {id:'fe',n:'프론트',c:0x14b8a6,h:'#14b8a6',x:-2.8,z:0.5,ry:Math.PI/2,s:'idle'},
@@ -450,7 +450,7 @@ child.receiveShadow=true;
 });
 
 var seat=SEATS[a.id];
-model.position.set(seat[0],0.36,seat[1]);
+model.position.set(seat[0],0.28,seat[1]);
 model.rotation.y=a.ry;
 scene.add(model);
 
