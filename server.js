@@ -18,10 +18,12 @@ const PROJECTS = [
 const ghCache = { projects: null, projectsAt: 0, structures: {} };
 const CACHE_TTL = 5 * 60 * 1000; // 5분
 
+const GH_TOKEN = process.env.GITHUB_TOKEN || '';
+
 async function ghFetch(url) {
-  const res = await fetch('https://api.github.com' + url, {
-    headers: { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WooOrchestra' }
-  });
+  const headers = { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WooOrchestra' };
+  if (GH_TOKEN) headers['Authorization'] = 'token ' + GH_TOKEN;
+  const res = await fetch('https://api.github.com' + url, { headers });
   if (!res.ok) throw new Error('GitHub API ' + res.status);
   return res.json();
 }
