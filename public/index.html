@@ -324,8 +324,8 @@ var pp=BX(.17,.003,.23,0xFFFFF0,.7);pp.position.set(.48,.6+i*.004,.12);g.add(pp)
 g.position.set(a.x,0,a.z);g.rotation.y=a.ry+Math.PI;scene.add(g);
 
 var cg=new THREE.Group();
-var cs=CY(.27,.27,.06,a.c,12);cs.position.y=.32;cg.add(cs);
-var cc=CY(.25,.25,.04,a.c,12);cc.position.y=.35;cc.material.roughness=.4;cg.add(cc);
+var cs=CY(.27,.27,.06,a.c,12);cs.position.y=.36;cg.add(cs);
+var cc=CY(.25,.25,.04,a.c,12);cc.position.y=.39;cc.material.roughness=.4;cg.add(cc);
 var cb=BX(.46,.5,.04,a.c,.5);cb.position.set(0,.56,-.14);cg.add(cb);
 var cp=CY(.03,.03,.22,0x888);cp.position.y=.22;cg.add(cp);
 for(var i=0;i<5;i++){
@@ -333,7 +333,7 @@ var an=i*Math.PI*2/5;
 var arm=CY(.012,.012,.2,0x666);arm.rotation.z=Math.PI/2;
 arm.position.set(Math.cos(an)*.15,.08,Math.sin(an)*.15);cg.add(arm);
 var wh=CY(.025,.025,.025,0x333,8);wh.position.set(Math.cos(an)*.22,.02,Math.sin(an)*.22);cg.add(wh)}
-cg.position.set(a.x+Math.sin(a.ry)*1.25,0,a.z+Math.cos(a.ry)*1.25);cg.rotation.y=a.ry;scene.add(cg);
+cg.position.set(a.x+Math.sin(a.ry)*1.0,0,a.z+Math.cos(a.ry)*1.0);cg.rotation.y=a.ry;scene.add(cg);
 }
 
 function buildDecor(){
@@ -414,7 +414,7 @@ prog(90);
 var baseModel=gltf.scene;
 var baseAnims=gltf.animations;
 
-baseModel.scale.set(0.48,0.48,0.48);
+baseModel.scale.set(0.42,0.42,0.42);
 
 baseModel.traverse(function(child){
 if(child.isMesh){
@@ -447,15 +447,15 @@ child.receiveShadow=true;
 }
 });
 
-var rOffX=Math.sin(a.ry)*1.25;
-var rOffZ=Math.cos(a.ry)*1.25;
-model.position.set(a.x+rOffX,-0.25,a.z+rOffZ);
+var rOffX=Math.sin(a.ry)*1.0;
+var rOffZ=Math.cos(a.ry)*1.0;
+model.position.set(a.x+rOffX,-0.3,a.z+rOffZ);
 model.rotation.y=a.ry;
 scene.add(model);
 
 // === FACE FEATURES ===
 var faceGroup=new THREE.Group();
-faceGroup.position.y=0.9;
+faceGroup.position.y=0.82;
 faceGroup.position.z=.12;
 
 // -- LEFT EYE --
