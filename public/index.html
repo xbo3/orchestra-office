@@ -37,7 +37,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .agent .dot.working{background:var(--accent);box-shadow:0 0 8px rgba(108,92,231,.5);animation:pulse 1s infinite}
 
 /* PROJECTS */
-.proj{padding:6px 10px;border-radius:6px;background:var(--bg3);margin:2px 8px;display:flex;align-items:center;gap:8px}
+.proj{padding:6px 10px;border-radius:6px;background:var(--bg3);margin:2px 8px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;border:1px solid transparent}
+.proj:hover{border-color:rgba(108,92,231,.2);background:rgba(108,92,231,.04)}
+.proj.selected{border-color:rgba(108,92,231,.4);background:rgba(108,92,231,.08)}
 .proj .n{font-size:11px;font-weight:600;flex:1}
 .proj .badge{font-size:8px;padding:2px 6px;border-radius:8px;font-weight:600}
 .proj .badge.live{background:rgba(16,185,129,.1);color:var(--green)}
@@ -45,6 +47,59 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .proj .badge.plan{background:rgba(59,130,246,.1);color:var(--blue)}
 .proj.current{border:1px solid rgba(108,92,231,.3);background:rgba(108,92,231,.05)}
 .side-footer{margin-top:auto;padding:8px 12px;border-top:1px solid var(--border);font-size:8px;color:#3a4060}
+
+/* PROJECT DETAIL VIEW */
+.proj-view{display:none;flex-direction:column;gap:12px}
+.proj-view.active{display:flex}
+.task-view.hidden{display:none}
+.proj-back{display:flex;align-items:center;gap:6px;font-size:10px;color:#5a6178;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .2s;width:fit-content}
+.proj-back:hover{color:#e0e4f0;background:var(--bg3)}
+.proj-header{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.proj-header .ph-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.proj-header .ph-name{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+.proj-header .ph-domain{font-size:10px;color:var(--accent);text-decoration:none;padding:3px 10px;border-radius:6px;background:rgba(108,92,231,.08);transition:all .2s}
+.proj-header .ph-domain:hover{background:rgba(108,92,231,.15)}
+.proj-header .ph-meta{display:flex;gap:16px;font-size:10px;color:#5a6178}
+.proj-header .ph-meta span{display:flex;align-items:center;gap:4px}
+.proj-header .ph-commit{margin-top:10px;padding:8px 10px;background:var(--bg3);border-radius:6px;font-size:10px;display:flex;align-items:center;gap:8px}
+.proj-header .ph-commit .sha{color:var(--accent);font-family:monospace;font-weight:600}
+.proj-header .ph-commit .msg{color:#8890b0;flex:1}
+.proj-header .ph-commit .date{color:#3a4060;font-family:monospace}
+
+/* FILE TREE */
+.file-tree-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.ft-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ft-title{font-size:11px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;display:flex;align-items:center;gap:6px}
+.ft-count{font-size:9px;color:#3a4060;font-family:monospace}
+.ft-folder{margin-bottom:4px}
+.ft-folder-head{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;transition:all .15s;font-size:11px;font-weight:600;color:#8890b0}
+.ft-folder-head:hover{background:var(--bg3)}
+.ft-folder-head .arrow{font-size:8px;transition:transform .2s;color:#3a4060;width:10px}
+.ft-folder-head .arrow.open{transform:rotate(90deg)}
+.ft-folder-head .fc{font-size:8px;color:#3a4060;font-family:monospace;margin-left:auto}
+.ft-files{display:none;padding-left:24px}
+.ft-files.open{display:block}
+.ft-file{padding:3px 8px;font-size:10px;font-family:monospace;color:#6a7090;display:flex;align-items:center;gap:6px;border-radius:4px;transition:background .15s}
+.ft-file:hover{background:rgba(255,255,255,.02)}
+.ft-file .ext{font-size:8px;font-weight:600;padding:1px 4px;border-radius:3px}
+.ext-js{background:rgba(245,158,11,.12);color:#f59e0b}
+.ext-ts,.ext-tsx{background:rgba(59,130,246,.12);color:#3b82f6}
+.ext-jsx{background:rgba(20,184,166,.12);color:#14b8a6}
+.ext-py{background:rgba(16,185,129,.12);color:#10b981}
+.ext-json{background:rgba(236,72,153,.12);color:#ec4899}
+.ext-css{background:rgba(168,85,247,.12);color:#a855f7}
+.ext-html{background:rgba(239,68,68,.12);color:#ef4444}
+.ext-md{background:rgba(100,116,139,.12);color:#64748b}
+.ext-sql,.ext-prisma{background:rgba(251,146,60,.12);color:#fb923c}
+.ext-yml,.ext-yaml{background:rgba(34,197,94,.12);color:#22c55e}
+
+/* MODULE DIAGRAM */
+.mod-diagram{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.mod-title{font-size:11px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.mod-canvas{position:relative;min-height:200px;background:var(--bg3);border-radius:8px;padding:20px;overflow:hidden}
+.mod-box{position:absolute;padding:8px 14px;border-radius:8px;font-size:10px;font-weight:600;border:1px solid;text-align:center;min-width:70px;z-index:2}
+.mod-svg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.mod-loading{text-align:center;padding:20px;color:#3a4060;font-size:11px}
 
 /* MAIN */
 .main{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -123,10 +178,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 <div class="agent" id="ag-dv" data-id="dv"><div class="av" style="background:rgba(100,116,139,.15);color:#64748b">DV</div><div class="info"><div class="nm">배포담당</div><div class="role">deploy/infra</div><div class="task-label" id="task-dv"></div></div><div class="dot" id="dot-dv"></div></div>
 
 <div class="side-label" style="margin-top:12px">Projects</div>
-<div class="proj" id="proj-drslot"><span class="n">DR.SLOT</span><span class="badge dev">dev</span></div>
-<div class="proj" id="proj-jarvis2"><span class="n">JARVIS2</span><span class="badge live">live</span></div>
-<div class="proj" id="proj-community"><span class="n">Community</span><span class="badge plan">plan</span></div>
-<div class="proj" id="proj-bipay"><span class="n">BIPAY</span><span class="badge live">live</span></div>
+<div id="sideProjects"></div>
 
 <div class="side-footer">
   <div>SSE 실시간 동기화</div>
@@ -135,6 +187,24 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 </div>
 
 <div class="main">
+<!-- PROJECT DETAIL VIEW -->
+<div class="proj-view" id="projView">
+  <div class="proj-back" id="projBack">&#9664; Tasks</div>
+  <div class="proj-header" id="projHeader"></div>
+  <div class="cols">
+    <div class="file-tree-card" id="fileTreeCard">
+      <div class="ft-header"><div class="ft-title"><div class="bar" style="background:var(--teal);width:3px;height:10px;border-radius:2px"></div>File Tree</div><div class="ft-count" id="ftCount"></div></div>
+      <div id="fileTree"><div class="mod-loading">Loading...</div></div>
+    </div>
+    <div class="mod-diagram">
+      <div class="mod-title"><div class="bar" style="background:var(--pink);width:3px;height:10px;border-radius:2px"></div>Module Diagram</div>
+      <div class="mod-canvas" id="modCanvas"><div class="mod-loading">Loading...</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TASK VIEW (default) -->
+<div class="task-view" id="taskView">
 <div class="stats">
 <div class="stat"><div class="l">활동 에이전트</div><div class="v" id="activeCount">0<span class="sub">/7</span></div></div>
 <div class="stat"><div class="l">완료 태스크</div><div class="v" id="taskCount">0</div></div>
@@ -164,7 +234,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 </div>
 </div>
 </div>
-</div>
+</div><!-- /task-view -->
+</div><!-- /main -->
+</div><!-- /grid -->
 
 <script>
 var GH_REPOS = [
@@ -359,10 +431,238 @@ setInterval(function() {
     String(n.getSeconds()).padStart(2,'0');
 }, 1000);
 
+// ===== PROJECT VISUALIZATION =====
+var projectsData = [];
+var selectedProject = null;
+
+function loadSidebarProjects() {
+  fetch('/api/projects')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      projectsData = data.projects || [];
+      renderSidebarProjects();
+    })
+    .catch(function() {
+      // fallback: 하드코딩된 목록 표시
+      var fallback = [
+        {name:'BiPayments', repo:'xbo3/bipayments', badge:'live'},
+        {name:'DR.SLOT Frontend', repo:'xbo3/slotsite', badge:'dev'},
+        {name:'JARVIS2', repo:'xbo3/jarvis2', badge:'live'},
+        {name:'Orchestra', repo:'xbo3/orchestra-office', badge:'dev'}
+      ];
+      projectsData = fallback;
+      renderSidebarProjects();
+    });
+}
+
+function renderSidebarProjects() {
+  var container = document.getElementById('sideProjects');
+  container.innerHTML = '';
+  projectsData.forEach(function(p, i) {
+    var div = document.createElement('div');
+    div.className = 'proj' + (selectedProject && selectedProject.repo === p.repo ? ' selected' : '');
+    div.innerHTML = '<span class="n">' + p.name + '</span><span class="badge ' + p.badge + '">' + p.badge + '</span>';
+    div.onclick = function() { selectProject(p); };
+    container.appendChild(div);
+  });
+}
+
+function selectProject(proj) {
+  selectedProject = proj;
+  renderSidebarProjects();
+
+  // 뷰 전환: task -> project
+  document.getElementById('taskView').classList.add('hidden');
+  var pv = document.getElementById('projView');
+  pv.classList.add('active');
+
+  // 헤더 렌더
+  renderProjectHeader(proj);
+
+  // 파일 트리 로드
+  document.getElementById('fileTree').innerHTML = '<div class="mod-loading">Loading file tree...</div>';
+  document.getElementById('modCanvas').innerHTML = '<div class="mod-loading">Loading...</div>';
+  document.getElementById('ftCount').textContent = '';
+
+  fetch('/api/projects/' + proj.repo + '/structure')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('fileTree').innerHTML = '<div class="mod-loading">Error: ' + data.error + '</div>';
+        return;
+      }
+      renderFileTree(data);
+      renderModuleDiagram(data);
+    })
+    .catch(function(e) {
+      document.getElementById('fileTree').innerHTML = '<div class="mod-loading">Failed to load</div>';
+    });
+}
+
+function showTaskView() {
+  selectedProject = null;
+  renderSidebarProjects();
+  document.getElementById('taskView').classList.remove('hidden');
+  document.getElementById('projView').classList.remove('active');
+}
+
+function renderProjectHeader(proj) {
+  var commitHtml = '';
+  if (proj.lastCommit) {
+    var d = new Date(proj.lastCommit.date);
+    var dateStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    commitHtml = '<div class="ph-commit"><span class="sha">' + proj.lastCommit.sha + '</span><span class="msg">' + escHtml(proj.lastCommit.message) + '</span><span class="date">' + dateStr + '</span></div>';
+  }
+  var langText = proj.language ? proj.language : '';
+  var sizeText = proj.size ? (proj.size > 1024 ? Math.round(proj.size/1024) + ' MB' : proj.size + ' KB') : '';
+  var railwayText = proj.railway || '';
+
+  document.getElementById('projHeader').innerHTML =
+    '<div class="ph-top"><div class="ph-name"><span class="badge ' + proj.badge + '">' + proj.badge + '</span>' + escHtml(proj.name) + '</div>' +
+    (proj.domain ? '<a class="ph-domain" href="https://' + proj.domain + '" target="_blank">' + proj.domain + '</a>' : '') +
+    '</div>' +
+    '<div class="ph-meta">' +
+    (langText ? '<span>&#128196; ' + langText + '</span>' : '') +
+    (sizeText ? '<span>&#128230; ' + sizeText + '</span>' : '') +
+    (railwayText ? '<span>&#128642; ' + railwayText + '</span>' : '') +
+    '<span>&#128193; ' + proj.repo + '</span>' +
+    '</div>' +
+    commitHtml;
+}
+
+function renderFileTree(data) {
+  document.getElementById('ftCount').textContent = data.totalFiles + ' files' + (data.truncated ? ' (truncated)' : '');
+  var html = '';
+  data.folders.forEach(function(f, fi) {
+    var folderId = 'ft-f-' + fi;
+    html += '<div class="ft-folder">';
+    html += '<div class="ft-folder-head" onclick="toggleFolder(\'' + folderId + '\', this)">';
+    html += '<span class="arrow">&#9654;</span>';
+    html += '<span>&#128193; ' + escHtml(f.folder) + '</span>';
+    html += '<span class="fc">' + f.files.length + '</span>';
+    html += '</div>';
+    html += '<div class="ft-files" id="' + folderId + '">';
+    f.files.forEach(function(file) {
+      var extClass = 'ext' + file.ext.replace('.', '-');
+      html += '<div class="ft-file"><span class="ext ' + extClass + '">' + file.ext + '</span>' + escHtml(file.name) + '</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('fileTree').innerHTML = html;
+}
+
+function toggleFolder(id, head) {
+  var el = document.getElementById(id);
+  var arrow = head.querySelector('.arrow');
+  if (el.classList.contains('open')) {
+    el.classList.remove('open');
+    arrow.classList.remove('open');
+  } else {
+    el.classList.add('open');
+    arrow.classList.add('open');
+  }
+}
+
+function renderModuleDiagram(data) {
+  // 주요 폴더 추출 (depth 1만)
+  var topFolders = {};
+  data.folders.forEach(function(f) {
+    if (f.folder === '(root)') { topFolders['(root)'] = (topFolders['(root)'] || 0) + f.files.length; return; }
+    var top = f.folder.split('/')[0];
+    topFolders[top] = (topFolders[top] || 0) + f.files.length;
+  });
+
+  var folderNames = Object.keys(topFolders).filter(function(f) { return f !== '(root)'; });
+  if (folderNames.length === 0) folderNames = Object.keys(topFolders);
+
+  // 모듈 관계 추론 (이름 기반)
+  var relations = [];
+  var knownDeps = {
+    'config': ['middleware','api','routes','services'],
+    'middleware': ['api','routes'],
+    'auth': ['api','routes'],
+    'db': ['api','services','routes'],
+    'models': ['api','services','routes','controllers'],
+    'utils': ['api','services','routes','controllers','middleware'],
+    'services': ['api','routes','controllers'],
+    'controllers': ['routes'],
+    'lib': ['api','services','routes','pages','components'],
+    'components': ['pages','app'],
+    'prisma': ['api','services','routes','controllers'],
+    'public': [],
+    'src': []
+  };
+
+  var folderSet = {};
+  folderNames.forEach(function(f) { folderSet[f.toLowerCase()] = f; });
+
+  folderNames.forEach(function(from) {
+    var deps = knownDeps[from.toLowerCase()];
+    if (!deps) return;
+    deps.forEach(function(to) {
+      if (folderSet[to]) {
+        relations.push({ from: from, to: folderSet[to] });
+      }
+    });
+  });
+
+  // 색상
+  var colors = ['#6c5ce7','#14b8a6','#3b82f6','#ec4899','#f59e0b','#10b981','#ef4444','#64748b','#a855f7','#22c55e'];
+
+  // 레이아웃 (원형 배치)
+  var canvasW = 400, canvasH = 240;
+  var cx = canvasW / 2, cy = canvasH / 2;
+  var radius = Math.min(cx, cy) - 50;
+  var positions = {};
+
+  folderNames.forEach(function(f, i) {
+    var angle = (2 * Math.PI * i / folderNames.length) - Math.PI / 2;
+    positions[f] = {
+      x: cx + radius * Math.cos(angle),
+      y: cy + radius * Math.sin(angle)
+    };
+  });
+
+  // SVG 화살표
+  var svg = '<svg class="mod-svg" viewBox="0 0 ' + canvasW + ' ' + canvasH + '">';
+  svg += '<defs><marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#3a4060"/></marker></defs>';
+
+  relations.forEach(function(r) {
+    var from = positions[r.from];
+    var to = positions[r.to];
+    if (!from || !to) return;
+    svg += '<line x1="' + from.x + '" y1="' + from.y + '" x2="' + to.x + '" y2="' + to.y + '" stroke="#2a2d3a" stroke-width="1.5" marker-end="url(#arrowhead)"/>';
+  });
+  svg += '</svg>';
+
+  // 박스
+  var boxes = '';
+  folderNames.forEach(function(f, i) {
+    var p = positions[f];
+    var c = colors[i % colors.length];
+    var count = topFolders[f];
+    boxes += '<div class="mod-box" style="left:' + (p.x - 35) + 'px;top:' + (p.y - 16) + 'px;border-color:' + c + '30;background:' + c + '10;color:' + c + '">' + f + '<div style="font-size:8px;color:#5a6178;font-weight:400">' + count + ' files</div></div>';
+  });
+
+  var canvas = document.getElementById('modCanvas');
+  canvas.style.minHeight = canvasH + 'px';
+  canvas.innerHTML = svg + boxes;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Back button
+document.getElementById('projBack').onclick = showTaskView;
+
 // ===== Init =====
 connectSSE();
 fetchGitHub();
+loadSidebarProjects();
 setInterval(fetchGitHub, 60000);
+setInterval(loadSidebarProjects, 300000); // 5분마다 프로젝트 새로고침
 </script>
 </body>
 </html>

@@ -6,6 +6,118 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ===== 프로젝트 레지스트리 =====
+const PROJECTS = [
+  { name: 'BiPayments', repo: 'xbo3/bipayments', domain: 'bipayments.eu', badge: 'live', railway: 'fabulous-light' },
+  { name: 'DR.SLOT Frontend', repo: 'xbo3/slotsite', domain: 'slotsite-frontend-production.up.railway.app', badge: 'dev', railway: 'steadfast-warmth' },
+  { name: 'JARVIS2', repo: 'xbo3/jarvis2', domain: 'jarvis2-production-7be9.up.railway.app', badge: 'live', railway: 'jarvis2' },
+  { name: 'Orchestra', repo: 'xbo3/orchestra-office', domain: 'imaginative-sparkle-production.up.railway.app', badge: 'dev', railway: 'imaginative-sparkle' }
+];
+
+// GitHub API 캐시 (rate limit 절약)
+const ghCache = { projects: null, projectsAt: 0, structures: {} };
+const CACHE_TTL = 5 * 60 * 1000; // 5분
+
+async function ghFetch(url) {
+  const res = await fetch('https://api.github.com' + url, {
+    headers: { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'WooOrchestra' }
+  });
+  if (!res.ok) throw new Error('GitHub API ' + res.status);
+  return res.json();
+}
+
+// GET /api/projects — 모든 프로젝트 정보 + 최근 커밋
+app.get('/api/projects', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (ghCache.projects && (now - ghCache.projectsAt) < CACHE_TTL) {
+      return res.json({ projects: ghCache.projects });
+    }
+
+    const projects = await Promise.all(PROJECTS.map(async (p) => {
+      try {
+        const [repo, commits] = await Promise.all([
+          ghFetch('/repos/' + p.repo),
+          ghFetch('/repos/' + p.repo + '/commits?per_page=1')
+        ]);
+        const lastCommit = Array.isArray(commits) && commits.length > 0 ? {
+          sha: commits[0].sha.substring(0, 7),
+          message: commits[0].commit.message.substring(0, 80),
+          author: commits[0].commit.author.name,
+          date: commits[0].commit.author.date
+        } : null;
+        return {
+          name: p.name,
+          repo: p.repo,
+          railway: p.railway,
+          domain: p.domain,
+          badge: p.badge,
+          description: repo.description || '',
+          language: repo.language || 'Unknown',
+          size: repo.size,
+          lastCommit
+        };
+      } catch (e) {
+        return { name: p.name, repo: p.repo, railway: p.railway, domain: p.domain, badge: p.badge, error: e.message };
+      }
+    }));
+
+    ghCache.projects = projects;
+    ghCache.projectsAt = now;
+    res.json({ projects });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/projects/:owner/:repo/structure — 파일 트리
+app.get('/api/projects/:owner/:repo/structure', async (req, res) => {
+  const repoKey = req.params.owner + '/' + req.params.repo;
+  try {
+    const now = Date.now();
+    if (ghCache.structures[repoKey] && (now - ghCache.structures[repoKey].at) < CACHE_TTL) {
+      return res.json(ghCache.structures[repoKey].data);
+    }
+
+    // 기본 브랜치 조회
+    const repoInfo = await ghFetch('/repos/' + repoKey);
+    const defaultBranch = repoInfo.default_branch || 'main';
+    const tree = await ghFetch('/repos/' + repoKey + '/git/trees/' + defaultBranch + '?recursive=true');
+
+    if (!tree.tree) throw new Error('트리 없음');
+
+    // .js, .ts, .jsx, .tsx, .py, .json, .css, .html 필터 + 폴더별 그룹핑
+    const codeExts = ['.js','.ts','.jsx','.tsx','.py','.json','.css','.html','.md','.sql','.prisma','.yml','.yaml'];
+    const folders = {};
+    let totalFiles = 0;
+
+    tree.tree.forEach(function(item) {
+      if (item.type !== 'blob') return;
+      const ext = item.path.lastIndexOf('.') >= 0 ? item.path.substring(item.path.lastIndexOf('.')) : '';
+      if (!codeExts.includes(ext)) return;
+
+      totalFiles++;
+      const parts = item.path.split('/');
+      const fileName = parts.pop();
+      const folderPath = parts.length > 0 ? parts.join('/') : '(root)';
+
+      if (!folders[folderPath]) folders[folderPath] = [];
+      folders[folderPath].push({ name: fileName, path: item.path, ext: ext, size: item.size || 0 });
+    });
+
+    // 폴더 정렬
+    const sortedFolders = Object.keys(folders).sort().map(function(f) {
+      return { folder: f, files: folders[f].sort(function(a,b){ return a.name.localeCompare(b.name); }) };
+    });
+
+    const result = { repo: repoKey, totalFiles: totalFiles, truncated: tree.truncated || false, folders: sortedFolders };
+    ghCache.structures[repoKey] = { data: result, at: now };
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ===== 실시간 상태 저장소 =====
 const state = {
   agents: {
