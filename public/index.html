@@ -261,6 +261,7 @@ function connectSSE() {
     updateAllAgents(data.agents);
     updateTaskCount(data.completedTasks);
     updateCurrentTask(data.currentTask, data.currentProject);
+    if (data.uptime) { serverUptime = data.uptime; }
     data.logs.forEach(function(log) { renderLog(log, true); });
     setConnected(true);
     document.getElementById('sseInfo').textContent = 'SSE 연결됨';
@@ -425,13 +426,20 @@ function fetchGitHub() {
   });
 }
 
-// ===== Clock =====
+// ===== Clock + Uptime =====
+var serverUptime = 0;
 setInterval(function() {
   var n = new Date();
   document.getElementById('clock').textContent =
     String(n.getHours()).padStart(2,'0') + ':' +
     String(n.getMinutes()).padStart(2,'0') + ':' +
     String(n.getSeconds()).padStart(2,'0');
+  serverUptime++;
+  var h = Math.floor(serverUptime / 3600);
+  var m = Math.floor((serverUptime % 3600) / 60);
+  var s = serverUptime % 60;
+  document.getElementById('uptime').textContent =
+    (h > 0 ? h + 'h ' : '') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 }, 1000);
 
 // ===== PROJECT VISUALIZATION =====
