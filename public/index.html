@@ -7,11 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0e4f0;overflow-x:hidden}
+body{font-family:'Poppins',system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e8ecf4;overflow-x:hidden;font-size:14px}
 :root{--accent:#6c5ce7;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--blue:#3b82f6;--pink:#ec4899;--teal:#14b8a6;--gray:#64748b;--bg:#0d0f15;--bg2:#13151f;--bg3:#1a1d2a;--border:#1e2235}
 .grid{display:grid;grid-template-columns:220px 1fr;grid-template-rows:48px 1fr;height:100vh}
 .topbar{grid-column:1/3;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--bg2);border-bottom:1px solid var(--border)}
-.topbar h1{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.topbar h1{font-size:16px;font-weight:600;display:flex;align-items:center;gap:10px}
 .topbar h1 .logo{width:28px;height:28px;background:linear-gradient(135deg,#6c5ce7,#a29bfe);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
 .topbar .sub{font-size:10px;color:#5a6178;margin-left:4px}
 .topbar-r{display:flex;align-items:center;gap:10px}
@@ -24,15 +24,15 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 
 /* SIDEBAR */
 .side{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:8px 0;display:flex;flex-direction:column}
-.side-label{font-size:8px;font-weight:600;color:#3a4060;text-transform:uppercase;letter-spacing:1px;padding:10px 12px 4px}
+.side-label{font-size:10px;font-weight:600;color:#6a7090;text-transform:uppercase;letter-spacing:1px;padding:12px 12px 6px}
 .agent{display:flex;align-items:center;gap:8px;padding:8px 12px;transition:all .2s;border-left:3px solid transparent;position:relative}
 .agent.active{background:rgba(108,92,231,.06);border-left-color:var(--accent)}
 .agent .av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;transition:box-shadow .3s}
 .agent.active .av{box-shadow:0 0 12px rgba(108,92,231,.3)}
 .agent .info{flex:1;min-width:0}
-.agent .nm{font-size:11px;font-weight:600}
-.agent .role{font-size:8px;color:#5a6178;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.agent .task-label{font-size:8px;color:var(--accent);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+.agent .nm{font-size:13px;font-weight:600;color:#fff}
+.agent .role{font-size:10px;color:#7a8198;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.agent .task-label{font-size:10px;color:var(--accent);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
 .agent .dot{width:7px;height:7px;border-radius:50%;background:#2a2d3a;flex-shrink:0;transition:all .3s}
 .agent .dot.on{background:var(--green);box-shadow:0 0 8px rgba(16,185,129,.5)}
 .agent .dot.working{background:var(--accent);box-shadow:0 0 8px rgba(108,92,231,.5);animation:pulse 1s infinite}
@@ -41,7 +41,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .proj{padding:6px 10px;border-radius:6px;background:var(--bg3);margin:2px 8px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;border:1px solid transparent}
 .proj:hover{border-color:rgba(108,92,231,.2);background:rgba(108,92,231,.04)}
 .proj.selected{border-color:rgba(108,92,231,.4);background:rgba(108,92,231,.08)}
-.proj .n{font-size:11px;font-weight:600;flex:1}
+.proj .n{font-size:13px;font-weight:500;flex:1;color:#d0d4e0}
 .proj .badge{font-size:8px;padding:2px 6px;border-radius:8px;font-weight:600}
 .proj .badge.live{background:rgba(16,185,129,.1);color:var(--green)}
 .proj .badge.dev{background:rgba(245,158,11,.1);color:var(--amber)}
@@ -108,8 +108,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .main{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px}
-.stat .l{font-size:8px;color:#5a6178;text-transform:uppercase;letter-spacing:.5px}
-.stat .v{font-size:22px;font-weight:700;margin-top:4px;font-family:monospace}
+.stat .l{font-size:11px;color:#8a90a8;text-transform:uppercase;letter-spacing:.5px;font-weight:400}
+.stat .v{font-size:26px;font-weight:700;margin-top:6px;font-family:'Poppins',monospace;color:#fff}
 .stat .v .sub{font-size:10px;color:#3a4060;font-weight:400}
 
 /* CURRENT TASK */
@@ -137,18 +137,18 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0d0f15;color:#e0
 .step .s-status.work{color:#a29bfe}
 .step .s-status.done{color:var(--green)}
 .step .s-status.wait{color:#3a4060}
-.no-task{text-align:center;padding:30px;color:#3a4060;font-size:12px}
+.no-task{text-align:center;padding:40px;color:#5a6080;font-size:14px;font-weight:300}
 
 /* LOGS + GITHUB */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
-.card-t{font-size:10px;font-weight:600;color:#5a6178;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.card-t{font-size:12px;font-weight:500;color:#9aa0b8;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .card-t .bar{width:3px;height:10px;border-radius:2px}
-.log-item{display:flex;gap:6px;padding:5px 0;font-size:9px;border-bottom:1px solid rgba(255,255,255,.02);animation:fadeIn .3s ease}
+.log-item{display:flex;gap:8px;padding:7px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.04);animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.log-item .t{font-family:monospace;color:#3a4060;min-width:36px;flex-shrink:0}
-.log-item .a{font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;font-size:8px}
-.log-item .m{color:#6a7090;flex:1;word-break:break-word}
+.log-item .t{font-family:monospace;color:#5a6080;min-width:42px;flex-shrink:0}
+.log-item .a{font-weight:600;padding:2px 8px;border-radius:4px;flex-shrink:0;font-size:10px}
+.log-item .m{color:#9aa0b8;flex:1;word-break:break-word}
 .gh-repo{margin-bottom:8px}
 .gh-repo-name{font-size:10px;font-weight:600;color:#8890b0;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .gh-commit{font-size:8px;color:#5a6178;padding:2px 0;display:flex;gap:6px}
